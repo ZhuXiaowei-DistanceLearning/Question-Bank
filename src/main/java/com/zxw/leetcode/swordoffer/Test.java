@@ -1,5 +1,13 @@
 package com.zxw.leetcode.swordoffer;
 
+import com.zxw.common.datastruct.ListNode;
+import com.zxw.common.datastruct.TreeNode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
+
 /**
  * @author zxw
  * @date 2020-05-11 08:8:46
@@ -9,6 +17,7 @@ public class Test {
 
     public static void main(String[] args) {
         Test t = new Test();
+        t.reversePrint(new ListNode(5));
     }
 
     /**
@@ -73,4 +82,141 @@ public class Test {
         }
         return b;
     }
+
+    /**
+     * 面试题05. 替换空格
+     *
+     * @param s
+     * @return
+     */
+    public String replaceSpace(String s) {
+        return s.replace(" ", "%");
+    }
+
+    /**
+     * 面试题06. 从尾到头打印链表
+     * 输入：head = [1,3,2]
+     * 输出：[2,3,1]
+     *
+     * @param head
+     * @return
+     */
+    public int[] reversePrint(ListNode head) {
+        Stack<Integer> stack = new Stack<>();
+        while (head != null) {
+            int val = head.val;
+            stack.push(val);
+            head = head.next;
+        }
+        int[] arr = new int[stack.size()];
+        for (int i = 0; !stack.empty(); i++) {
+            arr[i] = stack.pop();
+        }
+        return arr;
+    }
+
+    /**
+     * 面试题07. 重建二叉树
+     */
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return null;
+    }
+
+    /**
+     * 面试题10- I. 斐波那契数列
+     * F(0) = 0,   F(1) = 1
+     * F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
+     *
+     * @param n
+     * @return
+     */
+    public int fib(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        if (n <= 1) {
+            return 1;
+        }
+        int[] dp = new int[n + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            dp[i] = (dp[i - 1] + dp[i - 2]) % 1000000007;
+        }
+        return dp[n];
+    }
+
+    /**
+     * 面试题10- II. 青蛙跳台阶问题
+     * 示例 1：
+     * 输入：n = 2
+     * 输出：2
+     *
+     * @param n
+     * @return
+     */
+    public int numWays(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return 1;
+        }
+        int[] dp = new int[n + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 2;
+        for (int i = 3; i <= n; i++) {
+            dp[i] = (dp[1] + dp[2]) % 1000000007;
+        }
+        return dp[n];
+    }
+
+    /**
+     * 面试题11. 旋转数组的最小数字
+     * 示例 1：
+     * 输入：[3,4,5,1,2]
+     * 输出：1
+     *
+     * @param numbers
+     * @return
+     */
+    public int minArray(int[] numbers) {
+        if (numbers.length == 0) {
+            return 0;
+        }
+        int res = numbers[0];
+        for (int i = 1; i < numbers.length; i++) {
+            if (numbers[i] < res) {
+                res = numbers[i];
+            }
+        }
+        return res;
+    }
+
+
+    /**
+     * 面试题12. 矩阵中的路径
+     * 请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一格开始，每一步可以在矩阵中向左、右、上、下移动一格。如果一条路径经过了矩阵的某一格，那么该路径不能再次进入该格子。例如，在下面的3×4的矩阵中包含一条字符串“bfce”的路径（路径中的字母用加粗标出）。
+     * [["a","b","c","e"],
+     * ["s","f","c","s"],
+     * ["a","d","e","e"]]
+     * 但矩阵中不包含字符串“abfb”的路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入这个格子。
+     * 示例 1：
+     * 输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+     * 输出：true
+     * 示例 2：
+     * 输入：board = [["a","b"],["c","d"]], word = "abcd"
+     * 输出：false
+     * 提示：
+     * 1 <= board.length <= 200
+     * 1 <= board[i].length <= 200
+     * @param board
+     * @param word
+     * @return
+     */
+    public boolean exist(char[][] board, String word) {
+        return false;
+    }
+
 }
