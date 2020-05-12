@@ -16,8 +16,15 @@ import java.util.Stack;
 public class Test {
 
     public static void main(String[] args) {
+        int n = 39;
+        System.out.println(Integer.toBinaryString(32));
+        System.out.println(Integer.toBinaryString(31));
+        while (n != 0) {
+            n = n & (n - 1);
+            System.out.println(n);
+        }
         Test t = new Test();
-        t.reversePrint(new ListNode(5));
+        t.movingCount(4, 6, 15);
     }
 
     /**
@@ -211,6 +218,7 @@ public class Test {
      * 提示：
      * 1 <= board.length <= 200
      * 1 <= board[i].length <= 200
+     *
      * @param board
      * @param word
      * @return
@@ -218,5 +226,103 @@ public class Test {
     public boolean exist(char[][] board, String word) {
         return false;
     }
+
+
+    /**
+     * 面试题13. 机器人的运动范围
+     * 地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。一个机器人从坐标 [0, 0] 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？
+     * 示例 1：
+     * 输入：m = 2, n = 3, k = 1
+     * 输出：3
+     * 示例 2：
+     * 输入：m = 3, n = 1, k = 0
+     * 输出：1
+     *
+     * @param m
+     * @param n
+     * @param k
+     * @return
+     */
+    public int movingCount(int m, int n, int k) {
+        int[][] dp = new int[m][n];
+        int res = 0;
+        for (int i = 0; i < m; i++) {
+            dp[i][0] = i;
+        }
+        for (int i = 0; i < n; i++) {
+            dp[0][i] = i;
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                int sum = sum(i, j);
+                if (sum <= k) {
+                    res = dp[i][j] + 1;
+                }
+            }
+        }
+        int mid = m > n ? m : n;
+        return res + 1 > mid ? res + 1 : mid;
+    }
+
+    /**
+     * 面试题15. 二进制中1的个数
+     * 请实现一个函数，输入一个整数，输出该数二进制表示中 1 的个数。例如，把 9 表示成二进制是 1001，有 2 位是 1。因此，如果输入 9，则该函数输出 2。
+     * 示例 1：
+     * 输入：00000000000000000000000000001011
+     * 输出：3
+     * 解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 '1'。
+     *
+     * @param n
+     * @return
+     */
+    public int hammingWeight(int n) {
+        int res = 0;
+        while (n != 0) {
+            n = n & (n - 1);
+            res++;
+        }
+        return res;
+    }
+
+    /**
+     * 面试题16. 数值的整数次方
+     * 示例 1:
+     * 输入: 2.00000, 10
+     * 输出: 1024.00000
+     *
+     * @param x
+     * @param n
+     * @return
+     */
+    public double myPow(double x, int n) {
+        if (n == 0) return 1;
+        if (n == 1) return x;
+        if (n == -1) return 1 / x;
+        if (n % 2 == 0) {
+            double t = myPow(x, n / 2);
+            return t * t;
+        } else {
+            double t = myPow(x, n / 2);
+            if (n < 0) x = (1 / x);
+            return t * t * x;
+        }
+    }
+
+    private int sum(int m, int n) {
+        int sum = 0;
+        while (m > 10) {
+            sum += m % 10;
+            m = m % 10;
+        }
+        sum += m;
+        while (n > 10) {
+            sum += n % 10;
+            n = n % 10;
+        }
+        sum += n;
+        return sum;
+    }
+
 
 }
