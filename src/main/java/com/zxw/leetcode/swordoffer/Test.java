@@ -17,14 +17,20 @@ public class Test {
 
     public static void main(String[] args) {
         int n = 39;
-        System.out.println(Integer.toBinaryString(32));
-        System.out.println(Integer.toBinaryString(31));
+        System.out.println(Integer.toBinaryString(10));
+        System.out.println(Integer.toBinaryString(100));
         while (n != 0) {
             n = n & (n - 1);
             System.out.println(n);
         }
         Test t = new Test();
         t.movingCount(4, 6, 15);
+        ListNode listNode = new ListNode(1);
+        listNode.next = new ListNode(2);
+        listNode.next.next = new ListNode(3);
+        listNode.next.next.next = new ListNode(4);
+        listNode.next.next.next.next = new ListNode(5);
+        t.getKthFromEnd(listNode, 2);
     }
 
     /**
@@ -296,17 +302,45 @@ public class Test {
      * @return
      */
     public double myPow(double x, int n) {
-        if (n == 0) return 1;
-        if (n == 1) return x;
-        if (n == -1) return 1 / x;
+        if (n == 0) {
+            return 1;
+        }
+        if (n == 1) {
+            return x;
+        }
+        if (n == -1) {
+            return 1 / x;
+        }
         if (n % 2 == 0) {
             double t = myPow(x, n / 2);
             return t * t;
         } else {
             double t = myPow(x, n / 2);
-            if (n < 0) x = (1 / x);
+            if (n < 0) {
+                x = (1 / x);
+            }
             return t * t * x;
         }
+    }
+
+    /**
+     * 面试题17. 打印从1到最大的n位数
+     * 输入数字 n，按顺序打印出从 1 到最大的 n 位十进制数。比如输入 3，则打印出 1、2、3 一直到最大的 3 位数 999。
+     * 示例 1:
+     * <p>
+     * 输入: n = 1
+     * 输出: [1,2,3,4,5,6,7,8,9]
+     *
+     * @param n
+     * @return
+     */
+    public int[] printNumbers(int n) {
+        int len = 1 << n;
+        int[] arr = new int[len];
+        for (int i = 0; i < len; i++) {
+            arr[i] = i + 1;
+        }
+        return arr;
     }
 
     private int sum(int m, int n) {
@@ -324,5 +358,228 @@ public class Test {
         return sum;
     }
 
+    /**
+     * 面试题18. 删除链表的节点
+     * 给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。
+     * 返回删除后的链表的头节点。
+     * 注意：此题对比原题有改动
+     * 示例 1:
+     * 输入: head = [4,5,1,9], val = 5
+     * 输出: [4,1,9]
+     * 解释: 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -> 1 -> 9.
+     * 示例 2:
+     * 输入: head = [4,5,1,9], val = 1
+     * 输出: [4,5,9]
+     * 解释: 给定你链表中值为 1 的第三个节点，那么在调用了你的函数之后，该链表应变为 4 -> 5 -> 9.
+     *
+     * @param head
+     * @param val
+     * @return
+     */
+    public ListNode deleteNode(ListNode head, int val) {
+        ListNode node = head;
+        ListNode node1 = node;
+        int bitCount = 0;
+        while (head != null) {
+            int val1 = head.val;
+            node1 = head;
+            head = head.next;
+            if (val1 == val) {
+                if (head == null) {
+                    node1.next = null;
+                } else if (bitCount == 0) {
+                    node1 = node1.next;
+                } else {
+                    node1.next = head.next;
+                }
+                break;
+            }
+        }
+        return node;
+    }
+
+    /**
+     * 面试题20. 表示数值的字符串
+     * 请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串"+100"、"5e2"、"-123"、"3.1416"、"0123"都表示数值，但"12e"、"1a3.14"、"1.2.3"、"+-5"、"-1E-16"及"12e+5.4"都不是。
+     *
+     * @param s
+     * @return
+     */
+    public boolean isNumber(String s) {
+        Stack stack = new Stack();
+        for (int i = 0; i < s.length(); i++) {
+
+        }
+        return false;
+    }
+
+    /**
+     * 面试题21. 调整数组顺序使奇数位于偶数前面
+     * 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有奇数位于数组的前半部分，所有偶数位于数组的后半部分。
+     * 示例：
+     * 输入：nums = [1,2,3,4]
+     * 输出：[1,3,2,4]
+     * 注：[3,1,2,4] 也是正确的答案之一。
+     *
+     * @param nums
+     * @return
+     */
+    public int[] exchange(int[] nums) {
+        /**
+         *  List<Integer> ou = new ArrayList();
+         *         List<Integer> qi = new ArrayList();
+         *         int[] arr = new int[nums.length];
+         *         for (int i = 0; i < nums.length; i++) {
+         *             if ((nums[i] & 1) == 1) {
+         *                 qi.add(nums[i]);
+         *             } else {
+         *                 ou.add(nums[i]);
+         *             }
+         *         }
+         *         for (int i = 0; i < qi.size(); i++) {
+         *             arr[i] = qi.get(i);
+         *         }
+         *         for (int i = 0; i < ou.size(); i++) {
+         *             arr[qi.size() + i] = ou.get(i);
+         *         }
+         *          return arr;
+         */
+        int l = 0, r = nums.length - 1;
+        while (l < r) {
+            // 是否为偶数
+            if ((nums[l] & 1) == 0) {
+                // 是否为奇数
+                if ((nums[r] & 1) == 1) {
+                    int temp = nums[l];
+                    nums[l] = nums[r];
+                    nums[r] = temp;
+                } else {
+                    r--;
+                }
+            } else {
+                l++;
+            }
+        }
+        return nums;
+    }
+
+    /**
+     * 面试题22. 链表中倒数第k个节点
+     * 输入一个链表，输出该链表中倒数第k个节点。为了符合大多数人的习惯，本题从1开始计数，即链表的尾节点是倒数第1个节点。例如，一个链表有6个节点，从头节点开始，它们的值依次是1、2、3、4、5、6。这个链表的倒数第3个节点是值为4的节点。
+     * 示例：
+     * 给定一个链表: 1->2->3->4->5, 和 k = 2.
+     * 返回链表 4->5.
+     *
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        ListNode node = head;
+        while (head != null) {
+            if (k > 0) {
+                k--;
+            } else {
+                node = node.next;
+            }
+            head = head.next;
+        }
+        return node.next;
+    }
+
+    /**
+     * 面试题24. 反转链表
+     * 定义一个函数，输入一个链表的头节点，反转该链表并输出反转后链表的头节点。
+     * 示例:
+     * <p>
+     * 输入: 1->2->3->4->5->NULL
+     * 输出: 5->4->3->2->1->NULL
+     *
+     * @param head
+     * @return
+     */
+    public ListNode reverseList(ListNode head) {
+        ListNode node = null;
+        while (head != null) {
+            ListNode next = head.next;
+            head.next = node;
+            node = head;
+            head = next;
+        }
+        return node;
+    }
+
+    /**
+     * 面试题25. 合并两个排序的链表
+     * 输入两个递增排序的链表，合并这两个链表并使新链表中的节点仍然是递增排序的。
+     * <p>
+     * 示例1：
+     * <p>
+     * 输入：1->2->4, 1->3->4
+     * 输出：1->1->2->3->4->4
+     *
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode node = new ListNode(0);
+        ListNode tail = node;
+        while (l1 != null && l2 != null) {
+            if (l1.val > l2.val) {
+                node.next = l2;
+            } else {
+                node.next = l1;
+            }
+            l1 = l1.next;
+            l2 = l2.next;
+            node = node.next;
+        }
+        if (l1 != null) {
+            node = l1;
+        }
+        if (l2 != null) {
+            node = l2;
+        }
+        return tail.next;
+    }
+
+    /**
+     * 面试题26. 树的子结构
+     * 输入两棵二叉树A和B，判断B是不是A的子结构。(约定空树不是任意一个树的子结构)
+     *
+     * B是A的子结构， 即 A中有出现和B相同的结构和节点值。
+     *
+     * 例如:
+     * 给定的树 A:
+     *
+     *      3
+     *     / \
+     *    4   5
+     *   / \
+     *  1   2
+     * 给定的树 B：
+     *
+     *    4 
+     *   /
+     *  1
+     * 返回 true，因为 B 与 A 的一个子树拥有相同的结构和节点值。
+     *
+     * 示例 1：
+     *
+     * 输入：A = [1,2,3], B = [3,1]
+     * 输出：false
+     * 示例 2：
+     *
+     * 输入：A = [3,4,5,1,2], B = [4,1]
+     * 输出：true
+     *
+     * @param A
+     * @param B
+     * @return
+     */
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        return true;
+    }
 
 }
