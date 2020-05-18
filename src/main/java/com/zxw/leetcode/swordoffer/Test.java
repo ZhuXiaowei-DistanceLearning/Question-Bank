@@ -2,11 +2,10 @@ package com.zxw.leetcode.swordoffer;
 
 import com.zxw.common.datastruct.ListNode;
 import com.zxw.common.datastruct.TreeNode;
+import com.zxw.leetcode.swordoffer.data.MinStack;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * @author zxw
@@ -31,6 +30,15 @@ public class Test {
         listNode.next.next.next = new ListNode(4);
         listNode.next.next.next.next = new ListNode(5);
         t.getKthFromEnd(listNode, 2);
+        MinStack minStack = new MinStack();
+        minStack.push(0);
+        minStack.push(-2);
+        minStack.push(-3);
+        minStack.min();
+        minStack.pop();
+        minStack.min();
+        minStack.pop();
+        minStack.min();
     }
 
     /**
@@ -547,30 +555,30 @@ public class Test {
     /**
      * 面试题26. 树的子结构
      * 输入两棵二叉树A和B，判断B是不是A的子结构。(约定空树不是任意一个树的子结构)
-     *
+     * <p>
      * B是A的子结构， 即 A中有出现和B相同的结构和节点值。
-     *
+     * <p>
      * 例如:
      * 给定的树 A:
-     *
+     * <p>
      *      3
      *     / \
      *    4   5
      *   / \
      *  1   2
      * 给定的树 B：
-     *
+     * <p>
      *    4 
      *   /
      *  1
      * 返回 true，因为 B 与 A 的一个子树拥有相同的结构和节点值。
-     *
+     * <p>
      * 示例 1：
-     *
+     * <p>
      * 输入：A = [1,2,3], B = [3,1]
      * 输出：false
      * 示例 2：
-     *
+     * <p>
      * 输入：A = [3,4,5,1,2], B = [4,1]
      * 输出：true
      *
@@ -582,4 +590,97 @@ public class Test {
         return true;
     }
 
+    /**
+     * 面试题27. 二叉树的镜像
+     *
+     * @param root
+     * @return
+     */
+    public TreeNode mirrorTree(TreeNode root) {
+        if (root != null) {
+            TreeNode temp = root.left;
+            root.left = root.right;
+            root.right = temp;
+            mirrorTree(root.left);
+            mirrorTree(root.right);
+        }
+        return root;
+    }
+
+    /**
+     * 面试题28. 对称的二叉树
+     *
+     * @param root
+     * @return
+     */
+    public boolean isSymmetric(TreeNode root) {
+        return false;
+    }
+
+    /**
+     * 面试题29. 顺时针打印矩阵
+     *
+     * @param matrix
+     * @return
+     */
+    public int[] spiralOrder(int[][] matrix) {
+        return null;
+    }
+
+    /**
+     * 面试题32 - I. 从上到下打印二叉树
+     *
+     * @param root
+     * @return
+     */
+    public int[] levelOrder(TreeNode root) {
+        if (root == null) {
+            return new int[]{};
+        }
+        List<Integer> list = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedBlockingQueue();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            list.add(node.val);
+            if (node.left != null) {
+
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+        }
+        int[] arr = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            arr[i] = list.get(i);
+        }
+        return arr;
+    }
+
+    /**
+     * 面试题32 - II. 从上到下打印二叉树 II
+     *
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder2(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        List<List<Integer>> list = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedBlockingQueue<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            List<Integer> res = new ArrayList<>();
+            for (int i = queue.size(); i > 0; i--) {
+                TreeNode poll = queue.poll();
+                res.add(poll.val);
+                if (poll.left != null) queue.add(poll.left);
+                if (poll.right != null) queue.add(poll.right);
+            }
+            list.add(res);
+        }
+        return list;
+    }
 }
