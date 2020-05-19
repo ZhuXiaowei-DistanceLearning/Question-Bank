@@ -15,30 +15,18 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Test {
 
     public static void main(String[] args) {
-        int n = 39;
-        System.out.println(Integer.toBinaryString(10));
-        System.out.println(Integer.toBinaryString(100));
-        while (n != 0) {
-            n = n & (n - 1);
-            System.out.println(n);
-        }
+        TreeNode treeNode = new TreeNode(1);
+        TreeNode treeNode2 = new TreeNode(2);
+        TreeNode treeNode3 = new TreeNode(3);
+        TreeNode treeNode4 = new TreeNode(4);
+        TreeNode treeNode5 = new TreeNode(5);
+
+        treeNode.left = treeNode2;
+        treeNode.right = treeNode3;
+        treeNode2.left = treeNode4;
+        treeNode3.right = treeNode5;
         Test t = new Test();
-        t.movingCount(4, 6, 15);
-        ListNode listNode = new ListNode(1);
-        listNode.next = new ListNode(2);
-        listNode.next.next = new ListNode(3);
-        listNode.next.next.next = new ListNode(4);
-        listNode.next.next.next.next = new ListNode(5);
-        t.getKthFromEnd(listNode, 2);
-        MinStack minStack = new MinStack();
-        minStack.push(0);
-        minStack.push(-2);
-        minStack.push(-3);
-        minStack.min();
-        minStack.pop();
-        minStack.min();
-        minStack.pop();
-        minStack.min();
+        t.levelOrder2(treeNode);
     }
 
     /**
@@ -671,11 +659,17 @@ public class Test {
         List<List<Integer>> list = new ArrayList<>();
         Queue<TreeNode> queue = new LinkedBlockingQueue<>();
         queue.add(root);
+        int count = 1;
         while (!queue.isEmpty()) {
-            List<Integer> res = new ArrayList<>();
+            LinkedList<Integer> res = new LinkedList<>();
+            count++;
             for (int i = queue.size(); i > 0; i--) {
                 TreeNode poll = queue.poll();
-                res.add(poll.val);
+                if ((count & 1) == 0) {
+                    res.addFirst(poll.val);
+                } else {
+                    res.addFirst(poll.val);
+                }
                 if (poll.left != null) queue.add(poll.left);
                 if (poll.right != null) queue.add(poll.right);
             }
@@ -683,4 +677,81 @@ public class Test {
         }
         return list;
     }
+
+    /**
+     * 面试题33. 二叉搜索树的后序遍历序列
+     *
+     * @param postorder
+     * @return
+     */
+    public boolean verifyPostorder(int[] postorder) {
+        return false;
+    }
+
+    /**
+     * 面试题34. 二叉树中和为某一值的路径
+     * 输入一棵二叉树和一个整数，打印出二叉树中节点值的和为输入整数的所有路径。从树的根节点开始往下一直到叶节点所经过的节点形成一条路径。
+     * <p>
+     * 示例:
+     * 给定如下二叉树，以及目标和 sum = 22，
+     * <p>
+     * 5
+     * / \
+     * 4   8
+     * /   / \
+     * 11  13  4
+     * /  \    / \
+     * 7    2  5   1
+     * [
+     * [5,4,11,2],
+     * [5,8,4,5]
+     * ]
+     *
+     * @param root
+     * @param sum
+     * @return
+     */
+    List<List<Integer>> list = new ArrayList<>();
+    LinkedList<Integer> track = new LinkedList<>();
+
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        Queue<TreeNode> queue = new LinkedBlockingQueue<>();
+        getSum(root, sum);
+        return list;
+    }
+
+    public void getSum(TreeNode root, int sum) {
+        if (root == null) {
+            return;
+        }
+        int val = root.val;
+        track.add(val);
+        if ((sum -= val) == 0 && (root.left == null && root.right == null)) {
+            list.add(new LinkedList<>(track));
+            track.removeLast();
+            return;
+        }
+        getSum(root.left, sum);
+        getSum(root.right, sum);
+        track.removeLast();
+    }
+
+    /**
+     * 面试题38. 字符串的排列
+     * 输入一个字符串，打印出该字符串中字符的所有排列。
+     * 你可以以任意顺序返回这个字符串数组，但里面不能有重复元素。
+     * 示例:
+     * 输入：s = "abc"
+     * 输出：["abc","acb","bac","bca","cab","cba"]
+     *
+     * @param s
+     * @return
+     */
+    public String[] permutation(String s) {
+        for (int i = 0; i < s.length(); i++) {
+
+        }
+        return null;
+    }
+
 }
