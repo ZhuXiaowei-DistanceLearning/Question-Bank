@@ -4,6 +4,8 @@ import com.zxw.common.datastruct.ListNode;
 import com.zxw.common.datastruct.TreeNode;
 import com.zxw.leetcode.swordoffer.data.MinStack;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -15,6 +17,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Test {
 
     public static void main(String[] args) {
+        System.out.println(2 / 10);
         TreeNode treeNode = new TreeNode(1);
         TreeNode treeNode2 = new TreeNode(2);
         TreeNode treeNode3 = new TreeNode(3);
@@ -26,7 +29,11 @@ public class Test {
         treeNode2.left = treeNode4;
         treeNode3.right = treeNode5;
         Test t = new Test();
+        t.maxValue(new int[][]{{1, 2, 5}, {3, 2, 1}});
         t.levelOrder2(treeNode);
+        t.permutation("abc");
+//        t.countDigitOne(824883294);
+        t.lengthOfLongestSubstring("pwwkew");
     }
 
     /**
@@ -747,11 +754,451 @@ public class Test {
      * @param s
      * @return
      */
-    public String[] permutation(String s) {
-        for (int i = 0; i < s.length(); i++) {
+    List<String> stringLinkedList = new ArrayList<>();
 
+    public String[] permutation(String s) {
+        StringBuilder sb = new StringBuilder();
+        backtracePer(s, sb);
+        String[] arr = new String[stringLinkedList.size()];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = stringLinkedList.get(i);
         }
-        return null;
+        return arr;
     }
 
+    /**
+     * 面试题39. 数组中出现次数超过一半的数字
+     * 数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
+     * 示例 1:
+     * 你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+     * 输入: [1, 2, 3, 2, 2, 2, 5, 4, 2]
+     * 输出: 2
+     *
+     * @param nums
+     * @return
+     */
+    public int majorityElement(int[] nums) {
+        Arrays.sort(nums);
+        // 投票法
+        int vote = nums[0];
+        int count = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (vote == nums[i]) {
+                count++;
+            } else {
+                count--;
+                if (count <= 0) {
+                    vote = nums[i];
+                    count = 1;
+                }
+            }
+        }
+        return vote;
+    }
+
+    /**
+     * 面试题40. 最小的k个数
+     * 输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
+     * 示例 1：
+     * 输入：arr = [3,2,1], k = 2
+     * 输出：[1,2] 或者 [2,1]
+     * 示例 2：
+     * 输入：arr = [0,1,2,1], k = 1
+     * 输出：[0]
+     *
+     * @param arr
+     * @param k
+     * @return
+     */
+    public int[] getLeastNumbers(int[] arr, int k) {
+        int[] array = new int[k];
+        Arrays.sort(arr);
+        for (int i = 0; i < k; i++) {
+            array[i] = arr[i];
+        }
+        return array;
+    }
+
+    public void backtracePer(String s, StringBuilder sb) {
+        for (int i = 0; i < s.length(); i++) {
+            String var1 = String.valueOf(s.charAt(i));
+            if (sb.indexOf(var1) != -1) {
+                continue;
+            }
+            sb.append(var1);
+            if (sb.length() == s.length()) {
+                stringLinkedList.add(sb.toString());
+                sb.deleteCharAt(sb.length() - 1);
+                continue;
+            }
+            backtracePer(s, sb);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+
+    /**
+     * 面试题42. 连续子数组的最大和
+     * 输入一个整型数组，数组里有正数也有负数。数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的最大值。
+     * 要求时间复杂度为O(n)。
+     * 示例1:
+     * 输入: nums = [-2,1,-3,4,-1,2,1,-5,4]
+     * 输出: 6
+     * 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
+     *
+     * @param nums
+     * @return
+     */
+    public int maxSubArray(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        int[] dp = new int[nums.length + 1];
+        dp[0] = nums[0];
+        int res = dp[0];
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = Math.max(nums[i] + dp[i - 1], nums[i]);
+            res = Math.max(res, dp[i]);
+        }
+        return res;
+    }
+
+    /**
+     * 面试题43. 1～n整数中1出现的次数
+     * 输入一个整数 n ，求1～n这n个整数的十进制表示中1出现的次数。
+     * <p>
+     * 例如，输入12，1～12这些整数中包含1 的数字有1、10、11和12，1一共出现了5次。
+     * 示例 1：
+     * 输入：n = 12
+     * 输出：5
+     * 示例 2：
+     * 输入：n = 13
+     * 输出：6
+     *
+     * @param n
+     * @return
+     */
+    public int countDigitOne(int n) {
+        System.out.println(LocalTime.now());
+        int count = 1;
+        if (n < 10) {
+            return 1;
+        }
+        for (int i = 10; i <= n; i++) {
+            int temp = i;
+            while (temp != 0) {
+                if (temp % 10 == 1) {
+                    count++;
+                }
+                temp = temp / 10;
+            }
+        }
+        System.out.println(LocalTime.now());
+        return count;
+    }
+
+    /**
+     * 面试题44. 数字序列中某一位的数字
+     * 数字以0123456789101112131415…的格式序列化到一个字符序列中。在这个序列中，第5位（从下标0开始计数）是5，第13位是1，第19位是4，等等。
+     * <p>
+     * 请写一个函数，求任意第n位对应的数字。
+     * 示例 1：
+     * 输入：n = 3
+     * 输出：3
+     * 示例 2：
+     * 输入：n = 11
+     * 输出：0
+     *
+     * @param n
+     * @return
+     */
+    public int findNthDigit(int n) {
+        return 0;
+    }
+
+    /**
+     * 面试题45. 把数组排成最小的数
+     * 输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+     * 输入: [10,2]
+     * 示例 1:
+     * 输出: "102"
+     * 输入: [3,30,34,5,9]
+     * 示例 2:
+     * 输出: "3033459"
+     *
+     * @param nums
+     * @return
+     */
+    public String minNumber(int[] nums) {
+        Arrays.sort(nums);
+        StringBuilder sb = new StringBuilder();
+        for (int num : nums) {
+            sb.append(num);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 面试题46. 把数字翻译成字符串
+     * 给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。
+     * 示例 1:
+     * 输入: 12258
+     * 输出: 5
+     * 解释: 12258有5种不同的翻译，分别是"bccfi", "bwfi", "bczi", "mcfi"和"mzi"
+     *
+     * @param num
+     * @return
+     */
+    public int translateNum(int num) {
+        int[] dp = new int[num];
+        for (int i = 0; i < num; i++) {
+
+        }
+        return 0;
+    }
+
+    /**
+     * 面试题47. 礼物的最大价值
+     * 在一个 m*n 的棋盘的每一格都放有一个礼物，每个礼物都有一定的价值（价值大于 0）。你可以从棋盘的左上角开始拿格子里的礼物，并每次向右或者向下移动一格、直到到达棋盘的右下角。给定一个棋盘及其上面的礼物的价值，请计算你最多能拿到多少价值的礼物？
+     * 示例 1:
+     * 输入:
+     * [
+     *   [1,3,1],
+     *   [1,5,1],
+     *   [4,2,1]
+     * ]
+     * 输出: 12
+     * 解释: 路径 1→3→5→2→1 可以拿到最多价值的礼物
+     *
+     * @param grid
+     * @return
+     */
+    public int maxValue(int[][] grid) {
+        int l1 = grid.length;
+        int l2 = grid[0].length;
+        if (l1 == 1) {
+            int sum = 0;
+            for (int i = 0; i < l2; i++) {
+                sum += grid[0][i];
+            }
+            return sum;
+        }
+        int[][] dp = new int[l1][l2];
+        dp[0][0] = grid[0][0];
+        for (int i = 1; i < l1; i++) {
+            dp[i][0] = grid[i][0] + dp[i - 1][0];
+        }
+        for (int i = 1; i < l2; i++) {
+            dp[0][i] = grid[0][i] + dp[0][i - 1];
+        }
+        for (int i = 1; i < l1; i++) {
+            for (int j = 1; j < l2; j++) {
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+            }
+        }
+        return dp[l1 - 1][l2 - 1];
+    }
+
+    /**
+     * 面试题48. 最长不含重复字符的子字符串
+     * 请从字符串中找出一个最长的不包含重复字符的子字符串，计算该最长子字符串的长度。
+     * 示例 1:
+     * 输入: "abcabcbb"
+     * 输出: 3
+     * 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+     *
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring(String s) {
+        int l = 0, r = 0;
+        HashMap<Character, Integer> map = new HashMap<>();
+        int res = 0;
+        for (int i = 0; i < s.length(); i++) {
+            // 判断是否重复
+            if (map.containsKey(s.charAt(i))) {
+                // 移动左窗口
+                l = Math.max(map.get(s.charAt(i)), l);
+            }
+            res = Math.max(r - l + 1, res);
+            map.put(s.charAt(i), i + 1);
+            r++;
+        }
+        return res;
+    }
+
+    /**
+     * 面试题49. 丑数
+     * 我们把只包含因子 2、3 和 5 的数称作丑数（Ugly Number）。求按从小到大的顺序的第 n 个丑数。
+     * 示例:
+     * 输入: n = 10
+     * 输出: 12
+     * 解释: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 是前 10 个丑数。
+     *
+     * @param n
+     * @return
+     */
+    public int nthUglyNumber(int n) {
+        return 0;
+    }
+
+    /**
+     * 面试题50. 第一个只出现一次的字符
+     * 在字符串 s 中找出第一个只出现一次的字符。如果没有，返回一个单空格。 s 只包含小写字母。
+     * 示例:
+     * s = "abaccdeff"
+     * 返回 "b"
+     * s = ""
+     * 返回 " "
+     *
+     * @param s
+     * @return
+     */
+    public char firstUniqChar(String s) {
+        Map<Character, Boolean> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            map.put(s.charAt(i), map.containsKey(s.charAt(i)));
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (!map.get(i)) {
+                return s.charAt(i);
+            }
+        }
+        return ' ';
+    }
+
+    /**
+     * 面试题52. 两个链表的第一个公共节点
+     * 输入两个链表，找出它们的第一个公共节点。
+     * <p>
+     * 如下面的两个链表：
+     * <p>
+     * <p>
+     * <p>
+     * 在节点 c1 开始相交。
+     *
+     * @param headA
+     * @param headB
+     * @return
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode l1 = headA;
+        ListNode l2 = headB;
+        int count = 0;
+        while (l1 != l2) {
+            l1 = l1.next;
+            l2 = l2.next;
+            if (l1 == null) {
+                l1 = headB;
+                count++;
+            }
+            if (l2 == null) {
+                l2 = headA;
+                count++;
+            }
+            if (count > 2) {
+                return null;
+            }
+        }
+        return l1;
+    }
+
+    /**
+     * 面试题53 - I. 在排序数组中查找数字 I
+     * 统计一个数字在排序数组中出现的次数。
+     * 示例 1:
+     * 输入: nums = [5,7,7,8,8,10], target = 8
+     * 输出: 2
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int search(int[] nums, int target) {
+        int c = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (target == nums[i]) {
+                c++;
+            }
+        }
+        return c;
+    }
+
+    /**
+     * 面试题53 - II. 0～n-1中缺失的数字
+     *
+     * @param nums
+     * @return
+     */
+    public int missingNumber(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != i) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 面试题54. 二叉搜索树的第k大节点
+     *
+     * @param root
+     * @param k
+     * @return
+     */
+    public int kthLargest(TreeNode root, int k) {
+        List<Integer> list = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedBlockingQueue<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            TreeNode root = queue.poll();
+            list.add(root.val);
+            if (root.left != null) queue.add(root.left);
+            if (root.right != null) queue.add(root.right);
+        }
+        int[] arr = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            arr[i] = list.get(i);
+        }
+        Arrays.sort(arr);
+        return arr[k];
+    }
+
+    /**
+     * 面试题55 - I. 二叉树的深度
+     *
+     * @param root
+     * @return
+     */
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+    /**
+     * 面试题55 - II. 平衡二叉树
+     * 输入一棵二叉树的根节点，判断该树是不是平衡二叉树。如果某二叉树中任意节点的左右子树的深度相差不超过1，那么它就是一棵平衡二叉树。
+     *
+     * @param root
+     * @return
+     */
+    public boolean isBalanced(TreeNode root) {
+        return isBbfs(root) != -1;
+    }
+
+    public int isBbfs(TreeNode root) {
+        if (root == null) return 0;
+        int left = isBbfs(root.left);
+        if (left == -1) return -1;
+        int right = isBbfs(root.right);
+        if (right == -1) return -1;
+        return Math.abs(left - right) < 2 ? Math.max(left, right) + 1 : -1;
+    }
 }
