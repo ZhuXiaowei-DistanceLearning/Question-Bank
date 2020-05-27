@@ -26,21 +26,18 @@ public class Test {
         TreeNode treeNode4 = new TreeNode(4);
         TreeNode treeNode5 = new TreeNode(5);
         MaxQueue mq = new MaxQueue();
-        mq.push_back(46);
-        mq.max_value();
-        mq.pop_front();
-        mq.max_value();
         treeNode.left = treeNode2;
         treeNode.right = treeNode3;
         treeNode2.left = treeNode4;
         treeNode3.right = treeNode5;
         Test t = new Test();
+        t.constructArr(new int[]{1, 2, 3, 4, 5});
+        t.isStraight(new int[]{1, 2, 3, 4, 5});
         t.maxSlidingWindow(new int[]{1, 3, -1, -3, 5, 3, 6, 7}, 3);
         t.findContinuousSequence(9);
         t.twoSum(new int[]{2, 7, 11, 15}, 9);
         t.twoSum(new int[]{14, 15, 16, 22, 53, 60}, 76);
         t.maxValue(new int[][]{{1, 2, 5}, {3, 2, 1}});
-        t.reverseWords("    ");
         t.levelOrder2(treeNode);
         t.permutation("abc");
 //        t.countDigitOne(824883294);
@@ -1343,7 +1340,7 @@ public class Test {
      * @return
      */
     public int[] maxSlidingWindow(int[] nums, int k) {
-        if(k==0){
+        if (k == 0) {
             return new int[0];
         }
         int l = 0, r = k - 1;
@@ -1364,4 +1361,147 @@ public class Test {
         return arr;
     }
 
+    /**
+     * 面试题60. n个骰子的点数
+     * 把n个骰子扔在地上，所有骰子朝上一面的点数之和为s。输入n，打印出s的所有可能的值出现的概率。
+     * 你需要用一个浮点数数组返回答案，其中第 i 个元素代表这 n 个骰子所能掷出的点数集合中第 i 小的那个的概率。
+     * 示例 1:
+     * 输入: 1
+     * 输出: [0.16667,0.16667,0.16667,0.16667,0.16667,0.16667]
+     * 示例 2:
+     * 输入: 2
+     * 输出: [0.02778,0.05556,0.08333,0.11111,0.13889,0.16667,0.13889,0.11111,0.08333,0.05556,0.02778]
+     *
+     * @param n
+     * @return
+     */
+    public double[] twoSum(int n) {
+        return new double[0];
+    }
+
+    /**
+     * 面试题61. 扑克牌中的顺子
+     * 从扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。2～10为数字本身，A为1，J为11，Q为12，K为13，而大、小王为 0 ，可以看成任意数字。A 不能视为 14。
+     * 示例 1:
+     * 输入: [1,2,3,4,5]
+     * 输出: True
+     * 示例 2:
+     * 输入: [0,0,1,2,5]
+     * 输出: True
+     *
+     * @param nums
+     * @return
+     */
+    public boolean isStraight(int[] nums) {
+        Set<Integer> hashSet = new HashSet<>();
+        int max = 0, min = 14;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) continue;
+            max = Math.max(max, nums[i]);
+            min = Math.min(min, nums[i]);
+            if (hashSet.contains(nums[i])) return false;
+            hashSet.add(nums[i]);
+        }
+        return max - min < 5;
+    }
+
+    /**
+     * 面试题62. 圆圈中最后剩下的数字
+     * 0,1,,n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈里删除第m个数字。求出这个圆圈里剩下的最后一个数字。
+     * 例如，0、1、2、3、4这5个数字组成一个圆圈，从数字0开始每次删除第3个数字，则删除的前4个数字依次是2、0、4、1，因此最后剩下的数字是3。
+     * 示例 1：
+     * 输入: n = 5, m = 3
+     * 输出: 3
+     *
+     * @param n
+     * @param m
+     * @return
+     */
+    public int lastRemaining(int n, int m) {
+        int ans = 0;
+        for (int i = 2; i <= n; i++) {
+            ans = (ans + m) % i;
+        }
+        return ans;
+    }
+
+    /**
+     * 面试题63. 股票的最大利润
+     * 假设把某股票的价格按照时间先后顺序存储在数组中，请问买卖该股票一次可能获得的最大利润是多少？
+     * 示例 1:
+     * 输入: [7,1,5,3,6,4]
+     * 输出: 5
+     * 解释: 在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。
+     * 注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格。
+     *
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int[] prices) {
+        int[] dp = new int[prices.length];
+        dp[0] = prices[0];
+        for (int i = 1; i < prices.length; i++) {
+
+        }
+        return dp[dp.length];
+    }
+
+    /**
+     * 面试题64. 求1+2+…+n
+     * 求 1+2+...+n ，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。
+     *
+     * @param n
+     * @return
+     */
+    public int sumNums(int n) {
+        if (n == 1) {
+            return 1;
+        }
+        return sumNums(n - 1) + (n - 1);
+    }
+
+    /**
+     * 面试题65. 不用加减乘除做加法
+     * 写一个函数，求两个整数之和，要求在函数体内不得使用 “+”、“-”、“*”、“/” 四则运算符号。
+     * 示例:
+     * 输入: a = 1, b = 1
+     * 输出: 2
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    public int add(int a, int b) {
+        while (b != 0) {
+            int i = a ^ b;
+            int i1 = (a & b) << 1;
+            a = i;
+            b = i1;
+        }
+        return a;
+    }
+
+    /**
+     * 面试题66. 构建乘积数组给定一个数组 A[0,1,…,n-1]，请构建一个数组 B[0,1,…,n-1]，其中 B 中的元素 B[i]=A[0]×A[1]×…×A[i-1]×A[i+1]×…×A[n-1]。不能使用除法。
+     * 输入: [1,2,3,4,5]
+     * 示例:
+     * 输出: [120,60,40,30,24]
+     *
+     * @param a
+     * @return
+     */
+    public int[] constructArr(int[] a) {
+        int[] arr = new int[a.length];
+        int left = 1;
+        for (int i = 0; i < a.length; i++) {
+            arr[i] = left;
+            left *= a[i];
+        }
+        int right = 1;
+        for (int i = a.length - 1; i >= 0; i--) {
+            arr[i] *= right;
+            right *= a[i];
+        }
+        return arr;
+    }
 }
