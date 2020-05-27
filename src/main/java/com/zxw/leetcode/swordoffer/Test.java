@@ -2,8 +2,10 @@ package com.zxw.leetcode.swordoffer;
 
 import com.zxw.common.datastruct.ListNode;
 import com.zxw.common.datastruct.TreeNode;
+import com.zxw.leetcode.swordoffer.data.MaxQueue;
 import com.zxw.leetcode.swordoffer.data.MinStack;
 
+import javax.validation.constraints.Max;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
@@ -23,13 +25,22 @@ public class Test {
         TreeNode treeNode3 = new TreeNode(3);
         TreeNode treeNode4 = new TreeNode(4);
         TreeNode treeNode5 = new TreeNode(5);
-
+        MaxQueue mq = new MaxQueue();
+        mq.push_back(46);
+        mq.max_value();
+        mq.pop_front();
+        mq.max_value();
         treeNode.left = treeNode2;
         treeNode.right = treeNode3;
         treeNode2.left = treeNode4;
         treeNode3.right = treeNode5;
         Test t = new Test();
+        t.maxSlidingWindow(new int[]{1, 3, -1, -3, 5, 3, 6, 7}, 3);
+        t.findContinuousSequence(9);
+        t.twoSum(new int[]{2, 7, 11, 15}, 9);
+        t.twoSum(new int[]{14, 15, 16, 22, 53, 60}, 76);
         t.maxValue(new int[][]{{1, 2, 5}, {3, 2, 1}});
+        t.reverseWords("    ");
         t.levelOrder2(treeNode);
         t.permutation("abc");
 //        t.countDigitOne(824883294);
@@ -1156,10 +1167,10 @@ public class Test {
         Queue<TreeNode> queue = new LinkedBlockingQueue<>();
         queue.add(root);
         while (!queue.isEmpty()) {
-            TreeNode root = queue.poll();
-            list.add(root.val);
-            if (root.left != null) queue.add(root.left);
-            if (root.right != null) queue.add(root.right);
+            TreeNode node = queue.poll();
+            list.add(node.val);
+            if (node.left != null) queue.add(node.left);
+            if (node.right != null) queue.add(node.right);
         }
         int[] arr = new int[list.size()];
         for (int i = 0; i < list.size(); i++) {
@@ -1201,4 +1212,156 @@ public class Test {
         if (right == -1) return -1;
         return Math.abs(left - right) < 2 ? Math.max(left, right) + 1 : -1;
     }
+
+    /**
+     * 面试题56 - I. 数组中数字出现的次数
+     * 一个整型数组 nums 里除两个数字之外，其他数字都出现了两次。请写程序找出这两个只出现一次的数字。要求时间复杂度是O(n)，空间复杂度是O(1)。
+     *
+     * @param nums
+     * @return
+     */
+    public int[] singleNumbers(int[] nums) {
+        int[] res = new int[2];
+        for (int i = 0; i < nums.length; i++) {
+
+        }
+        return res;
+    }
+
+    /**
+     * 面试题57. 和为s的两个数字
+     * 输入一个递增排序的数组和一个数字s，在数组中查找两个数，使得它们的和正好是s。如果有多对数字的和等于s，则输出任意一对即可。
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int[] twoSum(int[] nums, int target) {
+        int[] res = new int[2];
+        int l = 0, r = nums.length - 1;
+        while (l < r) {
+            int i = nums[l] + nums[r];
+            if (i == target) {
+                res[0] = nums[l];
+                res[1] = nums[r];
+                return res;
+            } else if (i > target) {
+                r--;
+            } else {
+                l++;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 面试题57 - II. 和为s的连续正数序列
+     * 输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
+     * <p>
+     * 序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
+     * 示例 1：
+     * <p>
+     * 输入：target = 9
+     * 输出：[[2,3,4],[4,5]]
+     * 示例 2：
+     * 输入：target = 15
+     * 输出：[[1,2,3,4,5],[4,5,6],[7,8]]
+     *
+     * @param target
+     * @return
+     */
+    public int[][] findContinuousSequence(int target) {
+        List<int[]> res = new ArrayList<>();
+        for (int i = 1; i < target; i++) {
+            int ans = i;
+            List<Integer> list = new ArrayList<>();
+            list.add(i);
+            for (int j = i + 1; j < target; j++) {
+                ans += j;
+                list.add(j);
+                if (ans == target) {
+                    res.add(list.stream().mapToInt(Integer::valueOf).toArray());
+                    break;
+                } else if (ans > target) {
+                    break;
+                }
+            }
+        }
+        return res.toArray(new int[res.size()][]);
+    }
+
+    /**
+     * 面试题58 - I. 翻转单词顺序
+     * 输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变。为简单起见，标点符号和普通字母一样处理。例如输入字符串"I am a student. "，则输出"student. a am I"。
+     *
+     * @param s
+     * @return
+     */
+    public String reverseWords(String s) {
+        StringBuilder sb = new StringBuilder();
+        String[] split = s.trim().split(" ");
+        for (int i = split.length - 1; i >= 0; i--) {
+            if (split[i].equals("")) {
+                continue;
+            }
+            sb.append(split[i]);
+            sb.append(" ");
+        }
+        return sb.substring(0, sb.length() - 1);
+    }
+
+    /**
+     * 面试题58 - II. 左旋转字符串
+     * 字符串的左旋转操作是把字符串前面的若干个字符转移到字符串的尾部。请定义一个函数实现字符串左旋转操作的功能。比如，输入字符串"abcdefg"和数字2，该函数将返回左旋转两位得到的结果"cdefgab"。
+     *
+     * @param s
+     * @param n
+     * @return
+     */
+    public String reverseLeftWords(String s, int n) {
+        return s.substring(n + 1, s.length()) + s.substring(0, n);
+    }
+
+    /**
+     * 面试题59 - I. 滑动窗口的最大值
+     * 给定一个数组 nums 和滑动窗口的大小 k，请找出所有滑动窗口里的最大值。
+     * 输入: nums = [1,3,-1,-3,5,3,6,7], 和 k = 3
+     * 输出: [3,3,5,5,6,7]
+     * 解释:
+     * <p>
+     * 滑动窗口的位置                最大值
+     * ---------------               -----
+     * [1  3  -1] -3  5  3  6  7       3
+     * 1 [3  -1  -3] 5  3  6  7       3
+     * 1  3 [-1  -3  5] 3  6  7       5
+     * 1  3  -1 [-3  5  3] 6  7       5
+     * 1  3  -1  -3 [5  3  6] 7       6
+     * 1  3  -1  -3  5 [3  6  7]      7
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if(k==0){
+            return new int[0];
+        }
+        int l = 0, r = k - 1;
+        int[] arr = new int[nums.length - k + 1];
+        int c = 0;
+        while (r < nums.length) {
+            int max = nums[l];
+            for (int i = l + 1; i <= r; i++) {
+                if (nums[i] > max) {
+                    max = nums[i];
+                }
+            }
+            arr[c] = max;
+            c++;
+            l++;
+            r++;
+        }
+        return arr;
+    }
+
 }
