@@ -1504,4 +1504,76 @@ public class Test {
         }
         return arr;
     }
+
+    /**
+     * 面试题67. 把字符串转换成整数
+     * 首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。
+     * 当我们寻找到的第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字组合起来，作为该整数的正负号；假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。
+     * 该字符串除了有效的整数部分之后也可能会存在多余的字符，这些字符可以被忽略，它们对于函数不应该造成影响。
+     * 注意：假如该字符串中的第一个非空格字符不是一个有效整数字符、字符串为空或字符串仅包含空白字符时，则你的函数不需要进行转换。
+     * 在任何情况下，若函数不能进行有效的转换时，请返回 0。
+     *
+     * @param str
+     * @return
+     */
+    public int strToInt(String str) {
+        char[] PASS_PERMIT = new char[]{'-'};
+        int ans = 0;
+        if (str == null || str.trim().length() == 0) {
+            return 0;
+        }
+        String s = str.trim();
+        for (int i = 0; i < s.length(); i++) {
+            if (i == 0) {
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 面试题68 - I. 二叉搜索树的最近公共祖先
+     * 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
+     * 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+     * 例如，给定如下二叉搜索树:  root = [6,2,8,0,4,7,9,null,null,3,5]
+     *
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        while (root != null) {
+            if (p.val < root.val && q.val < root.val) {
+                root = root.left;
+            } else if (p.val > root.val && q.val > root.val) {
+                root = root.right;
+            } else {
+                return root;
+            }
+        }
+        return root;
+    }
+
+    /**
+     * 面试题68 - II. 二叉树的最近公共祖先
+     * 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+     * 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+     * 示例 1:
+     * 输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+     * 输出: 3
+     * 解释: 节点 5 和节点 1 的最近公共祖先是节点 3。
+     *
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || root == p || root == q) return root;
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if(left == null) return right;
+        if(right == null) return left;
+        return root;
+    }
 }
