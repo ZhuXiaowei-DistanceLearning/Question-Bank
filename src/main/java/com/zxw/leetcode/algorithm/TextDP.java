@@ -1,11 +1,13 @@
 package com.zxw.leetcode.algorithm;
 
+import java.util.HashMap;
+
 public class TextDP {
     public static void main(String[] args) {
         TextDP textDP = new TextDP();
         textDP.coinChange(new int[]{1, 2, 5}, 11);
         textDP.rob(new int[]{1, 2, 3, 1});
-        textDP.matrixBlockSum(new int [][]{{1,2,3},{4,5,6},{7,8,9}}, 1);
+        textDP.waysToChange(10);
     }
 
     /**
@@ -45,21 +47,25 @@ public class TextDP {
      * @return
      */
     public int waysToChange(int n) {
-        if (n <= 0) {
+        if (n == 0) {
             return 0;
         }
-        int[] dp = new int[n];
+        // i: 方式
+        int[] dp = new int[n + 1];
         int[] arr = new int[]{1, 5, 10, 25};
         dp[0] = 1;
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < arr.length; j++) {
-                if (arr[i] > n) {
+        dp[1] = 0;
+        // 状态：金额变化
+        for (int j = 0; j < arr.length; j++) {
+            for (int i = 2; i <= n; i++) {
+                if (i - arr[j] < 0) {
                     break;
                 }
-                dp[i] = dp[arr[j]];
+                // 解释dp含义： dp[0]：金额为0时，有几种方式
+                dp[i] = (dp[i] + dp[i - arr[j]]) % 1000000007;
             }
         }
-        return dp[n - 1];
+        return dp[n];
     }
 
     /**
@@ -164,37 +170,6 @@ public class TextDP {
             f1 = f0;
         }
         return Math.min(f1, f2);
-    }
-
-    /**
-     * 198. 打家劫舍
-     * 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
-     * <p>
-     * 给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。
-     * 示例 1：
-     * 输入：[1,2,3,1]
-     * 输出：4
-     * 解释：偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。
-     *      偷窃到的最高金额 = 1 + 3 = 4 。
-     *
-     * @param nums
-     * @return
-     */
-    public int rob(int[] nums) {
-        if (nums.length == 0) {
-            return 0;
-        }
-        if (nums.length == 1) {
-            return nums[0];
-        }
-        int res = 0;
-        int[] dp = new int[nums.length];
-        dp[0] = nums[0];
-        dp[1] = nums[1];
-        for (int i = 2; i < nums.length; i++) {
-            dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);
-        }
-        return dp[nums.length - 1];
     }
 
     /**
@@ -346,5 +321,126 @@ public class TextDP {
         return dp;
     }
 
+    /**
+     * 1277. 统计全为 1 的正方形子矩阵
+     * 给你一个 m * n 的矩阵，矩阵中的元素不是 0 就是 1，请你统计并返回其中完全由 1 组成的 正方形 子矩阵的个数。
+     * 暴力解法、递归、动态规划
+     * 示例 1：
+     * 输入：matrix =
+     * [
+     *   [0,1,1,1],
+     *   [1,1,1,1],
+     *   [0,1,1,1]
+     * ]
+     * 输出：15
+     * 解释：
+     * 边长为 1 的正方形有 10 个。
+     * 边长为 2 的正方形有 4 个。
+     * 边长为 3 的正方形有 1 个。
+     * 正方形的总数 = 10 + 4 + 1 = 15.
+     *
+     * @param matrix
+     * @return
+     */
+    public int countSquares(int[][] matrix) {
+        return 0;
+    }
 
+    /**
+     * 877. 石子游戏
+     * 亚历克斯和李用几堆石子在做游戏。偶数堆石子排成一行，每堆都有正整数颗石子 piles[i] 。
+     * 游戏以谁手中的石子最多来决出胜负。石子的总数是奇数，所以没有平局。
+     * 亚历克斯和李轮流进行，亚历克斯先开始。 每回合，玩家从行的开始或结束处取走整堆石头。 这种情况一直持续到没有更多的石子堆为止，此时手中石子最多的玩家获胜。
+     * 假设亚历克斯和李都发挥出最佳水平，当亚历克斯赢得比赛时返回 true ，当李赢得比赛时返回 false 。
+     * 示例：
+     * 输入：[5,3,4,5]
+     * 输出：true
+     * 解释：
+     * 亚历克斯先开始，只能拿前 5 颗或后 5 颗石子 。
+     * 假设他取了前 5 颗，这一行就变成了 [3,4,5] 。
+     * 如果李拿走前 3 颗，那么剩下的是 [4,5]，亚历克斯拿走后 5 颗赢得 10 分。
+     * 如果李拿走后 5 颗，那么剩下的是 [3,4]，亚历克斯拿走后 4 颗赢得 9 分。
+     * 这表明，取前 5 颗石子对亚历克斯来说是一个胜利的举动，所以我们返回 true 。
+     *
+     * @param piles
+     * @return
+     */
+    public boolean stoneGame(int[] piles) {
+        return false;
+    }
+
+    /**
+     * 96. 不同的二叉搜索树
+     * 给定一个整数 n，求以 1 ... n 为节点组成的二叉搜索树有多少种？
+     *
+     * @param n
+     * @return
+     */
+    public int numTrees(int n) {
+        return 0;
+    }
+
+    /**
+     * 198. 打家劫舍
+     * 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+     * 给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。
+     * 示例 1：
+     * 输入：[1,2,3,1]
+     * 输出：4
+     * 解释：偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。
+     *      偷窃到的最高金额 = 1 + 3 = 4 。
+     *
+     * @param nums
+     * @return
+     */
+    public int rob(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        if (nums.length == 2) {
+            return Math.max(nums[0], nums[1]);
+        }
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        dp[1] = Math.max(dp[0], nums[1]);
+        for (int i = 2; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);
+        }
+        return dp[nums.length - 1];
+    }
+
+
+
+    /**
+     *  213. 打家劫舍 II
+     *  你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+     * 给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，能够偷窃到的最高金额。
+     * 示例 1:
+     * 输入: [2,3,2]
+     * 输出: 3
+     * 解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。
+     * @param nums
+     * @return
+     */
+    public int rob2(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        if (nums.length == 2) {
+            return Math.max(nums[0], nums[1]);
+        }
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        dp[1] = Math.max(dp[0], nums[1]);
+        for (int i = 2; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);
+        }
+        return dp[nums.length - 1];
+    }
 }
