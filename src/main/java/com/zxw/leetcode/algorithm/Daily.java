@@ -2,6 +2,7 @@ package com.zxw.leetcode.algorithm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,9 +13,16 @@ public class Daily {
     public static void main(String[] args) {
         Daily daily = new Daily();
         daily.kidsWithCandies(new int[]{2, 3, 5, 1, 3}, 3);
-        daily.shuffle(new int[]{2,5,1,3,4,7},3);
+        daily.shuffle(new int[]{2, 5, 1, 3, 4, 7}, 3);
         daily.subtractProductAndSum(234);
         daily.defangIPaddr("1.1.1.1");
+        String s1 = "abc";
+        String s2 = "abc";
+        System.out.println(s1 == s2);
+        HashMap map = new HashMap();
+//        for (int i = 0; i < 10000000; i++) {
+//            map.put(i, i);
+//        }
     }
 
     /**
@@ -188,7 +196,7 @@ public class Daily {
     public int[] shuffle(int[] nums, int n) {
         int[] arr = new int[nums.length];
         int length = nums.length / 2;
-        for (int i = 0; i < length;i++) {
+        for (int i = 0; i < length; i++) {
             if (i == n - 1) {
                 arr[nums.length - 1] = nums[i + length];
                 arr[nums.length - 2] = nums[i];
@@ -234,11 +242,12 @@ public class Daily {
      * 示例 1：
      * 输入：address = "1.1.1.1"
      * 输出："1[.]1[.]1[.]1"
+     *
      * @param address
      * @return
      */
     public String defangIPaddr(String address) {
-        return address.replaceAll("\\.","[.]");
+        return address.replaceAll("\\.", "[.]");
     }
 
     /**
@@ -253,6 +262,7 @@ public class Daily {
      * 6 是 1 位数字 位数为奇数） 
      * 7896 是 4 位数字（位数为偶数）  
      * 因此只有 12 和 7896 是位数为偶数的数字
+     *
      * @param nums
      * @return
      */
@@ -280,6 +290,7 @@ public class Daily {
      * 对于 nums[2]=2 存在一个比它小的数字：（1）。
      * 对于 nums[3]=2 存在一个比它小的数字：（1）。
      * 对于 nums[4]=3 存在三个比它小的数字：（1，2 和 2）。
+     *
      * @param nums
      * @return
      */
@@ -288,10 +299,10 @@ public class Daily {
         for (int i = 0; i < arr.length; i++) {
             int c = 0;
             for (int j = 0; j < arr.length; j++) {
-                if(i == j){
+                if (i == j) {
                     continue;
                 }
-                if(nums[i] > nums[j]){
+                if (nums[i] > nums[j]) {
                     c++;
                 }
             }
@@ -312,13 +323,14 @@ public class Daily {
      * 解释：第一对 [1,2] 代表着 2 的出现频次为 1，所以生成数组 [2]。
      * 第二对 [3,4] 代表着 4 的出现频次为 3，所以生成数组 [4,4,4]。
      * 最后将它们串联到一起 [2] + [4,4,4] = [2,4,4,4]。
+     *
      * @param nums
      * @return
      */
     public int[] decompressRLElist(int[] nums) {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < nums.length / 2; i++) {
-            while (nums[i * 2] != 0){
+            while (nums[i * 2] != 0) {
                 list.add(nums[i * 2 + 1]);
                 nums[i * 2]--;
             }
