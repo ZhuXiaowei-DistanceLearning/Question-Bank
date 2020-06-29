@@ -1,5 +1,6 @@
 package com.zxw.leetcode.algorithm;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,6 +19,8 @@ public class Daily {
         daily.defangIPaddr("1.1.1.1");
         String s1 = "abc";
         String s2 = "abc";
+        System.out.println(585 & 2047);
+        System.out.println(981 & 2047);
         System.out.println(s1 == s2);
         HashMap map = new HashMap();
 //        for (int i = 0; i < 10000000; i++) {
@@ -336,6 +339,95 @@ public class Daily {
             }
         }
         return list.stream().mapToInt(Integer::valueOf).toArray();
+    }
+
+    /**
+     * 1. 两数之和
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int[] twoSum(int[] nums, int target) {
+        int[] arr = new int[1024];
+        for (int i = 0; i < nums.length; i++) {
+            int diff = target - nums[i];
+            if (arr[diff & 1023] != 0) {
+                return new int[]{arr[diff & 1023], i};
+            }
+            arr[nums[i] & 1023] = i + 1;
+        }
+        throw new RuntimeException("no tow sum");
+    }
+
+    /**
+     * 26. 删除排序数组中的重复项
+     * 给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
+     * 不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。
+     * 示例 1:
+     * 给定数组 nums = [1,1,2],
+     * 函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。
+     * 你不需要考虑数组中超出新长度后面的元素。
+     *
+     * @param nums
+     * @return
+     */
+    public int removeDuplicates(int[] nums) {
+        int p = 0;
+        int q = 1;
+        while (q < nums.length) {
+            if (nums[p] != nums[q]) {
+                if (q - p > 1) {
+                    nums[p + 1] = nums[q];
+                }
+                p++;
+            }
+            q++;
+        }
+        return p + 1;
+    }
+
+    /**
+     * 27. 移除元素
+     * 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。
+     * 不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。
+     * 元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
+     * 示例 1:
+     * 给定 nums = [3,2,2,3], val = 3,
+     * 函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。
+     * 你不需要考虑数组中超出新长度后面的元素。
+     *
+     * @param nums
+     * @param val
+     * @return
+     */
+    public int removeElement(int[] nums, int val) {
+        int l = 0;
+        int r = 0;
+        while (r < nums.length) {
+            if (nums[r] != val) {
+                nums[l] = nums[r];
+                l++;
+            }
+            r++;
+        }
+        return l;
+    }
+
+    /**
+     * 28. 实现 strStr()
+     * 实现 strStr() 函数。
+     * 给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
+     * 输入: haystack = "hello", needle = "ll"
+     * 示例 1:
+     * 输出: 2
+     *
+     * @param haystack
+     * @param needle
+     * @return
+     */
+    public int strStr(String haystack, String needle) {
+        return haystack.indexOf(needle);
     }
 
 }
