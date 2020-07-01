@@ -11,6 +11,8 @@ public class JuneDay {
         JuneDay juneDay = new JuneDay();
         juneDay.isPalindrome("race a car");
         juneDay.minSubArrayLen(7, new int[]{2, 3, 1, 2, 4, 3});
+        juneDay.findLength(new int[]{0, 0, 0, 0, 1}, new int
+                []{1, 0, 0, 0, 0});
     }
 
     /**
@@ -136,9 +138,9 @@ public class JuneDay {
     /**
      * 215. 数组中的第K个最大元素
      * 在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
-     *
+     * <p>
      * 示例 1:
-     *
+     * <p>
      * 输入: [3,2,1,5,6,4] 和 k = 2
      * 输出: 5
      *
@@ -149,5 +151,79 @@ public class JuneDay {
     public int findKthLargest(int[] nums, int k) {
         Arrays.sort(nums);
         return nums[nums.length - k];
+    }
+
+    /**
+     * 718. 最长重复子数组
+     * 给两个整数数组 A 和 B ，返回两个数组中公共的、长度最长的子数组的长度。
+     * 示例 1:
+     * 输入:
+     * A: [1,2,3,2,1]
+     * B: [3,2,1,4,7]
+     * 输出: 3
+     * 解释:
+     * 长度最长的公共子数组是 [3, 2, 1]。
+     *
+     * @param A
+     * @param B
+     * @return
+     */
+    public int findLength(int[] A, int[] B) {
+        int res = 0;
+        int[][] dp = new int[A.length][B.length];
+        for (int i = 0; i < A.length; i++) {
+            if (A[i] == B[0]) {
+                dp[0][i] = 1;
+            } else {
+                dp[0][i] = 0;
+            }
+        }
+        for (int i = 0; i < B.length; i++) {
+            if (B[i] == A[0]) {
+                dp[i][0] = 1;
+            } else {
+                dp[i][0] = 0;
+            }
+        }
+        for (int i = 1; i < B.length; i++) {
+            for (int j = 1; j < A.length; j++) {
+                if (A[j] == B[i]) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                    res = Math.max(dp[i][j], res);
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 1143. 最长公共子序列
+     * 给定两个字符串 text1 和 text2，返回这两个字符串的最长公共子序列的长度。
+     * 一个字符串的 子序列 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。
+     * 例如，"ace" 是 "abcde" 的子序列，但 "aec" 不是 "abcde" 的子序列。两个字符串的「公共子序列」是这两个字符串所共同拥有的子序列。
+     * 若这两个字符串没有公共子序列，则返回 0。
+     * 示例 1:
+     * 输入：text1 = "abcde", text2 = "ace"
+     * 输出：3
+     * 解释：最长公共子序列是 "ace"，它的长度为 3。
+     *
+     * @param text1
+     * @param text2
+     * @return
+     */
+    public int longestCommonSubsequence(String text1, String text2) {
+        int[][] dp = new int[text1.length() + 1][text2.length() + 1];
+        int res = 0;
+        for (int i = 1; i <= text1.length(); i++) {
+            for (int j = 1; j <= text2.length(); j++) {
+                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+                }
+                res = Math.max(res, dp[i][j]);
+            }
+        }
+        return res;
     }
 }
