@@ -7,7 +7,15 @@ package com.zxw.jvm;
 public class Test {
     public static void main(String[] args) {
 //        testCollection();
-        testTenuringThreshold();
+//        testTenuringThreshold();
+        int a = 1;
+        int b = 2;
+        int c = 100;
+        int d = 200;
+        int f = a + b;
+        int g = c + d;
+        System.out.println(a + b);
+        System.out.println(c + d);
     }
 
     /**
