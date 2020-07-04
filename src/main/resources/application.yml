@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: question-bank
+server:
+  port: 8080
+logging:
+  file:
+    path: /static
+    name: mylogger

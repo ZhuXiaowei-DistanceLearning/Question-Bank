@@ -1,10 +1,14 @@
 package com.zxw.leetcode.algorithm;
 
+import java.util.Arrays;
+import java.util.HashMap;
+
 public class TextDP {
     public static void main(String[] args) {
         TextDP textDP = new TextDP();
         textDP.coinChange(new int[]{1, 2, 5}, 11);
         textDP.rob(new int[]{1, 2, 3, 1});
+        textDP.waysToChange(10);
     }
 
     /**
@@ -44,21 +48,25 @@ public class TextDP {
      * @return
      */
     public int waysToChange(int n) {
-        if (n <= 0) {
+        if (n == 0) {
             return 0;
         }
-        int[] dp = new int[n];
+        // i: 方式
+        int[] dp = new int[n + 1];
         int[] arr = new int[]{1, 5, 10, 25};
         dp[0] = 1;
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < arr.length; j++) {
-                if (arr[i] > n) {
+        dp[1] = 0;
+        // 状态：金额变化
+        for (int j = 0; j < arr.length; j++) {
+            for (int i = 2; i <= n; i++) {
+                if (i - arr[j] < 0) {
                     break;
                 }
-                dp[i] = dp[arr[j]];
+                // 解释dp含义： dp[0]：金额为0时，有几种方式
+                dp[i] = (dp[i] + dp[i - arr[j]]) % 1000000007;
             }
         }
-        return dp[n - 1];
+        return dp[n];
     }
 
     /**
@@ -166,37 +174,6 @@ public class TextDP {
     }
 
     /**
-     * 198. 打家劫舍
-     * 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
-     * <p>
-     * 给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。
-     * 示例 1：
-     * 输入：[1,2,3,1]
-     * 输出：4
-     * 解释：偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。
-     *      偷窃到的最高金额 = 1 + 3 = 4 。
-     *
-     * @param nums
-     * @return
-     */
-    public int rob(int[] nums) {
-        if (nums.length == 0) {
-            return 0;
-        }
-        if (nums.length == 1) {
-            return nums[0];
-        }
-        int res = 0;
-        int[] dp = new int[nums.length];
-        dp[0] = nums[0];
-        dp[1] = nums[1];
-        for (int i = 2; i < nums.length; i++) {
-            dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);
-        }
-        return dp[nums.length - 1];
-    }
-
-    /**
      * 70. 爬楼梯
      * 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
      * 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
@@ -278,79 +255,225 @@ public class TextDP {
     }
 
     /**
-     * 1025. 除数博弈
-     * 爱丽丝和鲍勃一起玩游戏，他们轮流行动。爱丽丝先手开局。
+     * 338. 比特位计数
+     * 给定一个非负整数 num。对于 0 ≤ i ≤ num 范围中的每个数字 i ，计算其二进制数中的 1 的数目并将它们作为数组返回。
      * <p>
-     * 最初，黑板上有一个数字 N 。在每个玩家的回合，玩家需要执行以下操作：
+     * 示例 1:
      * <p>
-     * 选出任一 x，满足 0 < x < N 且 N % x == 0 。
-     * 用 N - x 替换黑板上的数字 N 。
-     * 如果玩家无法执行这些操作，就会输掉游戏。
+     * 输入: 2
+     * 输出: [0,1,1]
+     * 进阶:
      * <p>
-     * 只有在爱丽丝在游戏中取得胜利时才返回 True，否则返回 false。假设两个玩家都以最佳状态参与游戏。
+     * 给出时间复杂度为O(n*sizeof(integer))的解答非常容易。但你可以在线性时间O(n)内用一趟扫描做到吗？
+     * 要求算法的空间复杂度为O(n)。
+     * 你能进一步完善解法吗？要求在C++或任何其他语言中不使用任何内置函数（如 C++ 中的 __builtin_popcount）来执行此操作。
+     * 状态，选择,方程式
+     */
+    public int[] countBits(int num) {
+        if (num == 0) {
+            return new int[]{0};
+        }
+        int[] dp = new int[num + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+        for (int i = 2; i <= num; i++) {
+            dp[i] = dp[i & (i - 1)] + 1;
+        }
+        return dp;
+    }
+
+    /**
+     * 1314. 矩阵区域和
+     * 给你一个 m * n 的矩阵 mat 和一个整数 K ，请你返回一个矩阵 answer ，其中每个 answer[i][j] 是所有满足下述条件的元素 mat[r][c] 的和： 
+     * <p>
+     * i - K <= r <= i + K, j - K <= c <= j + K 
+     * (r, c) 在矩阵内。
+     *  
+     * <p>
      * 示例 1：
      * <p>
-     * 输入：2
-     * 输出：true
-     * 解释：爱丽丝选择 1，鲍勃无法进行操作。
-     * 状态：
-     * 选择：
-     * 方程式：
+     * 输入：mat = [[1,2,3],[4,5,6],[7,8,9]], K = 1
+     * 输出：[[12,21,16],[27,45,33],[24,39,28]]
      *
-     * @param N
+     * @param mat
+     * @param K
      * @return
      */
-    public boolean divisorGame(int N) {
-        if(N == 1){
-            return false;
-        }
-        boolean[] b = new boolean[N + 1];
-        b[1] = true;
-        b[2] = false;
-        for (int i = 3; i < N; i++) {
-            if (N % i == 0) {
-
+    public int[][] matrixBlockSum(int[][] mat, int K) {
+        int[][] dp = new int[mat.length][mat[0].length];
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[i].length; j++) {
+                int r1 = i - K;
+                int r2 = i + K;
+                int c1 = j - K;
+                int c2 = j + K;
+                int sum = 0;
+                for (int k = r1; k < r2 - r1; k++) {
+                    for (int l = c1; l < c2 - c1; l++) {
+                        if (k < 0 || l < 0) {
+                            continue;
+                        }
+                        sum += mat[k][l];
+                    }
+                }
+                dp[i][j] = sum;
             }
         }
+        return dp;
+    }
+
+    /**
+     * 1277. 统计全为 1 的正方形子矩阵
+     * 给你一个 m * n 的矩阵，矩阵中的元素不是 0 就是 1，请你统计并返回其中完全由 1 组成的 正方形 子矩阵的个数。
+     * 暴力解法、递归、动态规划
+     * 示例 1：
+     * 输入：matrix =
+     * [
+     *   [0,1,1,1],
+     *   [1,1,1,1],
+     *   [0,1,1,1]
+     * ]
+     * 输出：15
+     * 解释：
+     * 边长为 1 的正方形有 10 个。
+     * 边长为 2 的正方形有 4 个。
+     * 边长为 3 的正方形有 1 个。
+     * 正方形的总数 = 10 + 4 + 1 = 15.
+     *
+     * @param matrix
+     * @return
+     */
+    public int countSquares(int[][] matrix) {
+        return 0;
+    }
+
+    /**
+     * 877. 石子游戏
+     * 亚历克斯和李用几堆石子在做游戏。偶数堆石子排成一行，每堆都有正整数颗石子 piles[i] 。
+     * 游戏以谁手中的石子最多来决出胜负。石子的总数是奇数，所以没有平局。
+     * 亚历克斯和李轮流进行，亚历克斯先开始。 每回合，玩家从行的开始或结束处取走整堆石头。 这种情况一直持续到没有更多的石子堆为止，此时手中石子最多的玩家获胜。
+     * 假设亚历克斯和李都发挥出最佳水平，当亚历克斯赢得比赛时返回 true ，当李赢得比赛时返回 false 。
+     * 示例：
+     * 输入：[5,3,4,5]
+     * 输出：true
+     * 解释：
+     * 亚历克斯先开始，只能拿前 5 颗或后 5 颗石子 。
+     * 假设他取了前 5 颗，这一行就变成了 [3,4,5] 。
+     * 如果李拿走前 3 颗，那么剩下的是 [4,5]，亚历克斯拿走后 5 颗赢得 10 分。
+     * 如果李拿走后 5 颗，那么剩下的是 [3,4]，亚历克斯拿走后 4 颗赢得 9 分。
+     * 这表明，取前 5 颗石子对亚历克斯来说是一个胜利的举动，所以我们返回 true 。
+     *
+     * @param piles
+     * @return
+     */
+    public boolean stoneGame(int[] piles) {
         return false;
     }
 
     /**
-     * 剑指 Offer 42. 连续子数组的最大和
-     * 输入一个整型数组，数组里有正数也有负数。数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的最大值。
-     * 要求时间复杂度为O(n)。
+     * 96. 不同的二叉搜索树
+     * 给定一个整数 n，求以 1 ... n 为节点组成的二叉搜索树有多少种？
+     *
+     * @param n
+     * @return
+     */
+    public int numTrees(int n) {
+        return 0;
+    }
+
+    /**
+     * 198. 打家劫舍
+     * 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+     * 给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。
+     * 示例 1：
+     * 输入：[1,2,3,1]
+     * 输出：4
+     * 解释：偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。
+     *      偷窃到的最高金额 = 1 + 3 = 4 。
      *
      * @param nums
      * @return
      */
-    public int maxSubArray2(int[] nums) {
-        int res = nums[0];
+    public int rob(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        if (nums.length == 2) {
+            return Math.max(nums[0], nums[1]);
+        }
         int[] dp = new int[nums.length];
         dp[0] = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
-            res = Math.max(dp[i], res);
+        dp[1] = Math.max(dp[0], nums[1]);
+        for (int i = 2; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);
         }
-        return res;
+        return dp[nums.length - 1];
     }
 
+
     /**
-     * 面试题 16.17. 连续数列
-     * 给定一个整数数组，找出总和最大的连续数列，并返回总和。
-     * 示例：
-     * 输入： [-2,1,-3,4,-1,2,1,-5,4]
-     * 输出： 6
-     * 解释： 连续子数组 [4,-1,2,1] 的和最大，为 6。
+     * 213. 打家劫舍 II
+     * 你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都围成一圈，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+     * 给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，能够偷窃到的最高金额。
+     * 示例 1:
+     * 输入: [2,3,2]
+     * 输出: 3
+     * 解释: 你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。
+     *
      * @param nums
      * @return
      */
-    public int maxSubArray3(int[] nums) {
-        int res = nums[0];
+    public int rob2(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        if (nums.length == 2) {
+            return Math.max(nums[0], nums[1]);
+        }
         int[] dp = new int[nums.length];
         dp[0] = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
-            res = Math.max(dp[i], res);
+        dp[1] = Math.max(dp[0], nums[1]);
+        for (int i = 2; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);
+        }
+        return dp[nums.length - 1];
+    }
+
+    /**
+     * 300. 最长上升子序列
+     * 给定一个无序的整数数组，找到其中最长上升子序列的长度。
+     * 示例:
+     * 输入: [10,9,2,5,3,7,101,18]
+     * 输出: 4
+     * 解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
+     * 状态，选择，方程式
+     *
+     * @param nums
+     * @return
+     */
+    public int lengthOfLIS(int[] nums) {
+        if (nums.length == 1) {
+            return 1;
+        }
+        // dp[i]的含义：上升子序列的长度
+        int[] dp = new int[nums.length];
+        Arrays.fill(dp, 1);
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[j] > nums[i]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < dp.length; i++) {
+            res = Math.max(res, dp[i]);
         }
         return res;
     }
