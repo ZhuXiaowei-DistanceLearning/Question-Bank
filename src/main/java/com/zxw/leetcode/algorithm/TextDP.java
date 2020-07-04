@@ -276,4 +276,82 @@ public class TextDP {
         }
         return dp[prices.length - 1][0];
     }
+
+    /**
+     * 1025. 除数博弈
+     * 爱丽丝和鲍勃一起玩游戏，他们轮流行动。爱丽丝先手开局。
+     * <p>
+     * 最初，黑板上有一个数字 N 。在每个玩家的回合，玩家需要执行以下操作：
+     * <p>
+     * 选出任一 x，满足 0 < x < N 且 N % x == 0 。
+     * 用 N - x 替换黑板上的数字 N 。
+     * 如果玩家无法执行这些操作，就会输掉游戏。
+     * <p>
+     * 只有在爱丽丝在游戏中取得胜利时才返回 True，否则返回 false。假设两个玩家都以最佳状态参与游戏。
+     * 示例 1：
+     * <p>
+     * 输入：2
+     * 输出：true
+     * 解释：爱丽丝选择 1，鲍勃无法进行操作。
+     * 状态：
+     * 选择：
+     * 方程式：
+     *
+     * @param N
+     * @return
+     */
+    public boolean divisorGame(int N) {
+        if(N == 1){
+            return false;
+        }
+        boolean[] b = new boolean[N + 1];
+        b[1] = true;
+        b[2] = false;
+        for (int i = 3; i < N; i++) {
+            if (N % i == 0) {
+
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 剑指 Offer 42. 连续子数组的最大和
+     * 输入一个整型数组，数组里有正数也有负数。数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的最大值。
+     * 要求时间复杂度为O(n)。
+     *
+     * @param nums
+     * @return
+     */
+    public int maxSubArray2(int[] nums) {
+        int res = nums[0];
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
+            res = Math.max(dp[i], res);
+        }
+        return res;
+    }
+
+    /**
+     * 面试题 16.17. 连续数列
+     * 给定一个整数数组，找出总和最大的连续数列，并返回总和。
+     * 示例：
+     * 输入： [-2,1,-3,4,-1,2,1,-5,4]
+     * 输出： 6
+     * 解释： 连续子数组 [4,-1,2,1] 的和最大，为 6。
+     * @param nums
+     * @return
+     */
+    public int maxSubArray3(int[] nums) {
+        int res = nums[0];
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
+            res = Math.max(dp[i], res);
+        }
+        return res;
+    }
 }
