@@ -3,6 +3,8 @@ package com.zxw.leetcode.algorithm;
 import com.zxw.common.datastruct.TreeNode;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Stack;
 
 /**
  * @author zxw
@@ -260,5 +262,44 @@ public class JuneDay {
         root.left = ArrayToBSTDFS(nums, l, mid - 1);
         root.right = ArrayToBSTDFS(nums, mid + 1, r);
         return root;
+    }
+
+    /**
+     * 32. 最长有效括号
+     * 给定一个只包含 '(' 和 ')' 的字符串，找出最长的包含有效括号的子串的长度。
+     * 示例 1:
+     * 输入: "(()"
+     * 输出: 2
+     * 解释: 最长有效括号子串为 "()"
+     *
+     * @param s
+     * @return
+     */
+    public int longestValidParentheses(String s) {
+        HashSet set = new HashSet();
+        set.add(')');
+        int sum = 0;
+        int res = 0;
+        Stack stack = new Stack();
+        for (int i = 0; i < s.length(); i++) {
+            if (set.contains(s.charAt(i))) {
+                if(stack.size() == 0){
+                    sum = 0;
+                    res = Math.max(sum,res);
+                    continue;
+                }
+                char pop = (char) stack.pop();
+                if (pop == '(') {
+                    sum += 2;
+                } else {
+                    res = Math.max(sum,res);
+                    return sum;
+                }
+            } else {
+                stack.push(s.charAt(i));
+            }
+        }
+        res = Math.max(sum,res);
+        return res;
     }
 }
