@@ -265,6 +265,7 @@ public class JuneDay {
     }
 
     /**
+<<<<<<< HEAD
      * 32. 最长有效括号
      * 给定一个只包含 '(' 和 ')' 的字符串，找出最长的包含有效括号的子串的长度。
      * 示例 1:
@@ -331,5 +332,109 @@ public class JuneDay {
             arr[s2.charAt(i)]--;
         }
         return true;
+    }
+    /**
+     * 63. 不同路径 II
+     * 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+     * 现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？
+     * 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
+     *
+     * @param obstacleGrid
+     * @return
+     */
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int[][] dp = new int[obstacleGrid.length][obstacleGrid[0].length];
+        boolean right = false;
+        boolean down = false;
+        for (int i = 0; i < obstacleGrid.length; i++) {
+            if (obstacleGrid[i][0] == 1 || right) {
+                right = true;
+                dp[i][0] = 0;
+            } else {
+                dp[i][0] = 1;
+            }
+        }
+        for (int i = 0; i < obstacleGrid[0].length; i++) {
+            if (obstacleGrid[0][i] == 1 || down) {
+                down = true;
+                dp[0][i] = 0;
+            } else {
+                dp[0][i] = 1;
+            }
+        }
+        for (int i = 1; i < obstacleGrid.length; i++) {
+            for (int j = 1; j < obstacleGrid[i].length; j++) {
+                if (obstacleGrid[i][j] == 1) {
+                    dp[i][j] = 0;
+                } else {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                }
+            }
+        }
+        return dp[dp.length - 1][dp[0].length - 1];
+    }
+
+    /**
+     * 112. 路径总和
+     * 给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
+     * <p>
+     * 说明: 叶子节点是指没有子节点的节点。
+     * <p>
+     * 示例: 
+     * 给定如下二叉树，以及目标和 sum = 22，
+     * <p>
+     * 5
+     * / \
+     * 4   8
+     * /   / \
+     * 11  13  4
+     * /  \      \
+     * 7    2      1
+     *
+     * @param root
+     * @param sum
+     * @return
+     */
+    int num = 0;
+
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return false;
+        }
+        if (root.left == null && root.right == null) {
+            return root.val == sum;
+        }
+        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+    }
+
+    /**
+     * 面试题 16.11. 跳水板
+     * 你正在使用一堆木板建造跳水板。有两种类型的木板，其中长度较短的木板长度为shorter，长度较长的木板长度为longer。你必须正好使用k块木板。编写一个方法，生成跳水板所有可能的长度。
+     * 返回的长度需要从小到大排列。
+     * 示例：
+     * 输入：
+     * shorter = 1
+     * longer = 2
+     * k = 3
+     * 输出： {3,4,5,6}
+     * @param shorter
+     * @param longer
+     * @param k
+     * @return
+     */
+    public int[] divingBoard(int shorter, int longer, int k) {
+        if(k == 0){
+            return new int[]{};
+        }
+        if(shorter == longer){
+            return new int[]{k * shorter};
+        }
+        int result[] = new int[k + 1];
+        //循环把可能的结果往数组里面塞
+        for (int i = 0; i <= k; i++) {
+            result[i] = (k - i) * shorter + i * longer;
+        }
+
+        return result;
     }
 }
