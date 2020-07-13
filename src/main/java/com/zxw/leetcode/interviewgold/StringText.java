@@ -166,6 +166,48 @@ public class StringText {
         }
     }
 
+    /**
+     * 面试题 01.06. 字符串压缩
+     * 字符串压缩。利用字符重复出现的次数，编写一种方法，实现基本的字符串压缩功能。比如，字符串aabcccccaaa会变为a2b1c5a3。若“压缩”后的字符串没有变短，则返回原先的字符串。你可以假设字符串中只包含大小写英文字母（a至z）。
+     * <p>
+     * 示例1:
+     * <p>
+     * 输入："aabcccccaaa"
+     * 输出："a2b1c5a3"
+     *
+     * @param S
+     * @return
+     */
+    public String compressString(String S) {
+        if(S.length() <= 1){
+            return S;
+        }
+        StringBuilder sb = new StringBuilder();
+        char ch = S.charAt(0);
+        int len = 1;
+        sb.append(ch);
+        for (int i = 1; i < S.length(); i++) {
+            if (S.charAt(i) == ch) {
+                len++;
+            } else {
+                sb.append(len);
+                len = 1;
+                ch = S.charAt(i);
+                sb.append(ch);
+            }
+        }
+        sb.append(len);
+        return sb.toString().length() > S.length() ? S : sb.toString();
+    }
+
+    /**
+     * 对角线旋转，中点旋转
+     * @param matrix
+     */
+    public void rotate(int[][] matrix) {
+
+    }
+
     public static int min(int var1, int var2, int var3) {
         return var1 < var2 ? var1 < var3 ? var1 : var3 : var2 < var3 ? var2 : var3;
     }
