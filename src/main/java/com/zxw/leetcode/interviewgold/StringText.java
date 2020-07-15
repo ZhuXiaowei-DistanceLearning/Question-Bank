@@ -9,7 +9,7 @@ import java.util.HashSet;
 public class StringText {
     public static void main(String[] args) {
         StringText stringText = new StringText();
-
+        stringText.isFlipedString("PvcvpkpHwaXQxpgGzURBvHRMvCsCPPmlKBSzXDWSvrxLBPdAvRpgcIwNOVQDdwPIElrAFqmb", "SvrxLBPdAvRpgcIwNOVQDdwPIElrAFqmbPvcvpkpHwaXQxpgGzURBvHRMvCsCPPmlKBSzXDW");
     }
 
     /**
@@ -36,17 +36,18 @@ public class StringText {
     /**
      * 面试题 01.02. 判定是否互为字符重排
      * 给定两个字符串 s1 和 s2，请编写一个程序，确定其中一个字符串的字符重新排列后，能否变成另一个字符串。
-     *
+     * <p>
      * 示例 1：
-     *
+     * <p>
      * 输入: s1 = "abc", s2 = "bca"
      * 输出: true
+     *
      * @param s1
      * @param s2
      * @return
      */
     public boolean CheckPermutation(String s1, String s2) {
-        if(s1.length() != s2.length()){
+        if (s1.length() != s2.length()) {
             return false;
         }
         int[] arr = new int[128];
@@ -55,11 +56,33 @@ public class StringText {
         }
 
         for (int i = 0; i < s2.length(); i++) {
-            if(arr[s2.charAt(i)] == 0){
+            if (arr[s2.charAt(i)] == 0) {
                 return false;
             }
             arr[s2.charAt(i)]--;
         }
         return true;
+    }
+
+    /**
+     * 面试题 01.09. 字符串轮转
+     * 字符串轮转。给定两个字符串s1和s2，请编写代码检查s2是否为s1旋转而成（比如，waterbottle是erbottlewat旋转后的字符串）。
+     * 示例1:
+     * 输入：s1 = "waterbottle", s2 = "erbottlewat"
+     * 输出：True
+     *
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public boolean isFlipedString(String s1, String s2) {
+        if (s1.length() != s2.length()) {
+            return false;
+        }
+        if (s1.equals(s2)) {
+            return true;
+        }
+        s1 = s1 + s2;
+        return s1.contains(s2);
     }
 }
