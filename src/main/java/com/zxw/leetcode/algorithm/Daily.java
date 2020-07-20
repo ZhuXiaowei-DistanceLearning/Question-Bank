@@ -19,8 +19,12 @@ public class Daily {
         daily.defangIPaddr("1.1.1.1");
         String s1 = "abc";
         String s2 = "abc";
+        System.out.println(-1 & 7);
+        System.out.println(-1 & 8);
         System.out.println(585 & 2047);
         System.out.println(981 & 2047);
+        System.out.println(2048 & 2048);
+        System.out.println(2049 & 2048);
         System.out.println(s1 == s2);
         HashMap map = new HashMap();
 //        for (int i = 0; i < 10000000; i++) {
@@ -445,6 +449,7 @@ public class Daily {
      * 描述前一项，这个数是 11 即 “两个 1 ” ，记作 21
      * 描述前一项，这个数是 21 即 “一个 2 一个 1 ” ，记作 1211
      * 描述前一项，这个数是 1211 即 “一个 1 一个 2 两个 1 ” ，记作 111221
+     *
      * @param n
      * @return
      */
@@ -455,11 +460,11 @@ public class Daily {
     /**
      * 35. 搜索插入位置
      * 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
-     *
+     * <p>
      * 你可以假设数组中无重复元素。
-     *
+     * <p>
      * 示例 1:
-     *
+     * <p>
      * 输入: [1,3,5,6], 5
      * 输出: 2
      *
@@ -473,5 +478,56 @@ public class Daily {
 
         }
         return index;
+    }
+
+    /**
+     * 96. 不同的二叉搜索树
+     * 给定一个整数 n，求以 1 ... n 为节点组成的二叉搜索树有多少种？
+     * 示例:
+     * 输入: 3
+     * 输出: 5
+     * 解释:
+     * 给定 n = 3, 一共有 5 种不同结构的二叉搜索树:
+     * <p>
+     * 1         3     3      2      1
+     * \       /     /      / \      \
+     * 3     2     1      1   3      2
+     * /     /       \                 \
+     * 2     1         2                 3
+     *
+     * @param n
+     * @return
+     */
+    public int numTrees(int n) {
+        return 0;
+    }
+
+    /**
+     * 167. 两数之和 II - 输入有序数组
+     * 给定一个已按照升序排列 的有序数组，找到两个数使得它们相加之和等于目标数。
+     * 函数应该返回这两个下标值 index1 和 index2，其中 index1 必须小于 index2。
+     * 说明:
+     * 返回的下标值（index1 和 index2）不是从零开始的。
+     * 你可以假设每个输入只对应唯一的答案，而且你不可以重复使用相同的元素。
+     * 示例:
+     * 输入: numbers = [2, 7, 11, 15], target = 9
+     * 输出: [1,2]
+     * 解释: 2 与 7 之和等于目标数 9 。因此 index1 = 1, index2 = 2 。
+     *
+     * @param numbers
+     * @param target
+     * @return
+     */
+    public int[] twoSum2(int[] numbers, int target) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < numbers.length; i++) {
+            int diff = target - numbers[i];
+            if (map.containsKey(diff)) {
+                return new int[]{map.get(diff), i + 1};
+            } else {
+                map.put(numbers[i], i + 1);
+            }
+        }
+        throw new RuntimeException();
     }
 }
