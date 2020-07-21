@@ -1,10 +1,7 @@
 package com.zxw.leetcode.algorithm;
 
 import java.lang.annotation.Target;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author zxw
@@ -17,15 +14,15 @@ public class Daily {
         daily.shuffle(new int[]{2, 5, 1, 3, 4, 7}, 3);
         daily.subtractProductAndSum(234);
         daily.defangIPaddr("1.1.1.1");
-        String s1 = "abc";
-        String s2 = "abc";
-        System.out.println(-1 & 7);
-        System.out.println(-1 & 8);
-        System.out.println(585 & 2047);
-        System.out.println(981 & 2047);
-        System.out.println(2048 & 2048);
-        System.out.println(2049 & 2048);
-        System.out.println(s1 == s2);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        System.out.println(calendar.get(Calendar.YEAR));
+        System.out.println(calendar.get(Calendar.DATE));
+        String s1 = new String("ab");
+        String s2 = "ab";
+        String s3 = s1 + "c";
+        System.out.println(s3);
+        System.out.println(s2 == s1);
         HashMap map = new HashMap();
 //        for (int i = 0; i < 10000000; i++) {
 //            map.put(i, i);
@@ -529,5 +526,29 @@ public class Daily {
             }
         }
         throw new RuntimeException();
+    }
+
+    /**
+     * 35. 搜索插入位置
+     * 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+     * 你可以假设数组中无重复元素。
+     * 示例 1:
+     * 输入: [1,3,5,6], 5
+     * 输出: 2
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int searchInsert2(int[] nums, int target) {
+        int l = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if(nums[i] == target){
+                return i;
+            }
+            if(nums[i] < target){
+                l++;
+            }
+        }
+        return l;
     }
 }
