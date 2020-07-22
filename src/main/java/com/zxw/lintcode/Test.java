@@ -6,7 +6,14 @@ package com.zxw.lintcode;
  */
 public class Test {
     public static void main(String[] args) {
-
+        System.out.println(7%9);
+        System.out.println(8%9);
+        System.out.println(9%9);
+        System.out.println(10%9);
+        System.out.println(11%9);
+        System.out.println(12%9);
+        System.out.println(13%9);
+        System.out.println(22%9);
     }
 
     /**
