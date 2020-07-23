@@ -6,14 +6,14 @@ package com.zxw.lintcode;
  */
 public class Test {
     public static void main(String[] args) {
-        System.out.println(7%9);
-        System.out.println(8%9);
-        System.out.println(9%9);
-        System.out.println(10%9);
-        System.out.println(11%9);
-        System.out.println(12%9);
-        System.out.println(13%9);
-        System.out.println(22%9);
+        System.out.println(7 % 9);
+        System.out.println(8 % 9);
+        System.out.println(9 % 9);
+        System.out.println(10 % 9);
+        System.out.println(11 % 9);
+        System.out.println(12 % 9);
+        System.out.println(13 % 9);
+        System.out.println(22 % 9);
     }
 
     /**
@@ -40,5 +40,28 @@ public class Test {
             }
         }
         return new int[]{0, 0};
+    }
+
+    /**
+     * 1. A + B 问题
+     * 给出两个整数 aa 和 bb , 求他们的和。
+     */
+    public class Solution {
+        /**
+         * @param a: An integer
+         * @param b: An integer
+         * @return: The sum of a and b
+         */
+        public int aplusb(int a, int b) {
+            // write your code here
+            // 不进位假发
+            while (b != 0) {
+                int c = a ^ b;
+                int d = (a & b << 1);
+                a = c;
+                b = d;
+            }
+            return a;
+        }
     }
 }
