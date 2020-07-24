@@ -1,5 +1,7 @@
 package com.zxw.lintcode;
 
+import java.util.HashSet;
+
 /**
  * @author zxw
  * @date 2020/6/24 14:07
@@ -14,6 +16,8 @@ public class Test {
         System.out.println(12 % 9);
         System.out.println(13 % 9);
         System.out.println(22 % 9);
+        Test test = new Test();
+        test.singleNumber(new int[]{1,1,2,2,3,4,4,5,5});
     }
 
     /**
@@ -63,5 +67,28 @@ public class Test {
             }
             return a;
         }
+    }
+
+    /**
+     * 82. 落单的数
+     * 给出 2 * n + 1个数字，除其中一个数字之外其他每个数字均出现两次，找到这个数字。
+     *
+     * 样例
+     * 样例 1:
+     *
+     * 输入：[1,1,2,2,3,4,4]
+     * 输出：3
+     * 解释：
+     * 仅3出现一次
+     * @param A: An integer array
+     * @return: An integer
+     */
+    public int singleNumber(int[] A) {
+        // write your code here
+        int ans = 0;
+        for (int i = 0; i < A.length; i++) {
+            ans ^= A[i];
+        }
+        return ans;
     }
 }
