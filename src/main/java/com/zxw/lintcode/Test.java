@@ -17,7 +17,7 @@ public class Test {
         System.out.println(13 % 9);
         System.out.println(22 % 9);
         Test test = new Test();
-        test.singleNumber(new int[]{1,1,2,2,3,4,4,5,5});
+        test.singleNumber(new int[]{1, 1, 2, 2, 3, 4, 4, 5, 5});
     }
 
     /**
@@ -72,14 +72,15 @@ public class Test {
     /**
      * 82. 落单的数
      * 给出 2 * n + 1个数字，除其中一个数字之外其他每个数字均出现两次，找到这个数字。
-     *
+     * <p>
      * 样例
      * 样例 1:
-     *
+     * <p>
      * 输入：[1,1,2,2,3,4,4]
      * 输出：3
      * 解释：
      * 仅3出现一次
+     *
      * @param A: An integer array
      * @return: An integer
      */
@@ -91,4 +92,34 @@ public class Test {
         }
         return ans;
     }
+
+    /**
+     * 给定一个字符串（以字符数组的形式给出）和一个偏移量，根据偏移量原地旋转字符串(从左向右旋转)。
+     * 样例
+     * 样例 1:
+     * 输入:  str="abcdefg", offset = 3
+     * 输出:  str = "efgabcd"
+     * 样例解释:  注意是原地旋转，即str旋转后为"efgabcd"
+     *
+     * @param str:    An array of char
+     * @param offset: An integer
+     * @return: nothing
+     */
+    public void rotateString(char[] str, int offset) {
+        // write your code here
+        char temp;
+        if (offset == 0) return;
+        if (str.length == 0) return;
+        int len = str.length;
+        for (int i = 1; i <= offset % len; i++) {
+            temp = str[len - 1];
+            int j = len - 2;
+            while (j >= 0) {
+                str[j + 1] = str[j];
+                j--;
+            }
+            str[0] = temp;
+        }
+    }
+
 }
