@@ -1,5 +1,7 @@
 package com.zxw.lintcode;
 
+import com.zxw.common.datastruct.TreeNode;
+
 import java.util.HashSet;
 
 /**
@@ -120,6 +122,25 @@ public class Test {
             }
             str[0] = temp;
         }
+    }
+
+    /**
+     * 1776. 梯形的面积
+     * cat-only-icon
+     * CAT 专属题目
+     * 中文English
+     * 梯形面积的计算公式是(a + b) * h / 2;现在给出a, b, h。返回梯形的面积。
+     * 样例 1：
+     * 输入 : a = 2, b = 4, h = 4
+     * 输出 : 12
+     * 解析：area = (2 + 4) * 4 / 2 = 12
+     * @param a:
+     * @param b:
+     * @param h:
+     * @return: Return the area of trapezoid
+     */
+    public double AreaOfTrapezoid(int a, int b, int h) {
+        return ((double) a + (double) b) * h / 2;
     }
 
 }
