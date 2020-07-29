@@ -19,6 +19,7 @@ public class Test {
         System.out.println(13 % 9);
         System.out.println(22 % 9);
         Test test = new Test();
+        test.strStr("mississippi", "issip");
         test.singleNumber(new int[]{1, 1, 2, 2, 3, 4, 4, 5, 5});
     }
 
@@ -134,6 +135,7 @@ public class Test {
      * 输入 : a = 2, b = 4, h = 4
      * 输出 : 12
      * 解析：area = (2 + 4) * 4 / 2 = 12
+     *
      * @param a:
      * @param b:
      * @param h:
@@ -143,4 +145,39 @@ public class Test {
         return ((double) a + (double) b) * h / 2;
     }
 
+    /**
+     * 13. 字符串查找
+     * 中文English
+     * 对于一个给定的 source 字符串和一个 target 字符串，你应该在 source 字符串中找出 target 字符串出现的第一个位置(从0开始)。如果不存在，则返回 -1。
+     * <p>
+     * 样例
+     * 样例 1:
+     * <p>
+     * 输入: source = "source" ， target = "target"
+     * 输出:-1
+     * 样例解释: 如果source里没有包含target的内容，返回-1
+     *
+     * @param source
+     * @param target
+     * @return
+     */
+    public int strStr(String source, String target) {
+        if (source == null || target == null) {
+            return -1;
+        }
+
+        for (int i = 0; i < source.length() - target.length() + 1; i++) {
+            int j = 0;
+            for (j = 0; j < target.length(); j++ ) {
+                if (source.charAt(i + j) != target.charAt(j)) {
+                    break;
+                }
+            }
+
+            if (j == target.length()) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
