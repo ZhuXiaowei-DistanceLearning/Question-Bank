@@ -3,6 +3,7 @@ package com.zxw.lintcode;
 import com.zxw.common.datastruct.TreeNode;
 
 import java.util.HashSet;
+import java.util.Stack;
 
 /**
  * @author zxw
@@ -179,5 +180,36 @@ public class Test {
             }
         }
         return -1;
+    }
+
+    /**
+     * 209. 第一个只出现一次的字符
+     * 中文English
+     * 给出一个字符串，找出第一个只出现一次的字符。
+     * 样例
+     * 样例 1:
+     * 	输入: "abaccdeff"
+     * 	输出:  'b'
+     * 	解释:
+     * 	'b' 是第一个出现一次的字符
+     * @param str
+     * @return
+     */
+    public char firstUniqChar(String str) {
+        // Write your code here
+        char[] c = new char[128];
+        HashSet set = new HashSet();
+        Stack stack = new Stack();
+        for (int i = 0; i < str.length(); i++) {
+            if(set.contains(str.charAt(i))){
+                continue;
+            }
+            if(i == str.lastIndexOf(str.charAt(i))){
+                return str.charAt(i);
+            }else{
+                set.add(str.charAt(i));
+            }
+        }
+        return str.charAt(0);
     }
 }
