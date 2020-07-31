@@ -183,6 +183,28 @@ public class Test {
     }
 
     /**
+     * 中文English
+     * 实现一个算法确定字符串中的字符是否均唯一出现
+     * 样例
+     * 样例 1:
+     * 输入:  "abc_____"
+     * 输出:  false
+     * @param str
+     * @return
+     */
+    public boolean isUnique(String str) {
+        char[] c = new char[128];
+        for (int i = 0; i < str.length(); i++) {
+            if(c[str.charAt(i)] == 0){
+                c[str.charAt(i)]++;
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 209. 第一个只出现一次的字符
      * 中文English
      * 给出一个字符串，找出第一个只出现一次的字符。
