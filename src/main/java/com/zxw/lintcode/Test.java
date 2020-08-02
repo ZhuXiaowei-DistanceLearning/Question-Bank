@@ -2,6 +2,7 @@ package com.zxw.lintcode;
 
 import com.zxw.common.datastruct.TreeNode;
 
+import javax.swing.plaf.SliderUI;
 import java.util.HashSet;
 
 /**
@@ -168,7 +169,7 @@ public class Test {
 
         for (int i = 0; i < source.length() - target.length() + 1; i++) {
             int j = 0;
-            for (j = 0; j < target.length(); j++ ) {
+            for (j = 0; j < target.length(); j++) {
                 if (source.charAt(i + j) != target.charAt(j)) {
                     break;
                 }
@@ -188,18 +189,49 @@ public class Test {
      * 样例 1:
      * 输入:  "abc_____"
      * 输出:  false
+     *
      * @param str
      * @return
      */
     public boolean isUnique(String str) {
         char[] c = new char[128];
         for (int i = 0; i < str.length(); i++) {
-            if(c[str.charAt(i)] == 0){
+            if (c[str.charAt(i)] == 0) {
                 c[str.charAt(i)]++;
-            }else{
+            } else {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * 53. 翻转字符串中的单词
+     * 中文English
+     * 给定一个字符串，逐个翻转字符串中的每个单词。
+     * 样例
+     * 样例  1:
+     * 输入:  "the sky is blue"
+     * 输出:  "blue is sky the"
+     *
+     * @param s
+     * @return
+     */
+    public String reverseWords(String s) {
+        // write your code here
+        if (s.length() == 0) {
+            return s;
+        }
+        String[] split = s.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (int i = split.length - 1; i >= 0; i--) {
+            if (!split[i].isEmpty()) {
+                sb.append(split[i]);
+                if (i != 0) {
+                    sb.append(" ");
+                }
+            }
+        }
+        return sb.toString();
     }
 }
