@@ -267,7 +267,7 @@ public class JuneDay {
     }
 
     /**
-     * <<<<<<< HEAD
+<<<<<<< HEAD
      * 32. 最长有效括号
      * 给定一个只包含 '(' 和 ')' 的字符串，找出最长的包含有效括号的子串的长度。
      * 示例 1:
@@ -286,41 +286,40 @@ public class JuneDay {
         Stack stack = new Stack();
         for (int i = 0; i < s.length(); i++) {
             if (set.contains(s.charAt(i))) {
-                if (stack.size() == 0) {
+                if(stack.size() == 0){
                     sum = 0;
-                    res = Math.max(sum, res);
+                    res = Math.max(sum,res);
                     continue;
                 }
                 char pop = (char) stack.pop();
                 if (pop == '(') {
                     sum += 2;
                 } else {
-                    res = Math.max(sum, res);
+                    res = Math.max(sum,res);
                     return sum;
                 }
             } else {
                 stack.push(s.charAt(i));
             }
         }
-        res = Math.max(sum, res);
+        res = Math.max(sum,res);
         return res;
     }
 
     /**
      * 面试题 01.02. 判定是否互为字符重排
      * 给定两个字符串 s1 和 s2，请编写一个程序，确定其中一个字符串的字符重新排列后，能否变成另一个字符串。
-     * <p>
+     *
      * 示例 1：
-     * <p>
+     *
      * 输入: s1 = "abc", s2 = "bca"
      * 输出: true
-     *
      * @param s1
      * @param s2
      * @return
      */
     public boolean CheckPermutation(String s1, String s2) {
-        if (s1.length() != s2.length()) {
+        if(s1.length() != s2.length()){
             return false;
         }
         int[] arr = new int[128];
@@ -329,14 +328,13 @@ public class JuneDay {
         }
 
         for (int i = 0; i < s2.length(); i++) {
-            if (arr[s2.charAt(i)] == 0) {
-                return false;
+            if(arr[s2.charAt(i)] == 0){
+               return false;
             }
             arr[s2.charAt(i)]--;
         }
         return true;
     }
-
     /**
      * 63. 不同路径 II
      * 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
@@ -421,17 +419,16 @@ public class JuneDay {
      * longer = 2
      * k = 3
      * 输出： {3,4,5,6}
-     *
      * @param shorter
      * @param longer
      * @param k
      * @return
      */
     public int[] divingBoard(int shorter, int longer, int k) {
-        if (k == 0) {
+        if(k == 0){
             return new int[]{};
         }
-        if (shorter == longer) {
+        if(shorter == longer){
             return new int[]{k * shorter};
         }
         int result[] = new int[k + 1];
@@ -441,6 +438,25 @@ public class JuneDay {
         }
 
         return result;
+    }
+
+    /**
+     * 面试题 08.03. 魔术索引
+     * 魔术索引。 在数组A[0...n-1]中，有所谓的魔术索引，满足条件A[i] = i。给定一个有序整数数组，编写一种方法找出魔术索引，若有的话，在数组A中找出一个魔术索引，如果没有，则返回-1。若有多个魔术索引，返回索引值最小的一个。
+     *x 示例1:
+     *  输入：nums = [0, 2, 3, 4, 5]
+     *  输出：0
+     *  说明: 0下标的元素为0
+     * @param nums
+     * @return
+     */
+    public int findMagicIndex(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            if(nums[i] == i){
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**

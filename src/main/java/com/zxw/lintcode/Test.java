@@ -4,6 +4,7 @@ import com.zxw.common.datastruct.TreeNode;
 
 import javax.swing.plaf.SliderUI;
 import java.util.HashSet;
+import java.util.Stack;
 
 /**
  * @author zxw
@@ -169,7 +170,7 @@ public class Test {
 
         for (int i = 0; i < source.length() - target.length() + 1; i++) {
             int j = 0;
-            for (j = 0; j < target.length(); j++) {
+            for (j = 0; j < target.length(); j++ ) {
                 if (source.charAt(i + j) != target.charAt(j)) {
                     break;
                 }
@@ -189,20 +190,50 @@ public class Test {
      * 样例 1:
      * 输入:  "abc_____"
      * 输出:  false
-     *
      * @param str
      * @return
      */
     public boolean isUnique(String str) {
         char[] c = new char[128];
         for (int i = 0; i < str.length(); i++) {
-            if (c[str.charAt(i)] == 0) {
+            if(c[str.charAt(i)] == 0){
                 c[str.charAt(i)]++;
-            } else {
+            }else{
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * 209. 第一个只出现一次的字符
+     * 中文English
+     * 给出一个字符串，找出第一个只出现一次的字符。
+     * 样例
+     * 样例 1:
+     * 	输入: "abaccdeff"
+     * 	输出:  'b'
+     * 	解释:
+     * 	'b' 是第一个出现一次的字符
+     * @param str
+     * @return
+     */
+    public char firstUniqChar(String str) {
+        // Write your code here
+        char[] c = new char[128];
+        HashSet set = new HashSet();
+        Stack stack = new Stack();
+        for (int i = 0; i < str.length(); i++) {
+            if(set.contains(str.charAt(i))){
+                continue;
+            }
+            if(i == str.lastIndexOf(str.charAt(i))){
+                return str.charAt(i);
+            }else{
+                set.add(str.charAt(i));
+            }
+        }
+        return str.charAt(0);
     }
 
     /**
