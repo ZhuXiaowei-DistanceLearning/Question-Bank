@@ -66,7 +66,7 @@ public class Test {
             // 不进位假发
             while (b != 0) {
                 int c = a ^ b;
-                int d = (a & b << 1);
+                int d = (a & b) << 1;
                 a = c;
                 b = d;
             }
@@ -266,3 +266,4 @@ public class Test {
         return sb.toString();
     }
 }
+
