@@ -2,7 +2,9 @@ package com.zxw.leetcode.interviewgold;
 
 import com.zxw.common.datastruct.ListNode;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * @author zxw
@@ -100,5 +102,29 @@ public class ListNodeTest {
      */
     public ListNode partition(ListNode head, int x) {
             return null;
+    }
+
+    /**
+     * 面试题 02.06. 回文链表
+     * 编写一个函数，检查输入的链表是否是回文的。
+     * 示例 1：
+     * 输入： 1->2
+     * 输出： false
+     * @param head
+     * @return
+     */
+    public boolean isPalindrome(ListNode head) {
+        List list = new ArrayList<>();
+        while (head != null) {
+            list.add(head.val);
+            head = head.next;
+        }
+
+        for (int i = 0; i < list.size() / 2; i++) {
+            if (!list.get(i).equals(list.get(list.size() - i - 1))) {
+                return false;
+            }
+        }
+        return true;
     }
 }
