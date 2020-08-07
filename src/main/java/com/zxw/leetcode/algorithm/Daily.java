@@ -721,4 +721,5 @@ public class Daily {
         }
         return res;
     }
+
 }
