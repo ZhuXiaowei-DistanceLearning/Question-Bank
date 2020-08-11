@@ -96,12 +96,13 @@ public class ListNodeTest {
      * 示例:
      * 输入: head = 3->5->8->5->10->2->1, x = 5
      * 输出: 3->1->2->10->5->5->8
+     *
      * @param head
      * @param x
      * @return
      */
     public ListNode partition(ListNode head, int x) {
-            return null;
+        return null;
     }
 
     /**
@@ -110,6 +111,7 @@ public class ListNodeTest {
      * 示例 1：
      * 输入： 1->2
      * 输出： false
+     *
      * @param head
      * @return
      */
@@ -126,5 +128,71 @@ public class ListNodeTest {
             }
         }
         return true;
+    }
+
+    /**
+     * 面试题 02.07. 链表相交
+     * 给定两个（单向）链表，判定它们是否相交并返回交点。请注意相交的定义基于节点的引用，而不是基于节点的值。换句话说，如果一个链表的第k个节点与另一个链表的第j个节点是同一节点（引用完全相同），则这两个链表相交。
+     * 示例 1：
+     * 输入：intersectVal = 8, listA = [4,1,8,4,5], listB = [5,0,1,8,4,5], skipA = 2, skipB = 3
+     * 输出：Reference of the node with value = 8
+     * 输入解释：相交节点的值为 8 （注意，如果两个列表相交则不能为 0）。从各自的表头开始算起，链表 A 为 [4,1,8,4,5]，链表 B 为 [5,0,1,8,4,5]。在 A 中，相交节点前有 2 个节点；在 B 中，相交节点前有 3 个节点。
+     *
+     * @param headA
+     * @param headB
+     * @return
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode l1 = headA;
+        ListNode l2 = headB;
+        while (l1 != l2) {
+            l1 = l1 == null ? headB : l1.next;
+            l2 = l2 == null ? headA : l2.next;
+        }
+        return l1;
+    }
+
+    /**
+     * 链表、数组、子串
+     * 双指针法：
+     * 快慢指针：判断链表中是否有环
+     * 滑动窗口：
+     * 面试题 02.08. 环路检测
+     * 给定一个链表，如果它是有环链表，实现一个算法返回环路的开头节点。
+     * 有环链表的定义：在链表中某个节点的next元素指向在它前面出现过的节点，则表明该链表存在环路。
+     *  
+     * 示例 1：
+     * 输入：head = [3,2,0,-4], pos = 1
+     * 输出：tail connects to node index 1
+     * 解释：链表中有一个环，其尾部连接到第二个节点。
+     *
+     * @param head
+     * @return
+     */
+    public ListNode detectCycle(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast){
+                break;
+            }
+        }
+        if (fast == null || fast.next == null) {
+            return null;
+        }
+        slow = head;
+        while (slow != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
     }
 }
