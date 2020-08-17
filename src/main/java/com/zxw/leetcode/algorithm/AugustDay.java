@@ -138,4 +138,44 @@ public class AugustDay {
         return x >= 0 && x < image.length
                 && y >= 0 && y < image[0].length;
     }
+
+    /**
+     * 110. 平衡二叉树
+     * 给定一个二叉树，判断它是否是高度平衡的二叉树。
+     * <p>
+     * 本题中，一棵高度平衡二叉树定义为：
+     * <p>
+     * 一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过1。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 给定二叉树 [3,9,20,null,null,15,7]
+     * <p>
+     * 3
+     * / \
+     * 9  20
+     * /  \
+     * 15   7
+     *
+     * @param root
+     * @return
+     */
+    public boolean isBalanced(TreeNode root) {
+        return isBalancedDFS(root) != -1;
+    }
+
+    public int isBalancedDFS(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int var1 = isBalancedDFS(root.left);
+        if (var1 == -1) {
+            return -1;
+        }
+        int var2 = isBalancedDFS(root.right);
+        if (var2 == -1) {
+            return -1;
+        }
+        return Math.abs(var1 - var2) < 2 ? Math.max(var1, var2) + 1 : -1;
+    }
 }
