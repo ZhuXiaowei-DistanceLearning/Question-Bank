@@ -178,4 +178,46 @@ public class AugustDay {
         }
         return Math.abs(var1 - var2) < 2 ? Math.max(var1, var2) + 1 : -1;
     }
+
+    /**
+     * 647. 回文子串
+     * 给定一个字符串，你的任务是计算这个字符串中有多少个回文子串。
+     * 具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被视作不同的子串。
+     *   回文串主要考虑奇偶数情况，从当前字符两边扩散
+     * 示例 1：
+     * 输入："abc"
+     * 输出：3
+     * 解释：三个回文子串: "a", "b", "c"
+     *
+     * @param s
+     * @return
+     */
+    public int countSubstrings(String s) {
+        int ans = 0;
+        if (s.length() == 0 || s.trim().length() == 0 || s == null) {
+            return 0;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            // 偶数
+            ans += countSubstringsDFS(s,i,i);
+            // 奇数
+            ans += countSubstringsDFS(s,i,i+1);
+        }
+        ans += s.length();
+        return ans;
+    }
+
+    public int countSubstringsDFS(String s, int l, int r) {
+        int ans = 0;
+        // 从当前数两端开始判断
+        while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
+            if (l == r) {
+                ans -= 1;
+            }
+            l--;
+            r++;
+            ans += 1;
+        }
+        return ans;
+    }
 }
