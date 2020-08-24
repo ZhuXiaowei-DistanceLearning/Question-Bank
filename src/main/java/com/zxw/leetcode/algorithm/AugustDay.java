@@ -2,9 +2,7 @@ package com.zxw.leetcode.algorithm;
 
 import com.zxw.common.datastruct.TreeNode;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author zxw
@@ -14,6 +12,8 @@ public class AugustDay {
     public static void main(String[] args) {
         AugustDay augustDay = new AugustDay();
         augustDay.isValid("");
+        List<String> list = new ArrayList<>();
+        System.out.println(list.toArray());
     }
 
     /**
@@ -244,11 +244,27 @@ public class AugustDay {
      * @return
      */
     public int minDepth(TreeNode root) {
-        if(root == null) return 0;
+        if (root == null) return 0;
         int m1 = minDepth(root.left);
         int m2 = minDepth(root.right);
         //1.如果左孩子和右孩子有为空的情况，直接返回m1+m2+1
         //2.如果都不为空，返回较小深度+1
-        return root.left == null || root.right == null ? m1 + m2 + 1 : Math.min(m1,m2) + 1;
+        return root.left == null || root.right == null ? m1 + m2 + 1 : Math.min(m1, m2) + 1;
+    }
+
+
+    /**
+     * 459. 重复的子字符串
+     * 给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。
+     * 示例 1:
+     * 输入: "abab"
+     * 输出: True
+     * 解释: 可由子字符串 "ab" 重复两次构成。
+     *
+     * @param s
+     * @return
+     */
+    public boolean repeatedSubstringPattern(String s) {
+        return (s+s).indexOf(s, 1) != s.length();
     }
 }
