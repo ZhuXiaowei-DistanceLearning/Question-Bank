@@ -265,6 +265,33 @@ public class AugustDay {
      * @return
      */
     public boolean repeatedSubstringPattern(String s) {
-        return (s+s).indexOf(s, 1) != s.length();
+        return (s + s).indexOf(s, 1) != s.length();
+    }
+
+    /**
+     * 491. 递增子序列
+     * 给定一个整型数组, 你的任务是找到所有该数组的递增子序列，递增子序列的长度至少是2。
+     * 示例:
+     * 输入: [4, 6, 7, 7]
+     * 输出: [[4, 6], [4, 7], [4, 6, 7], [4, 6, 7, 7], [6, 7], [6, 7, 7], [7,7], [4,7,7]]
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            List<Integer> list = new ArrayList<>();
+            list.add(nums[i]);
+            for (int j = i + 1; j < nums.length - 1; j++) {
+                if (nums[j] >= nums[i]) {
+                    list.add(nums[j]);
+                    if (list.size() >= 2) {
+                        res.add(list);
+                    }
+                }
+            }
+        }
+        return res;
     }
 }

@@ -4,6 +4,8 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.omg.CORBA.TIMEOUT;
 import sun.nio.ch.ThreadPool;
 
+import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.TimerTask;
 import java.util.concurrent.*;
 
@@ -17,11 +19,13 @@ public class DiscoveryClient {
     private final ScheduledExecutorService scheduler;
     private final ThreadPoolExecutor heartbeatExecutor;
     private final ThreadPoolExecutor cacheRefreshExecutor;
+    private String status = "DOWN";
 
     public DiscoveryClient(String name) {
+        this.name = name;
         this.scheduler = Executors.newScheduledThreadPool(2,
                 new ThreadFactoryBuilder()
-                        .setNameFormat("DiscoveryClient-%")
+                        .setNameFormat("DiscoveryClient-%d")
                         .setDaemon(true)
                         .build());
         this.heartbeatExecutor = new ThreadPoolExecutor(1, 2, 0, TimeUnit.SECONDS, new SynchronousQueue<>(), new ThreadFactoryBuilder()
@@ -39,37 +43,41 @@ public class DiscoveryClient {
     }
 
     public void initScheduledTasks() {
-        scheduler.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                heartbeatExecutor.submit(new HeartbeatThread());
-            }
-        }, 30, TimeUnit.SECONDS);
 
-        scheduler.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Future<?> future = null;
-                try {
-                    cacheRefreshExecutor.submit(new CacheRefreshThread());
-                } catch (Throwable e) {
+        scheduler.schedule(new TimerSuperisorTask(
+                "heartbeat",
+                scheduler,
+                heartbeatExecutor,
+                10,
+                TimeUnit.SECONDS,
+                10,
+                new HeartbeatThread()
+        ), 10, TimeUnit.SECONDS);
 
-                }
-            }
-        }, 30, TimeUnit.SECONDS);
+        scheduler.schedule(new TimerSuperisorTask(
+                "cacheRefresh",
+                scheduler,
+                cacheRefreshExecutor,
+                10,
+                TimeUnit.SECONDS,
+                10,
+                new CacheRefreshThread()
+        ), 10, TimeUnit.SECONDS);
     }
 
     private class HeartbeatThread implements Runnable {
         @Override
         public void run() {
-            System.out.println("发送心跳");
+            System.out.println("当前客户端状态为:" + status);
+            System.out.println(name + ":发送心跳");
+            status = "UP";
         }
     }
 
     private class CacheRefreshThread implements Runnable {
         @Override
         public void run() {
-            System.out.println("拉取注册表");
+            System.out.println(name + ":拉取注册表");
         }
     }
 }
