@@ -327,4 +327,35 @@ public class AugustDay {
         }
         return (up == down) && (left == right);
     }
+
+    /**
+     * 557. 反转字符串中的单词 III
+     * 给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。
+     * 示例：
+     * 输入："Let's take LeetCode contest"
+     * 输出："s'teL ekat edoCteeL tsetnoc"
+     *
+     * @param s
+     * @return
+     */
+    public String reverseWords(String s) {
+        if (s == null) {
+            return s;
+        }
+        String[] split = s.trim().split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < split.length; i++) {
+            StringBuilder sb2 = new StringBuilder();
+            if (s.charAt(i) == ' ') {
+                continue;
+            }
+            sb2.append(split[i]);
+            sb.append(sb.reverse());
+            if(i == split.length - 1){
+                continue;
+            }
+            sb.append(" ");
+        }
+        return sb.toString();
+    }
 }
