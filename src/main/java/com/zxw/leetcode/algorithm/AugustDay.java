@@ -14,7 +14,6 @@ public class AugustDay {
         augustDay.isValid("");
         augustDay.reverseWords("I love u");
         TreeNode node = new TreeNode(10);
-
         List<String> list = new ArrayList<>();
         System.out.println(list.toArray());
     }
@@ -434,5 +433,27 @@ public class AugustDay {
         //如果不是叶子节点，在分别遍历他的左右子节点
         dfs(root.left, path + root.val + "->", res);
         dfs(root.right, path + root.val + "->", res);
+    }
+
+    /**
+     * 977. 有序数组的平方
+     * 给定一个按非递减顺序排序的整数数组 A，返回每个数字的平方组成的新数组，要求也按非递减顺序排序。
+     *  
+     * 示例 1：
+     * 输入：[-4,-1,0,3,10]
+     * 输出：[0,1,9,16,100]
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/squares-of-a-sorted-array
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * @param A
+     * @return
+     */
+    public int[] sortedSquares(int[] A) {
+        for (int i = 0; i < A.length; i++) {
+            A[i] *= A[i];
+        }
+        Arrays.sort(A);
+        return A;
     }
 }
