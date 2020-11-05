@@ -15,7 +15,23 @@ public class AugustDay {
         augustDay.reverseWords("I love u");
         TreeNode node = new TreeNode(10);
         List<String> list = new ArrayList<>();
+        List<String> integerList = new ArrayList<>();
+        integerList.add("1");
+        integerList.add("2");
+        integerList.add("3");
+        integerList.add("4");
+        integerList.add("5");
+        integerList.add("6");
+        System.out.println(5%3);
+        System.out.println(5%4);
+        System.out.println(5%5);
+        System.out.println(5%6);
+        System.out.println(5%7);
+        System.out.println(8%4);
         System.out.println(list.toArray());
+        Date date = new Date(2020, 10, 27, 20, 36, 22);
+        Date date2 = new Date(2020, 10, 27,0,0,0);
+        System.out.println(date.getTime() - date2.getTime());
     }
 
     /**
