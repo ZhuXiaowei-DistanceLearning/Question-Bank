@@ -148,4 +148,5 @@ public class DoublePointer {
         }
         slow = slow.next;
     }
+
 }
