@@ -1,5 +1,7 @@
 package com.zxw.jvm;
 
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,8 +12,15 @@ import java.util.Random;
  */
 public class Test {
     public static volatile Object sum = new Object();
+    public static SoftReference<Test> softReference = new SoftReference<>(new Test());
+    public static WeakReference<Test> weakReference = new WeakReference<>(new Test());
 
     public static void main(String[] args) {
+        System.out.println(softReference.get());
+        System.out.println(weakReference.get());
+        System.gc();
+        System.out.println(softReference.get());
+        System.out.println(weakReference.get());
 //        testCollection();
 //        testTenuringThreshold();
         int a = 1;

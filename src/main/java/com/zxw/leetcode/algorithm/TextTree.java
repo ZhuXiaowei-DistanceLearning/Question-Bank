@@ -12,16 +12,19 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class TextTree {
     public static void main(String[] args) {
         TextTree textTree = new TextTree();
-        TreeNode root = new TreeNode(1);
-        TreeNode root2 = new TreeNode(1);
-        TreeNode root3 = new TreeNode(1);
-        root.left = root2;
-        root.right = root3;
-        root2.left = new TreeNode(1);
+        while (true) {
+            TreeNode root = new TreeNode(1);
+//            System.out.println(Runtime.getRuntime().freeMemory());
+        }
+//        TreeNode root2 = new TreeNode(1);
+//        TreeNode root3 = new TreeNode(1);
+//        root.left = root2;
+//        root.right = root3;
+//        root2.left = new TreeNode(1);
 
 //        textTree.convertBST(root);
 //        textTree.mergeTrees(root, root);
-        textTree.isUnivalTree(root);
+//        textTree.isUnivalTree(root);
     }
 
     /**
@@ -305,7 +308,7 @@ public class TextTree {
         if (r1 == null || r2 == null) {
             return false;
         }
-        if(r1.val!=r2.val) {
+        if (r1.val != r2.val) {
             return false;
         }
         return isSymmetricDFS(r1.left, r2.right) && isSymmetricDFS(r1.right, r2.left);
