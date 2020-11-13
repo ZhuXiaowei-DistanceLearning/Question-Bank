@@ -3,13 +3,17 @@ package com.zxw.leetcode.topic;
 import com.zxw.common.datastruct.Node;
 import com.zxw.common.datastruct.TreeNode;
 
+import java.util.Arrays;
+
 /**
  * @author zxw
  * @date 2020/11/9 10:45
  */
 public class DoubleTree {
     public static void main(String[] args) {
-
+        String s = "qwe,";
+        String[] split = s.split(",");
+        System.out.println(s.substring(0, s.length() - 1));
     }
 
     /**
@@ -113,8 +117,40 @@ public class DoubleTree {
         p.right = right;
     }
 
-    public void falttenBFS(TreeNode root) {
-
-
+    /**
+     * 654. 最大二叉树
+     * 给定一个不含重复元素的整数数组。一个以此数组构建的最大二叉树定义如下：
+     * 二叉树的根是数组中的最大元素。
+     * 左子树是通过数组中最大值左边部分构造出的最大二叉树。
+     * 右子树是通过数组中最大值右边部分构造出的最大二叉树。
+     * 通过给定的数组构建最大二叉树，并且输出这个树的根节点。
+     * 示例 ：
+     * 输入：[3,2,1,6,0,5]
+     * 输出：返回下面这棵树的根节点：
+     * <p>
+     * 6
+     * /   \
+     * 3     5
+     * \    /
+     * 2  0
+     * \
+     * 1
+     *
+     * @param nums
+     * @return
+     */
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        int max = nums[0];
+        int index = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > index) {
+                max = nums[i];
+                index = i;
+            }
+        }
+        TreeNode treeNode = new TreeNode(max);
+        treeNode.left = constructMaximumBinaryTree(Arrays.copyOfRange(nums, 0, index));
+        treeNode.right = constructMaximumBinaryTree(Arrays.copyOfRange(nums, index + 1, nums.length));
+        return treeNode;
     }
 }
