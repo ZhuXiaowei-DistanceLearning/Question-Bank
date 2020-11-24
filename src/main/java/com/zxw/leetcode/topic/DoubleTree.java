@@ -4,16 +4,25 @@ import com.zxw.common.datastruct.Node;
 import com.zxw.common.datastruct.TreeNode;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.*;
 
 /**
  * @author zxw
  * @date 2020/11/9 10:45
  */
 public class DoubleTree {
-    public static void main(String[] args) {
-        String s = "qwe,";
-        String[] split = s.split(",");
-        System.out.println(s.substring(0, s.length() - 1));
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        byte[] arr = new byte[1024 * 1024];
+        arr = new byte[1024 * 1024];
+        arr = new byte[1024 * 1024];
+        arr = null;
+        byte[] arr2 = new byte[1024 * 1024 * 2];
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < 1000000; i++) {
+            map.put(i, i);
+        }
     }
 
     /**
