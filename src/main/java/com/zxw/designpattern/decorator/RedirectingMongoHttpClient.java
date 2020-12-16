@@ -25,4 +25,9 @@ public class RedirectingMongoHttpClient extends MongoHttpClientDecorator{
             }
         };
     }
+
+    @Override
+    public void shutdown() {
+
+    }
 }

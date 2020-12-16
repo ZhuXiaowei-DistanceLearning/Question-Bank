@@ -19,4 +19,9 @@ public class SessionMongoHttpClient extends MongoHttpClientDecorator {
     protected <R> List<R> execute(RequestExecutor<R> requestExecutor) {
         return null;
     }
+
+    @Override
+    public void shutdown() {
+
+    }
 }

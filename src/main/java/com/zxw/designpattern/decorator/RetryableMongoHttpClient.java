@@ -33,4 +33,9 @@ public class RetryableMongoHttpClient extends MongoHttpClientDecorator {
             }
         };
     }
+
+    @Override
+    public void shutdown() {
+
+    }
 }
