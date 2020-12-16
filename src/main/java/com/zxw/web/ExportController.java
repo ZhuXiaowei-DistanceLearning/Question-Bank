@@ -29,10 +29,10 @@ public class ExportController {
         String fileName = "aaa.zip";
         response.setHeader("content-disposition", "attchment;filename=" + fileName);
         ServletOutputStream out = response.getOutputStream();
-        FileInputStream fis = null;
         BufferedInputStream bis = null;
-        FileOutputStream fos = null;
         ZipOutputStream zos = null;
+        InputStream is = null;
+        ByteArrayOutputStream byteArrayOutputStream = null;
         try {
             zos = new ZipOutputStream(new BufferedOutputStream(out));
             byte[] bufs = new byte[1024 * 10];
@@ -56,15 +56,13 @@ public class ExportController {
                         cell.setCellValue(address);
                     }
                 }
-//            String subFileName = attachment.getName() + "-" + new Date().getTime() +
-//                    attachment.getSuffix();
                 //创建ZIP实体，并添加进压缩包
                 ZipEntry zipEntry = new ZipEntry(i + "a.csv");
                 zos.putNextEntry(zipEntry);
                 //读取待压缩的文件并写进压缩包里
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                byteArrayOutputStream = new ByteArrayOutputStream();
                 wb.write(byteArrayOutputStream);
-                InputStream is = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+                is = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
                 byte[] bytes = byteArrayOutputStream.toByteArray();
                 bis = new BufferedInputStream(is, 1024 * 10);
                 int read = 0;

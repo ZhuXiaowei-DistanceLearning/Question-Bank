@@ -29,11 +29,11 @@ public class TimerTest {
     public static void main(String[] args) throws InterruptedException {
 //        test3();
 //        test2();
-//        test1();
+        test1();
 //        Thread.sleep(30000);
-        while (true){
-            loadData();
-        }
+//        while (true){
+//            loadData();
+//        }
 //        byte[] arr = new byte[4 * 1024 * 1024];
 //        arr = new byte[4 * 1024 * 1024];
 //        arr = new byte[4 * 1024 * 1024];
