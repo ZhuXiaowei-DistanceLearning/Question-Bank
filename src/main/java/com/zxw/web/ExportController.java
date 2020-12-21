@@ -1,11 +1,16 @@
 package com.zxw.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.streaming.SXSSFCell;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -23,7 +29,12 @@ import java.util.zip.ZipOutputStream;
  */
 @RestController
 @RequestMapping("export")
+@Slf4j
 public class ExportController {
+    FileInputStream fis = null;
+    XSSFWorkbook workbook = null;
+    BufferedWriter writer = null;
+
     @GetMapping()
     public void reportData(HttpServletResponse response) throws Exception {
         String fileName = "aaa.zip";
@@ -38,6 +49,7 @@ public class ExportController {
             byte[] bufs = new byte[1024 * 10];
             for (int i = 0; i < 10; i++) {
                 SXSSFWorkbook wb = new SXSSFWorkbook(100); // keep 100 rows in memory, exceeding rows will be flushed to disk
+                DataFormat dataFormat = wb.createDataFormat();
                 wb.setCompressTempFiles(true);
                 Sheet sh = wb.createSheet();
                 AtomicInteger ac = new AtomicInteger(0);
@@ -51,9 +63,9 @@ public class ExportController {
                         rownum = 0;
                     }
                     for (int cellnum = 0; cellnum < 10; cellnum++) {
-                        Cell cell = row.createCell(cellnum);
+                        SXSSFCell cell = (SXSSFCell) row.createCell(cellnum);
                         String address = new CellReference(cell).formatAsString();
-                        cell.setCellValue(address);
+                        cell.setCellValue(new String(address.getBytes(StandardCharsets.UTF_8), "GB2312"));
                     }
                 }
                 //创建ZIP实体，并添加进压缩包
@@ -86,6 +98,60 @@ public class ExportController {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    @GetMapping("/csvFileConversionCharset")
+    public void csvFileConversionCharset(String filePath, String charset, HttpServletResponse response) throws Exception {
+        try {
+            this.handlerFilePath(filePath, charset);
+            if (null != writer) writer.close();
+            if (null != workbook) workbook.close();
+            if (null != fis) fis.close();
+        } catch (IOException e) {
+            log.error("文件转换错误，原因：{}", e.toString());
+        }
+    }
+
+    public void handlerFilePath(String filePath, String charset) {
+        File root = new File(filePath);
+        if (!root.exists()) {
+            return;
+        }
+        File[] files = root.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].isDirectory()) {
+                this.handlerFilePath(files[i].getPath(), charset);
+            } else {
+                this.fileConversion(files[i]);
+            }
+        }
+    }
+
+    public void fileConversion(File file) {
+        try {
+            fis = new FileInputStream(file);
+            workbook = new XSSFWorkbook(fis);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            StringBuilder sb = new StringBuilder();
+            for (Row row : sheet) {
+                StringBuffer sbc = new StringBuffer();
+                for (int k = 0; k < row.getLastCellNum(); k++) {
+                    String s = row.getCell(k).toString();
+                    sbc.append(s);
+                    if (k == row.getLastCellNum() - 1) {
+                        sbc.append("\n");
+                        sb.append(sbc);
+                    } else {
+                        sbc.append(",");
+
+                    }
+                }
+            }
+            writer = new BufferedWriter(new FileWriter(file));
+            writer.write(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
