@@ -21,9 +21,11 @@ public final class MongoHttpClients {
             public MongoHttpClient newClient() {
                 return new SessionMongoHttpClient(
                         name,
+                        1000,
+                        1000,
                         RetryableMongoHttpClient.createFactory(name,
                                 RedirectingMongoHttpClient.createFactory())
-                );
+                        );
             }
 
             @Override
