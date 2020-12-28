@@ -5,6 +5,7 @@ import groovy.lang.Tuple2;
 import io.vavr.Function1;
 import io.vavr.Function2;
 import io.vavr.Function3;
+import io.vavr.Tuple;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 public class PayUtils {
 
-    public static final Map<PayType, Function1<Map<String, Object>,Tuple2<Object, Map<String, Object>>>>
+    public static final Map<PayType, Function1<Map<String, Object>, Tuple2<Object, Map<String, Object>>>>
             PAYMENT_RULES = Maps.newHashMap();
 
     private static final Function2<String, String, PayType> PAY_TYPE_FUNC = (scope, payType) -> PayType.valueOf(
@@ -41,7 +42,10 @@ public class PayUtils {
      * @param args
      */
     public static void main(String[] args) {
+        io.vavr.Tuple2<Integer, Integer> of = Tuple.of(1, 2);
 
+        Function2<Integer, Integer, Integer> function2 = (v1, v2) -> v1 + v2;
+        Integer apply = function2.apply(1, 2);
         String scope = "DOMESTIC";
         String payType = "WECHAT";
 
@@ -81,7 +85,7 @@ public class PayUtils {
 
                     return new groovy.lang.Tuple2<>(PayStatus.FAILURE, params);
                 };
-        public static final Function1<Map<String, Object>,Tuple2<Object, Map<String, Object>>> DOMESTIC_WECHAT_FUNC =
+        public static final Function1<Map<String, Object>, Tuple2<Object, Map<String, Object>>> DOMESTIC_WECHAT_FUNC =
                 params -> {
                     params.put("DOMESTIC_WECHAT_FUNC", "BBBB");
 
