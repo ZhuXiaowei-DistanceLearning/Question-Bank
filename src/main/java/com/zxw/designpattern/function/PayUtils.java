@@ -9,10 +9,13 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class PayUtils {
 
-    public static final Map<PayType, Function1<Map<String, Object>,Tuple2<Object, Map<String, Object>>>>
+    public static final Map<PayType, Function1<Map<String, Object>, Tuple2<Object, Map<String, Object>>>>
             PAYMENT_RULES = Maps.newHashMap();
 
     private static final Function2<String, String, PayType> PAY_TYPE_FUNC = (scope, payType) -> PayType.valueOf(
@@ -41,7 +44,20 @@ public class PayUtils {
      * @param args
      */
     public static void main(String[] args) {
-
+        String s = "asd\n123";
+        System.out.println(s);
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        for (int i = 0; i < 10; i++) {
+            executorService.execute(() -> {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(Thread.currentThread().getName());
+                System.out.println(Thread.currentThread().getName());
+            });
+        }
         String scope = "DOMESTIC";
         String payType = "WECHAT";
 
@@ -53,11 +69,11 @@ public class PayUtils {
         payType = "EPAY";
         rt = PAY_FUNC.apply(scope, payType, params);
         System.out.println(rt.getFirst() + "--->" + rt.getSecond());
-
-        scope = "DOMESTIC";
-        payType = "ALIPAY";
-        rt = PAY_FUNC.apply(scope, payType, params);
-        System.out.println(rt.getFirst() + "--->" + rt.getSecond());
+        ThreadPoolExecutor tpe = ((ThreadPoolExecutor) executorService);
+//        scope = "DOMESTIC";
+//        payType = "ALIPAY";
+//        rt = PAY_FUNC.apply(scope, payType, params);
+//        System.out.println(rt.getFirst() + "--->" + rt.getSecond());
     }
 
     enum PayType {
@@ -81,7 +97,7 @@ public class PayUtils {
 
                     return new groovy.lang.Tuple2<>(PayStatus.FAILURE, params);
                 };
-        public static final Function1<Map<String, Object>,Tuple2<Object, Map<String, Object>>> DOMESTIC_WECHAT_FUNC =
+        public static final Function1<Map<String, Object>, Tuple2<Object, Map<String, Object>>> DOMESTIC_WECHAT_FUNC =
                 params -> {
                     params.put("DOMESTIC_WECHAT_FUNC", "BBBB");
 
