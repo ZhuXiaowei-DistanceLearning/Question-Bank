@@ -5,6 +5,7 @@ import groovy.lang.Tuple2;
 import io.vavr.Function1;
 import io.vavr.Function2;
 import io.vavr.Function3;
+import io.vavr.Tuple;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -44,6 +45,10 @@ public class PayUtils {
      * @param args
      */
     public static void main(String[] args) {
+        io.vavr.Tuple2<Integer, Integer> of = Tuple.of(1, 2);
+
+        Function2<Integer, Integer, Integer> function2 = (v1, v2) -> v1 + v2;
+        Integer apply = function2.apply(1, 2);
         String s = "asd\n123";
         System.out.println(s);
         ExecutorService executorService = Executors.newFixedThreadPool(3);
