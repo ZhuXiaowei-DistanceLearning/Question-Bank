@@ -59,11 +59,14 @@ public class FromHowTo {
     int number = 1;
     int monthIndex = 1;
     static int MAX_ROW = 100;
+    Random hourRandom = new Random();
+    Random minRandom = new Random();
+    Random secRandom = new Random();
 
     public static void main(String[] args) throws Throwable {
 //            workbook = new XSSFWorkbook(file);
         ExecutorService executorService = Executors.newFixedThreadPool(10);
-        for (int i = 1; i <= 1; i++) {
+        for (int i = 12; i <= 12; i++) {
             FromHowTo fht = new FromHowTo();
             fht.monthIndex = i;
             fht.month = String.valueOf(i);
@@ -71,16 +74,16 @@ public class FromHowTo {
                 fht.month = "0" + i;
             }
             executorService.execute(() -> {
-                fht.file1 = new File("C:\\Users\\ym-02\\Desktop\\2020 (2)\\6" + "/bak_" + "2020-" + fht.monthIndex + "_" + fht.number + ".csv");
+                fht.file1 = new File("C:\\Users\\ym-02\\Desktop\\2020 (2)\\111" + "/bak_" + "2020-" + fht.monthIndex + "_" + fht.number + ".csv");
                 try {
                     fht.out = new BufferedWriter(new OutputStreamWriter(
                             new FileOutputStream(fht.file1, false)));
-                    if (fht.monthIndex == 1 || fht.monthIndex == 3 || fht.monthIndex == 5 || fht.monthIndex == 7 || fht.monthIndex == 8 || fht.monthIndex == 10 || fht.monthIndex == 10) {
-                        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/9", "");
+                    if (fht.monthIndex == 1 || fht.monthIndex == 3 || fht.monthIndex == 5 || fht.monthIndex == 7 || fht.monthIndex == 8 || fht.monthIndex == 10 || fht.monthIndex == 12) {
+                        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/8", "");
                     } else if (fht.monthIndex == 2) {
                         fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/7", "");
                     } else {
-                        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/8", "");
+                        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/9", "");
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -183,15 +186,15 @@ public class FromHowTo {
 
     public void fileConversion(File file) {
         try {
-            if (num > MAX_ROW) {
-                this.out.flush();
-                this.out.close();
-                number++;
-                num = 0;
-                System.out.println("当前页:"+number);
-                this.out = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(file1.getParentFile() + "/bak_" + "2020-" + monthIndex + "_" + number + ".csv", true)));
-            }
+//            if (num > MAX_ROW) {
+//                this.out.flush();
+//                this.out.close();
+//                number++;
+//                num = 0;
+//                System.out.println("当前页:"+number);
+//                this.out = new BufferedWriter(new OutputStreamWriter(
+//                        new FileOutputStream(file1.getParentFile() + "/bak_" + "2020-" + monthIndex + "_" + number + ".csv", true)));
+//            }
             System.out.println("当前执行文件:" + file.getName());
 //            workbook = new XSSFWorkbook(file);
             String[] split = file.getName().split("-");
@@ -289,6 +292,11 @@ public class FromHowTo {
 //            for (int i = currentCol; i < 18; i++) {
 //                stringBuffer.append(',');
 //            }
+            if (rowNum == 0) {
+                sb.append(",QHDM");
+            } else {
+                sb.append(",440113");
+            }
             String lineSeparator = System.getProperty("line.separator", "/n");
             sb.append(lineSeparator);
             try {
@@ -299,9 +307,6 @@ public class FromHowTo {
             } catch (IOException e) {
                 e.printStackTrace();
                 sb = new StringBuffer();
-            }
-            if(num == MAX_ROW){
-                System.out.println("111");
             }
         }
 
@@ -329,10 +334,25 @@ public class FromHowTo {
             }
             if (!cellReference.equals("J1")) {
                 if (cellReference.toString().substring(0, 1).equals("J")) {
+                    int hour = hourRandom.nextInt(24);
+                    int min = minRandom.nextInt(60);
+                    int second = secRandom.nextInt(60);
+                    String hourStr = String.valueOf(hour);
+                    String minStr = String.valueOf(min);
+                    String secondStr = String.valueOf(second);
+                    if (hour < 10) {
+                        hourStr = "0" + hourStr;
+                    }
+                    if (min < 10) {
+                        minStr = "0" + minStr;
+                    }
+                    if (second < 10) {
+                        secondStr = "0" + secondStr;
+                    }
                     if (day < 10) {
-                        formattedValue = formattedValue.substring(0, 4) + month + "0" + day + formattedValue.substring(8, formattedValue.length());
+                        formattedValue = formattedValue.substring(0, 4) + month + "0" + day + hourStr + minStr + secondStr;
                     } else {
-                        formattedValue = formattedValue.substring(0, 4) + month + day + formattedValue.substring(8, formattedValue.length());
+                        formattedValue = formattedValue.substring(0, 4) + month + day + hourStr + minStr + secondStr;
                     }
 
                 }
