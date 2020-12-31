@@ -3,6 +3,8 @@ package com.zxw.leetcode.topic;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -11,18 +13,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ooxml.util.SAXHelper;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackageAccess;
 import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.util.XMLHelper;
+import org.apache.poi.xssf.binary.XSSFBSheetHandler;
+import org.apache.poi.xssf.eventusermodel.ReadOnlySharedStringsTable;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
+import org.apache.poi.xssf.eventusermodel.XSSFSheetXMLHandler;
 import org.apache.poi.xssf.model.SharedStringsTable;
+import org.apache.poi.xssf.model.StylesTable;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFComment;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
@@ -38,15 +49,55 @@ public class FromHowTo {
     FileInputStream fis = null;
     XSSFWorkbook workbook = null;
     BufferedWriter writer = null;
+    StringBuffer sb = new StringBuffer();
+    BufferedWriter out = null;
+    static int day = 0;
+    int num = 0;
+    static Set<Integer> set = new HashSet<>();
+    String month = "";
+    File file1 = null;
+    int number = 1;
+    int monthIndex = 1;
+    static int MAX_ROW = 100;
 
     public static void main(String[] args) throws Throwable {
+//            workbook = new XSSFWorkbook(file);
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        for (int i = 1; i <= 1; i++) {
+            FromHowTo fht = new FromHowTo();
+            fht.monthIndex = i;
+            fht.month = String.valueOf(i);
+            if (i < 10) {
+                fht.month = "0" + i;
+            }
+            executorService.execute(() -> {
+                fht.file1 = new File("C:\\Users\\ym-02\\Desktop\\2020 (2)\\6" + "/bak_" + "2020-" + fht.monthIndex + "_" + fht.number + ".csv");
+                try {
+                    fht.out = new BufferedWriter(new OutputStreamWriter(
+                            new FileOutputStream(fht.file1, false)));
+                    if (fht.monthIndex == 1 || fht.monthIndex == 3 || fht.monthIndex == 5 || fht.monthIndex == 7 || fht.monthIndex == 8 || fht.monthIndex == 10 || fht.monthIndex == 10) {
+                        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/9", "");
+                    } else if (fht.monthIndex == 2) {
+                        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/7", "");
+                    } else {
+                        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/8", "");
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+//            XSSFSheet sheet = workbook.getSheetAt(0);
+//            StringBuilder sb = new StringBuilder();
+//            int num = 1;
 //        extracted();
 //        writeCharset();
 //        extracted();
         String s = "16C";
-        System.out.println(s.substring(0, s.length() - 1));
-        FromHowTo fht = new FromHowTo();
-        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020 (2)", "");
+//        FromHowTo fht = new FromHowTo();
+//        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/9", "");
     }
 
     private static void extracted2() {
@@ -66,6 +117,7 @@ public class FromHowTo {
                     String address = new CellReference(cell).formatAsString();
                     sb.append(address);
                     if (cellnum == 9) {
+                        String lineSeparator = System.getProperty("line.separator", "/n");
                         sb.append("\n");
                     } else {
                         sb.append(",");
@@ -116,36 +168,197 @@ public class FromHowTo {
                 this.handlerFilePath(files[i].getPath(), charset);
             } else {
                 this.fileConversion(files[i]);
+                System.out.println("执行完毕");
+                System.out.println("当前文件共" + num);
             }
+        }
+        System.out.println("总行数:" + num);
+        System.out.println("执行完毕");
+        try {
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     public void fileConversion(File file) {
         try {
-            workbook = new XSSFWorkbook(file);
-            XSSFSheet sheet = workbook.getSheetAt(0);
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(file)));
-            StringBuilder sb = new StringBuilder();
-            for (Row row : sheet) {
-                for (int k = 0; k < row.getLastCellNum(); k++) {
-                    String s = row.getCell(k).toString();
-                    sb.append(s);
-                    if (k == row.getLastCellNum() - 1) {
-                        sb.append("\n");
-                    } else {
-                        sb.append(",");
-                    }
-                }
-                out.write(sb.toString());
-                sb = new StringBuilder();
+            if (num > MAX_ROW) {
+                this.out.flush();
+                this.out.close();
+                number++;
+                num = 0;
+                System.out.println("当前页:"+number);
+                this.out = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(file1.getParentFile() + "/bak_" + "2020-" + monthIndex + "_" + number + ".csv", true)));
             }
-//            writer = new BufferedWriter(new FileWriter(file));
-//            writer.write(sb.toString());
+            System.out.println("当前执行文件:" + file.getName());
+//            workbook = new XSSFWorkbook(file);
+            String[] split = file.getName().split("-");
+            day = Integer.valueOf(split[2].split("\\.")[0]);
+            OPCPackage p = OPCPackage.open(file.getPath(), PackageAccess.READ);
+            this.process(p, file, out);
         } catch (IOException | InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (OpenXML4JException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
     }
+
+    public void process(OPCPackage opcPackage, File file, BufferedWriter out) throws IOException, OpenXML4JException, SAXException, ParserConfigurationException {
+        ReadOnlySharedStringsTable strings = new ReadOnlySharedStringsTable(opcPackage);
+        XSSFReader xssfReader = new XSSFReader(opcPackage);
+        StylesTable styles = xssfReader.getStylesTable();
+        XSSFReader.SheetIterator iter = (XSSFReader.SheetIterator) xssfReader.getSheetsData();
+        int index = 0;
+        while (iter.hasNext()) {
+            InputStream stream = iter.next();
+            String sheetName = iter.getSheetName();
+            processSheet(styles, strings, new SheetToCSV(), stream, out);
+            stream.close();
+            ++index;
+        }
+    }
+
+    /**
+     * Parses and shows the content of one sheet
+     * using the specified styles and shared-strings tables.
+     *
+     * @param styles
+     * @param strings
+     * @param sheetInputStream
+     * @param out
+     */
+    public void processSheet(
+            StylesTable styles,
+            ReadOnlySharedStringsTable strings,
+            XSSFSheetXMLHandler.SheetContentsHandler sheetHandler,
+            InputStream sheetInputStream, BufferedWriter out)
+            throws IOException, ParserConfigurationException, SAXException {
+        DataFormatter formatter = new DataFormatter();
+        InputSource sheetSource = new InputSource(sheetInputStream);
+        try {
+            XMLReader sheetParser = SAXHelper.newXMLReader();
+            ContentHandler handler = new XSSFSheetXMLHandler(
+                    styles, null, strings, sheetHandler, formatter, false);
+            sheetParser.setContentHandler(handler);
+            sheetParser.parse(sheetSource);
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException("SAX parser appears to be broken - " + e.getMessage());
+        }
+    }
+
+    private class SheetToCSV implements XSSFSheetXMLHandler.SheetContentsHandler {
+        private boolean firstCellOfRow = false;
+        private int currentRow = -1;
+        private int currentCol = -1;
+
+        private void outputMissingRows(int number) {
+            StringBuffer stringBuffer = new StringBuffer();
+            for (int i = 0; i < number; i++) {
+                for (int j = 0; j < 18; j++) {
+                    stringBuffer.append(',');
+                }
+                stringBuffer.append('\n');
+            }
+        }
+
+        @Override
+        public void startRow(int rowNum) {
+            // If there were gaps, output the missing rows
+            if (rowNum == 0) {
+                sb.append("xxzj");
+            } else {
+                sb.append(UUID.randomUUID().toString().replace("-", "").toUpperCase());
+            }
+            sb.append(",");
+            outputMissingRows(rowNum - currentRow - 1);
+            // Prepare for this row
+            firstCellOfRow = true;
+            currentRow = rowNum;
+            currentCol = -1;
+        }
+
+        @Override
+        public void endRow(int rowNum) {
+//            // Ensure the minimum number of columns
+//            for (int i = currentCol; i < 18; i++) {
+//                stringBuffer.append(',');
+//            }
+            String lineSeparator = System.getProperty("line.separator", "/n");
+            sb.append(lineSeparator);
+            try {
+                out.write(sb.toString());
+                out.flush();
+                sb = new StringBuffer();
+                num++;
+            } catch (IOException e) {
+                e.printStackTrace();
+                sb = new StringBuffer();
+            }
+            if(num == MAX_ROW){
+                System.out.println("111");
+            }
+        }
+
+        @Override
+        public void cell(String cellReference, String formattedValue,
+                         XSSFComment comment) {
+            if (firstCellOfRow) {
+                firstCellOfRow = false;
+            } else {
+                sb.append(',');
+            }
+
+            // gracefully handle missing CellRef here in a similar way as XSSFCell does
+            if (cellReference == null) {
+                cellReference = new CellAddress(currentRow, currentCol).formatAsString();
+            }
+            if (!cellReference.equals("A1")) {
+                if (cellReference.toString().substring(0, 1).equals("A")) {
+                    if (day < 10) {
+                        formattedValue = formattedValue.substring(0, 10) + month + "0" + day + formattedValue.substring(14);
+                    } else {
+                        formattedValue = formattedValue.substring(0, 10) + month + day + formattedValue.substring(14);
+                    }
+                }
+            }
+            if (!cellReference.equals("J1")) {
+                if (cellReference.toString().substring(0, 1).equals("J")) {
+                    if (day < 10) {
+                        formattedValue = formattedValue.substring(0, 4) + month + "0" + day + formattedValue.substring(8, formattedValue.length());
+                    } else {
+                        formattedValue = formattedValue.substring(0, 4) + month + day + formattedValue.substring(8, formattedValue.length());
+                    }
+
+                }
+            }
+            // Did we miss any cells?
+            int thisCol = (new CellReference(cellReference)).getCol();
+            int missedCols = thisCol - currentCol - 1;
+            for (int i = 0; i < missedCols; i++) {
+                sb.append(',');
+            }
+            currentCol = thisCol;
+
+            // Number or string?
+            try {
+                sb.append(formattedValue);
+            } catch (NumberFormatException e) {
+                sb.append(formattedValue);
+            }
+        }
+
+        @Override
+        public void headerFooter(String text, boolean isHeader, String tagName) {
+            // Skip, no headers or footers in CSV
+        }
+    }
+
 
     private void writeCharset() {
         try {
