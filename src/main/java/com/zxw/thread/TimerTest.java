@@ -29,6 +29,10 @@ public class TimerTest {
     public static void main(String[] args) throws InterruptedException {
 //        test3();
 //        test2();
+        Map map = new HashMap();
+        for (int i = 0; i < 10000000; i++) {
+            map.put(i,i);
+        }
         test1();
 //        Thread.sleep(30000);
 //        while (true){

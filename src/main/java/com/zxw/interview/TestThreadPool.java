@@ -1,10 +1,7 @@
 package com.zxw.interview;
 
 import java.util.HashSet;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executor;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -22,16 +19,31 @@ public class TestThreadPool implements Executor {
     // 拒绝策略
     private RejectedExecutionHandler rejectedExecutionHandler;
 
-    public TestThreadPool(int corePoolSize, int maxPoolSize,BlockingQueue blockingQueue) {
+    public TestThreadPool(int corePoolSize, int maxPoolSize, BlockingQueue blockingQueue) {
         this.corePoolSize = corePoolSize;
         this.maxPoolSize = maxPoolSize;
         this.blockingQueue = blockingQueue;
     }
+
     @Override
     public void execute(Runnable command) {
         int c = ctl.get();
-        if(c < corePoolSize){
+        if (c < corePoolSize) {
 
+        }
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        for (int i = 0; i < 10; i++) {
+            executorService.execute(()->{
+                try {
+                    Thread.sleep(5000);
+                    System.out.println("123");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 }
