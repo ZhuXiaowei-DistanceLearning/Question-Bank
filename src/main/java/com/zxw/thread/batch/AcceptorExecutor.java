@@ -15,9 +15,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @date 2021-01-01 21:41
  */
 public class AcceptorExecutor<ID, T> {
-    private final int maxBufferSize;
-    private final int maxBatchingSize;
-    private final long maxBatchingDelay;
+    private int maxBufferSize;
+    private int maxBatchingSize;
+    private long maxBatchingDelay;
     private final AtomicBoolean isShutdown = new AtomicBoolean(false);
 
     private final BlockingQueue<TaskHolder<ID, T>> acceptorQueue = new LinkedBlockingQueue<>();
@@ -44,8 +44,14 @@ public class AcceptorExecutor<ID, T> {
     volatile long replayedTasks;
 
 
-//    private final TrafficShaper trafficShaper;
+    private TrafficShaper trafficShaper;
 
+    AcceptorExecutor(String id) {
+        ThreadGroup threadGroup = new ThreadGroup("TaskExecutors");
+        this.acceptorThread = new Thread(threadGroup, new AcceptorRunner(), "TaskAcceptor-" + id);
+        this.acceptorThread.setDaemon(true);
+        this.acceptorThread.start();
+    }
 
     AcceptorExecutor(String id,
                      int maxBufferSize,
@@ -56,9 +62,8 @@ public class AcceptorExecutor<ID, T> {
         this.maxBufferSize = maxBufferSize;
         this.maxBatchingSize = maxBatchingSize;
         this.maxBatchingDelay = maxBatchingDelay;
-//        this.trafficShaper = new TrafficShaper(congestionRetryDelayMs, networkFailureRetryMs);
-
-        ThreadGroup threadGroup = new ThreadGroup("eurekaTaskExecutors");
+        this.trafficShaper = new TrafficShaper(congestionRetryDelayMs, networkFailureRetryMs);
+        ThreadGroup threadGroup = new ThreadGroup("TaskExecutors");
         this.acceptorThread = new Thread(threadGroup, new AcceptorRunner(), "TaskAcceptor-" + id);
         this.acceptorThread.setDaemon(true);
         this.acceptorThread.start();
