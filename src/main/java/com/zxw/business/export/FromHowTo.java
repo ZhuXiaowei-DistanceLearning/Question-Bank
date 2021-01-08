@@ -1,7 +1,6 @@
-package com.zxw.leetcode.topic;
+package com.zxw.business.export;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -9,7 +8,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,24 +23,18 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.util.XMLHelper;
-import org.apache.poi.xssf.binary.XSSFBSheetHandler;
 import org.apache.poi.xssf.eventusermodel.ReadOnlySharedStringsTable;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
 import org.apache.poi.xssf.eventusermodel.XSSFSheetXMLHandler;
-import org.apache.poi.xssf.model.SharedStringsTable;
 import org.apache.poi.xssf.model.StylesTable;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFComment;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.junit.Assert;
-import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
 
 @Slf4j
 public class FromHowTo {
@@ -74,7 +66,7 @@ public class FromHowTo {
                 fht.month = "0" + i;
             }
             executorService.execute(() -> {
-                fht.file1 = new File("C:\\Users\\ym-02\\Desktop\\2020 (2)\\111" + "/bak_" + "2020-" + fht.monthIndex + "_" + fht.number + ".csv");
+                fht.file1 = new File("C:\\Users\\ym-02\\Desktop\\export\\111" + "/bak_" + "2020-" + fht.monthIndex + "_" + fht.number + ".csv");
                 try {
                     fht.out = new BufferedWriter(new OutputStreamWriter(
                             new FileOutputStream(fht.file1, false)));
@@ -101,52 +93,6 @@ public class FromHowTo {
         String s = "16C";
 //        FromHowTo fht = new FromHowTo();
 //        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/9", "");
-    }
-
-    private static void extracted2() {
-        File file = new File("C:\\Users\\ym-02\\Desktop\\2020\\1/2020-1-311.csv");
-        BufferedWriter out = null;
-        try {
-            out = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(file, true)));
-            SXSSFWorkbook wb = new SXSSFWorkbook(100); // keep 100 rows in memory, exceeding rows will be flushed to disk
-            Sheet sh = wb.createSheet();
-            int size = 10;
-            StringBuffer sb = new StringBuffer();
-            for (int rownum = 0; rownum < size; rownum++) {
-                Row row = sh.createRow(rownum);
-                for (int cellnum = 0; cellnum < 10; cellnum++) {
-                    Cell cell = row.createCell(cellnum);
-                    String address = new CellReference(cell).formatAsString();
-                    sb.append(address);
-                    if (cellnum == 9) {
-                        String lineSeparator = System.getProperty("line.separator", "/n");
-                        sb.append("\n");
-                    } else {
-                        sb.append(",");
-                    }
-                    cell.setCellValue(address);
-                    if (rownum >= SpreadsheetVersion.EXCEL2007.getLastRowIndex()) {
-                        sh = wb.createSheet();
-                        size -= rownum;
-                        rownum = 0;
-                        cellnum = 0;
-                    }
-                }
-                System.out.print(sb.toString());
-                out.write(sb.toString());
-                sb = new StringBuffer();
-            }
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public void csvFileConversionCharset(String filePath, String charset) throws Exception {
@@ -273,12 +219,12 @@ public class FromHowTo {
         @Override
         public void startRow(int rowNum) {
             // If there were gaps, output the missing rows
-            if (rowNum == 0) {
-                sb.append("xxzj");
-            } else {
-                sb.append(UUID.randomUUID().toString().replace("-", "").toUpperCase());
-            }
-            sb.append(",");
+//            if (rowNum == 0) {
+//                sb.append("xxzj");
+//            } else {
+//                sb.append(UUID.randomUUID().toString().replace("-", "").toUpperCase());
+//            }
+//            sb.append(",");
             outputMissingRows(rowNum - currentRow - 1);
             // Prepare for this row
             firstCellOfRow = true;
@@ -292,11 +238,11 @@ public class FromHowTo {
 //            for (int i = currentCol; i < 18; i++) {
 //                stringBuffer.append(',');
 //            }
-            if (rowNum == 0) {
-                sb.append(",QHDM");
-            } else {
-                sb.append(",440113");
-            }
+//            if (rowNum == 0) {
+//                sb.append(",QHDM");
+//            } else {
+//                sb.append(",440113");
+//            }
             String lineSeparator = System.getProperty("line.separator", "/n");
             sb.append(lineSeparator);
             try {
@@ -332,27 +278,29 @@ public class FromHowTo {
                     }
                 }
             }
-            if (!cellReference.equals("J1")) {
-                if (cellReference.toString().substring(0, 1).equals("J")) {
-                    int hour = hourRandom.nextInt(24);
-                    int min = minRandom.nextInt(60);
-                    int second = secRandom.nextInt(60);
-                    String hourStr = String.valueOf(hour);
-                    String minStr = String.valueOf(min);
-                    String secondStr = String.valueOf(second);
-                    if (hour < 10) {
-                        hourStr = "0" + hourStr;
-                    }
-                    if (min < 10) {
-                        minStr = "0" + minStr;
-                    }
-                    if (second < 10) {
-                        secondStr = "0" + secondStr;
-                    }
+            if (!cellReference.equals("K1")) {
+                if (cellReference.toString().substring(0, 1).equals("K")) {
+//                    int hour = hourRandom.nextInt(24);
+//                    int min = minRandom.nextInt(60);
+//                    int second = secRandom.nextInt(60);
+//                    String hourStr = String.valueOf(hour);
+//                    String minStr = String.valueOf(min);
+//                    String secondStr = String.valueOf(second);
+//                    if (hour < 10) {
+//                        hourStr = "0" + hourStr;
+//                    }
+//                    if (min < 10) {
+//                        minStr = "0" + minStr;
+//                    }
+//                    if (second < 10) {
+//                        secondStr = "0" + secondStr;
+//                    }
                     if (day < 10) {
-                        formattedValue = formattedValue.substring(0, 4) + month + "0" + day + hourStr + minStr + secondStr;
+//                        formattedValue = formattedValue.substring(0, 4) + month + "0" + day + hourStr + minStr + secondStr;
+                        formattedValue = formattedValue.substring(0, 4) + month + "0" + day + formattedValue.substring(8);
                     } else {
-                        formattedValue = formattedValue.substring(0, 4) + month + day + hourStr + minStr + secondStr;
+//                        formattedValue = formattedValue.substring(0, 4) + month + day + hourStr + minStr + secondStr;
+                        formattedValue = formattedValue.substring(0, 4) + month + day + formattedValue.substring(9);
                     }
 
                 }
@@ -379,7 +327,52 @@ public class FromHowTo {
         }
     }
 
-
+    private static void extracted2() {
+        File file = new File("C:\\Users\\ym-02\\Desktop\\2020\\1/2020-1-311.csv");
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(file, true)));
+            SXSSFWorkbook wb = new SXSSFWorkbook(100); // keep 100 rows in memory, exceeding rows will be flushed to disk
+            Sheet sh = wb.createSheet();
+            int size = 10;
+            StringBuffer sb = new StringBuffer();
+            for (int rownum = 0; rownum < size; rownum++) {
+                Row row = sh.createRow(rownum);
+                for (int cellnum = 0; cellnum < 10; cellnum++) {
+                    Cell cell = row.createCell(cellnum);
+                    String address = new CellReference(cell).formatAsString();
+                    sb.append(address);
+                    if (cellnum == 9) {
+                        String lineSeparator = System.getProperty("line.separator", "/n");
+                        sb.append("\n");
+                    } else {
+                        sb.append(",");
+                    }
+                    cell.setCellValue(address);
+                    if (rownum >= SpreadsheetVersion.EXCEL2007.getLastRowIndex()) {
+                        sh = wb.createSheet();
+                        size -= rownum;
+                        rownum = 0;
+                        cellnum = 0;
+                    }
+                }
+                System.out.print(sb.toString());
+                out.write(sb.toString());
+                sb = new StringBuffer();
+            }
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
     private void writeCharset() {
         try {
             for (int i = 1; i < 2; i++) {
