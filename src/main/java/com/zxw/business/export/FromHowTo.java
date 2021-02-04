@@ -58,7 +58,7 @@ public class FromHowTo {
     public static void main(String[] args) throws Throwable {
 //            workbook = new XSSFWorkbook(file);
         ExecutorService executorService = Executors.newFixedThreadPool(10);
-        for (int i = 12; i <= 12; i++) {
+        for (int i = 1; i <= 12; i++) {
             FromHowTo fht = new FromHowTo();
             fht.monthIndex = i;
             fht.month = String.valueOf(i);
@@ -71,11 +71,11 @@ public class FromHowTo {
                     fht.out = new BufferedWriter(new OutputStreamWriter(
                             new FileOutputStream(fht.file1, false)));
                     if (fht.monthIndex == 1 || fht.monthIndex == 3 || fht.monthIndex == 5 || fht.monthIndex == 7 || fht.monthIndex == 8 || fht.monthIndex == 10 || fht.monthIndex == 12) {
-                        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/8", "");
+                        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/9", "");
                     } else if (fht.monthIndex == 2) {
                         fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/7", "");
                     } else {
-                        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/9", "");
+                        fht.csvFileConversionCharset("C:\\Users\\ym-02\\Desktop/2020/8", "");
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -372,7 +372,7 @@ public class FromHowTo {
             }
         }
     }
-    
+
     private void writeCharset() {
         try {
             for (int i = 1; i < 2; i++) {

@@ -6,10 +6,10 @@ import io.vavr.Function1;
 import io.vavr.Function2;
 import io.vavr.Function3;
 import io.vavr.Tuple;
+import io.vavr.control.Option;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -45,24 +45,41 @@ public class PayUtils {
      * @param args
      */
     public static void main(String[] args) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, new Date().getMonth() - 1);
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));//获取月份的最后一天
+        System.out.println(calendar.getTime());
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list = new ArrayList<>();
+        list.removeAll(list);
+        Arrays.asList(1, 2, 3, 4, 5).stream().forEach(e -> {
+            if (e == 3) {
+                return;
+            }
+            System.out.println(e);
+        });
         io.vavr.Tuple2<Integer, Integer> of = Tuple.of(1, 2);
 
         Function2<Integer, Integer, Integer> function2 = (v1, v2) -> v1 + v2;
         Integer apply = function2.apply(1, 2);
         String s = "asd\n123";
         System.out.println(s);
-        ExecutorService executorService = Executors.newFixedThreadPool(3);
-        for (int i = 0; i < 10; i++) {
-            executorService.execute(() -> {
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(Thread.currentThread().getName());
-                System.out.println(Thread.currentThread().getName());
-            });
-        }
+//        ExecutorService executorService = Executors.newFixedThreadPool(3);
+//        for (int i = 0; i < 10; i++) {
+//            executorService.execute(() -> {
+//                try {
+//                    Thread.sleep(5000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                System.out.println(Thread.currentThread().getName());
+//                System.out.println(Thread.currentThread().getName());
+//            });
+//        }
         String scope = "DOMESTIC";
         String payType = "WECHAT";
 
@@ -74,7 +91,7 @@ public class PayUtils {
         payType = "EPAY";
         rt = PAY_FUNC.apply(scope, payType, params);
         System.out.println(rt.getFirst() + "--->" + rt.getSecond());
-        ThreadPoolExecutor tpe = ((ThreadPoolExecutor) executorService);
+//        ThreadPoolExecutor tpe = ((ThreadPoolExecutor) executorService);
 //        scope = "DOMESTIC";
 //        payType = "ALIPAY";
 //        rt = PAY_FUNC.apply(scope, payType, params);
