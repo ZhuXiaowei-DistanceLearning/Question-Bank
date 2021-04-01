@@ -2,7 +2,6 @@ package com.zxw.netty.bio;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
@@ -12,13 +11,14 @@ import java.net.Socket;
  */
 public class Client1 {
     public static void main(String[] args) {
-        try {
-            Socket socket = new Socket("localhost", 10010);
-            OutputStream outputStream = socket.getOutputStream();
+        try (Socket socket = new Socket("localhost", 10010);
+             OutputStream outputStream = socket.getOutputStream()) {
             String text = "hello, i 'am client1";
+            outputStream.write(text.getBytes());
+            outputStream.flush();
 //            outputStream.write(text.getBytes());
 //            socket.close();
-            while (true){
+            while (true) {
 
             }
         } catch (IOException e) {
