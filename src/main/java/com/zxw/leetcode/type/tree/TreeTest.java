@@ -21,9 +21,26 @@ public class TreeTest {
 
     public static void main(String[] args) {
         TreeTest treeTest = new TreeTest();
-        TreeNode tree = TreeOperation.createTree(new Integer[]{1, 2, 5, 3, 4, null, 6});
-        show = tree;
-        treeTest.flatten(tree);
+        TreeNode treeNode = new TreeNode(1);
+        TreeNode t1 = new TreeNode(1);
+        TreeNode t2 = new TreeNode(3);
+        TreeNode t3 = new TreeNode(4);
+        TreeNode t4 = new TreeNode(2);
+        TreeNode t5 = new TreeNode(3);
+        TreeNode t6 = new TreeNode(4);
+        TreeNode t7 = new TreeNode(2);
+        t5.left = t6;
+        t5.right = t3;
+        t4.left = t5;
+        t4.right = t2;
+        treeNode.left = t4;
+        treeNode.right = t7;
+        boolean balanced = treeTest.isBalanced(treeNode);
+        System.out.println(balanced);
+//        TreeNode tree = TreeOperation.createTree(new Integer[]{1,2,2,3,null,null,3,4,null,null,4});
+//        show = tree;
+//        treeTest.flatten(tree);
+//        treeTest.isBalanced(tree);
     }
 
     /**
@@ -66,7 +83,25 @@ public class TreeTest {
      * @return
      */
     public boolean isBalanced(TreeNode root) {
-        return true;
+        if (root == null) {
+            return true;
+        }
+        return isBalancedBFS(root) != -1;
+    }
+
+    public int isBalancedBFS(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int var1 = isBalancedBFS(root.left);
+        if (var1 == -1) {
+            return -1;
+        }
+        int var2 = isBalancedBFS(root.right);
+        if (var2 == -1) {
+            return -1;
+        }
+        return Math.abs(var1 - var2) < 2 ? Math.max(var1, var2) + 1 : -1;
     }
 
     /**
