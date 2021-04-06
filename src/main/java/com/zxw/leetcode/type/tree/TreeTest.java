@@ -27,6 +27,49 @@ public class TreeTest {
     }
 
     /**
+     * [111]二叉树的最小深度
+     *
+     * @param root
+     * @return
+     */
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int m1 = minDepth(root.left);
+        int m2 = minDepth(root.right);
+        return root.left == null || root.right == null ? m1 + m2 + 1 : Math.min(m1,m2) + 1;
+    }
+
+    /**
+     * [110]平衡二叉树
+     *
+     * @param root
+     * @return
+     */
+    public boolean isBalanced(TreeNode root) {
+        return true;
+    }
+
+    /**
+     * [108]将有序数组转换为二叉搜索树
+     *
+     * @param nums
+     * @return
+     */
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if (nums.length == 0) {
+            return null;
+        }
+        TreeNode treeNode = new TreeNode(nums[0]);
+        TreeNode cp = treeNode;
+        for (int i = 1; i < nums.length; i++) {
+            int num = nums[i];
+        }
+        return treeNode;
+    }
+
+    /**
      * 104.二叉树的最大深度
      *
      * @param root
