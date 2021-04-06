@@ -26,6 +26,38 @@ public class TreeTest {
         treeTest.flatten(tree);
     }
 
+
+    /**
+     * 101.对称二叉树
+     *
+     * @param root
+     * @return
+     */
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return isSymmetricBSF(root.left, root.right);
+    }
+
+    /**
+     * 101.对称二叉树
+     *
+     * @return
+     */
+    public boolean isSymmetricBSF(TreeNode t1, TreeNode t2) {
+        if (t1 == null && t2 == null) {
+            return true;
+        }
+        if (t1 == null || t2 == null) {
+            return false;
+        }
+        if(t1.val != t2.val){
+            return false;
+        }
+        return isSymmetricBSF(t1.left, t2.right) && isSymmetricBSF(t1.right, t2.left);
+    }
+
     /**
      * 相同的树
      *
@@ -34,18 +66,16 @@ public class TreeTest {
      * @return
      */
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        if (p == null && q != null || p != null && q == null) {
-            return false;
-        }
-        if (p != null && q != null) {
+        if (p == null && q == null) {
             return true;
+        }
+        if (p == null || q == null) {
+            return false;
         }
         if (p.val != q.val) {
             return false;
         }
-        boolean sameTree = isSameTree(p.left, q.left);
-        boolean sameTree1 = isSameTree(p.right, q.right);
-        return sameTree && sameTree1;
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
 
     /**
