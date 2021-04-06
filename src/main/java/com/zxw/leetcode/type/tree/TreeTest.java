@@ -27,6 +27,24 @@ public class TreeTest {
     }
 
     /**
+     * [112]路径总和
+     *
+     * @param root
+     * @param targetSum
+     * @return
+     */
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+        if (root.left == null && root.right == null) {
+            return root.val == targetSum;
+        }
+        return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+
+    }
+
+    /**
      * [111]二叉树的最小深度
      *
      * @param root
@@ -38,7 +56,7 @@ public class TreeTest {
         }
         int m1 = minDepth(root.left);
         int m2 = minDepth(root.right);
-        return root.left == null || root.right == null ? m1 + m2 + 1 : Math.min(m1,m2) + 1;
+        return root.left == null || root.right == null ? m1 + m2 + 1 : Math.min(m1, m2) + 1;
     }
 
     /**
