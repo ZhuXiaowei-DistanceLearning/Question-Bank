@@ -1,5 +1,6 @@
 package com.zxw.web;
 
+import com.zxw.common.datastruct.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.Cell;
@@ -11,6 +12,7 @@ import org.apache.poi.xssf.streaming.SXSSFCell;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springdoc.core.converters.models.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,8 +37,15 @@ public class ExportController {
     XSSFWorkbook workbook = null;
     BufferedWriter writer = null;
 
+    /**
+     * 导出服务
+     * @author zxw
+     * @param page 分页参数
+     * @param response
+     * @throws Exception
+     */
     @GetMapping()
-    public void reportData(HttpServletResponse response) throws Exception {
+    public void reportData(Pageable page, HttpServletResponse response) throws Exception {
         String fileName = "aaa.zip";
         response.setHeader("content-disposition", "attchment;filename=" + fileName);
         ServletOutputStream out = response.getOutputStream();
