@@ -2,6 +2,8 @@ package com.zxw.leetcode.type.tree;
 
 import com.zxw.common.datastruct.TreeNode;
 
+import java.util.ArrayDeque;
+
 public class TreeOperation {
     /*
     树的结构示例：
@@ -57,26 +59,61 @@ public class TreeOperation {
         // 用一个字符串数组来存储每个位置应显示的元素
         String[][] res = new String[arrayHeight][arrayWidth];
         // 对数组进行初始化，默认为一个空格
-        for (int i = 0; i < arrayHeight; i ++) {
-            for (int j = 0; j < arrayWidth; j ++) {
+        for (int i = 0; i < arrayHeight; i++) {
+            for (int j = 0; j < arrayWidth; j++) {
                 res[i][j] = " ";
             }
         }
 
         // 从根节点开始，递归处理整个树
         // res[0][(arrayWidth + 1)/ 2] = (char)(root.val + '0');
-        writeArray(root, 0, arrayWidth/ 2, res, treeDepth);
+        writeArray(root, 0, arrayWidth / 2, res, treeDepth);
 
         // 此时，已经将所有需要显示的元素储存到了二维数组中，将其拼接并打印即可
-        for (String[] line: res) {
+        for (String[] line : res) {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < line.length; i ++) {
+            for (int i = 0; i < line.length; i++) {
                 sb.append(line[i]);
                 if (line[i].length() > 1 && i <= line.length - 1) {
-                    i += line[i].length() > 4 ? 2: line[i].length() - 1;
+                    i += line[i].length() > 4 ? 2 : line[i].length() - 1;
                 }
             }
             System.out.println(sb.toString());
         }
+    }
+
+    public static TreeNode createTree(Integer[] arr) {
+        // 使用队列来存储每一层的非空节点，下一层的数目要比上一层高
+        ArrayDeque<TreeNode> pre = new ArrayDeque<>();
+        TreeNode root = new TreeNode(arr[0]);
+        pre.addLast(root);
+        // 表示要遍历的下一个节点
+        int index = 0;
+        while (!pre.isEmpty()) {
+
+            ArrayDeque<TreeNode> cur = new ArrayDeque<>();
+            while (!pre.isEmpty()) {
+                TreeNode node = pre.removeFirst();
+                TreeNode left = null;
+                TreeNode right = null;
+                // 如果对应索引上的数组不为空的话就创建一个节点,进行判断的时候，
+                // 要先索引看是否已经超过数组的长度，如果索引已经超过了数组的长度，那么剩下节点的左右子节点就都是空了
+                // 这里index每次都会增加，实际上是不必要的，但是这样写比较简单
+                if (++index < arr.length && arr[index] != null) {
+                    left = new TreeNode(arr[index]);
+                    cur.addLast(left);
+                }
+                if (++index < arr.length && arr[index] != null) {
+                    right = new TreeNode(arr[index]);
+                    cur.addLast(right);
+                }
+                node.left = left;
+                node.right = right;
+            }
+            pre = cur;
+        }
+
+
+        return root;
     }
 }

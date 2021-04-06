@@ -21,9 +21,22 @@ public class TreeTest {
 
     public static void main(String[] args) {
         TreeTest treeTest = new TreeTest();
-        TreeNode tree = treeTest.createTree(new Integer[]{1, 2, 5, 3, 4, null, 6});
+        TreeNode tree = TreeOperation.createTree(new Integer[]{1, 2, 5, 3, 4, null, 6});
         show = tree;
         treeTest.flatten(tree);
+    }
+
+    /**
+     * 104.二叉树的最大深度
+     *
+     * @param root
+     * @return
+     */
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
     }
 
 
@@ -52,14 +65,14 @@ public class TreeTest {
         if (t1 == null || t2 == null) {
             return false;
         }
-        if(t1.val != t2.val){
+        if (t1.val != t2.val) {
             return false;
         }
         return isSymmetricBSF(t1.left, t2.right) && isSymmetricBSF(t1.right, t2.left);
     }
 
     /**
-     * 相同的树
+     * 100.相同的树
      *
      * @param p
      * @param q
@@ -144,38 +157,4 @@ public class TreeTest {
         invertTreeBFS(root.right);
     }
 
-    public TreeNode createTree(Integer[] arr) {
-        // 使用队列来存储每一层的非空节点，下一层的数目要比上一层高
-        ArrayDeque<TreeNode> pre = new ArrayDeque<>();
-        TreeNode root = new TreeNode(arr[0]);
-        pre.addLast(root);
-        // 表示要遍历的下一个节点
-        int index = 0;
-        while (!pre.isEmpty()) {
-
-            ArrayDeque<TreeNode> cur = new ArrayDeque<>();
-            while (!pre.isEmpty()) {
-                TreeNode node = pre.removeFirst();
-                TreeNode left = null;
-                TreeNode right = null;
-                // 如果对应索引上的数组不为空的话就创建一个节点,进行判断的时候，
-                // 要先索引看是否已经超过数组的长度，如果索引已经超过了数组的长度，那么剩下节点的左右子节点就都是空了
-                // 这里index每次都会增加，实际上是不必要的，但是这样写比较简单
-                if (++index < arr.length && arr[index] != null) {
-                    left = new TreeNode(arr[index]);
-                    cur.addLast(left);
-                }
-                if (++index < arr.length && arr[index] != null) {
-                    right = new TreeNode(arr[index]);
-                    cur.addLast(right);
-                }
-                node.left = left;
-                node.right = right;
-            }
-            pre = cur;
-        }
-
-
-        return root;
-    }
 }
