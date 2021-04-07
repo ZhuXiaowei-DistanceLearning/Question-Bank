@@ -2,9 +2,11 @@ package com.zxw.leetcode.type.tree;
 
 import com.zxw.common.datastruct.Node;
 import com.zxw.common.datastruct.TreeNode;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 二叉树刷题总结：
@@ -36,12 +38,34 @@ public class TreeTest {
         treeNode.left = t4;
         treeNode.right = t7;
         boolean balanced = treeTest.isBalanced(treeNode);
-        System.out.println(balanced);
         TreeNode tree = TreeOperation.createTree(new Integer[]{1, 2, 2, 3, null, null, 3, 4, null, null, 4});
         show = tree;
+        TreeOperation.show(treeNode);
         treeTest.flatten(tree);
         treeTest.isBalanced(tree);
-        treeTest.binaryTreePaths(treeNode);
+        int i = treeTest.sumOfLeftLeaves(treeNode);
+    }
+
+    /**
+     * [404]左叶子之和
+     *
+     * @param root
+     * @return
+     */
+    public int sumOfLeftLeaves(TreeNode root) {
+        return helper(root);
+    }
+
+    public int helper(TreeNode node) {
+        int sum = 0;
+        if (node == null) {
+            return 0;
+        }
+        if (node.left != null && (node.left.left == null && node.left.right == null)) {
+            sum += node.left.val;
+        }
+        sum += helper(node.left) + helper(node.right);
+        return sum;
     }
 
     /**
