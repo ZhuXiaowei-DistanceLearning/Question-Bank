@@ -2,9 +2,9 @@ package com.zxw.leetcode.type.tree;
 
 import com.zxw.common.datastruct.Node;
 import com.zxw.common.datastruct.TreeNode;
-import org.apache.poi.ss.formula.functions.T;
 
-import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 二叉树刷题总结：
@@ -37,10 +37,49 @@ public class TreeTest {
         treeNode.right = t7;
         boolean balanced = treeTest.isBalanced(treeNode);
         System.out.println(balanced);
-//        TreeNode tree = TreeOperation.createTree(new Integer[]{1,2,2,3,null,null,3,4,null,null,4});
-//        show = tree;
-//        treeTest.flatten(tree);
-//        treeTest.isBalanced(tree);
+        TreeNode tree = TreeOperation.createTree(new Integer[]{1, 2, 2, 3, null, null, 3, 4, null, null, 4});
+        show = tree;
+        treeTest.flatten(tree);
+        treeTest.isBalanced(tree);
+        treeTest.binaryTreePaths(treeNode);
+    }
+
+    /**
+     * [257]二叉树的所有路径
+     *
+     * @param root
+     * @return
+     */
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> res = new ArrayList<>();
+        binaryTreePathBFS(root, "", res);
+        return res;
+    }
+
+    private void binaryTreePathBFS(TreeNode root, String path, List<String> res) {
+        //如果为空，直接返回
+        if (root == null)
+            return;
+        //如果是叶子节点，说明找到了一条路径，把它加入到res中
+        if (root.left == null && root.right == null) {
+            res.add(path + root.val);
+            return;
+        }
+        //如果不是叶子节点，在分别遍历他的左右子节点
+        binaryTreePathBFS(root.left, path + root.val + "->", res);
+        binaryTreePathBFS(root.right, path + root.val + "->", res);
+    }
+
+    /**
+     * [235]二叉搜索树的最近公共祖先
+     *
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        return null;
     }
 
     /**
