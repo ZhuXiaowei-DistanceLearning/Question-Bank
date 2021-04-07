@@ -5,7 +5,9 @@ import com.zxw.common.datastruct.TreeNode;
 import org.apache.poi.ss.formula.functions.T;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -44,6 +46,39 @@ public class TreeTest {
         treeTest.flatten(tree);
         treeTest.isBalanced(tree);
         int i = treeTest.sumOfLeftLeaves(treeNode);
+    }
+
+    /**
+     * [501]二叉搜索树中的众数
+     *
+     * @param root
+     * @return
+     */
+    public int[] findMode(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        Map<Integer, Integer> map = new HashMap<>();
+        findModeBFS(root, map);
+        AtomicInteger ac = new AtomicInteger(-1);
+        map.forEach((k, v) -> {
+            if (v > ac.get()) {
+                list.removeAll(list);
+                list.add(k);
+                ac.set(v);
+            } else if (v == ac.get()) {
+                list.add(k);
+            }
+        });
+        return list.stream().mapToInt(Integer::valueOf).toArray();
+    }
+
+    public void findModeBFS(TreeNode root, Map<Integer, Integer> map) {
+        if(root == null){
+            return;
+        }
+        Integer orDefault = map.getOrDefault(root.val, 0);
+        map.put(root.val, orDefault + 1);
+        findModeBFS(root.left, map);
+        findModeBFS(root.right, map);
     }
 
     /**
