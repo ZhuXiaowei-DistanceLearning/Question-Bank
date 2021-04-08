@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class TreeTest {
     static TreeNode show;
-
+    TreeNode prevNode;
     public static void main(String[] args) {
         TreeTest treeTest = new TreeTest();
         TreeNode treeNode = new TreeNode(1);
@@ -49,6 +49,54 @@ public class TreeTest {
     }
 
     /**
+     * [530]二叉搜索树的最小绝对差
+     *
+     * @param root
+     * @return
+     */
+    public int getMinimumDifference(TreeNode root) {
+//        List<Integer> list = new ArrayList<>();
+//        int min = -1;
+//        this.getMinimumDifferenceBFS(root,list);
+//        for (int i = 0; i < list.size(); i++) {
+//            for (int j = i + 1; j < list.size(); j++) {
+//                int res = Math.abs(list.get(i) - list.get(j));
+//                min = (min == -1) ? res : Math.min(min, res);
+//            }
+//        }
+//        return min;
+        AtomicInteger ac = new AtomicInteger(9999);
+        this.getMinimumDifferenceBFS2(root, ac);
+        return ac.get();
+    }
+
+    public void getMinimumDifferenceBFS(TreeNode root, List<Integer> list) {
+        if (root == null) {
+            return;
+        }
+        list.add(root.val);
+        getMinimumDifferenceBFS(root.left, list);
+        getMinimumDifferenceBFS(root.right, list);
+    }
+
+    /**
+     * 中序遍历版本
+     *
+     * @param root
+     */
+    public void getMinimumDifferenceBFS2(TreeNode root,  AtomicInteger min) {
+        if (root == null) {
+            return;
+        }
+        getMinimumDifferenceBFS2(root.left, min);
+        if (prevNode != null) {
+            min.set(Math.min(Math.abs(root.val - prevNode.val), min.get()));
+        }
+        prevNode = root;
+        getMinimumDifferenceBFS2(root.right, min);
+    }
+
+    /**
      * [501]二叉搜索树中的众数
      *
      * @param root
@@ -72,7 +120,7 @@ public class TreeTest {
     }
 
     public void findModeBFS(TreeNode root, Map<Integer, Integer> map) {
-        if(root == null){
+        if (root == null) {
             return;
         }
         Integer orDefault = map.getOrDefault(root.val, 0);
