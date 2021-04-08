@@ -23,6 +23,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TreeTest {
     static TreeNode show;
     TreeNode prevNode;
+    int max = 0;
+    int min = 99999;
+
     public static void main(String[] args) {
         TreeTest treeTest = new TreeTest();
         TreeNode treeNode = new TreeNode(1);
@@ -40,12 +43,34 @@ public class TreeTest {
         treeNode.left = t4;
         treeNode.right = t7;
         boolean balanced = treeTest.isBalanced(treeNode);
-        TreeNode tree = TreeOperation.createTree(new Integer[]{1, 2, 2, 3, null, null, 3, 4, null, null, 4});
+        TreeNode tree = TreeOperation.createTree(new Integer[]{4,-7,-3,null,null,-9,-3,9,-7,-4,null,6,null,-6,-6,null,null,0,6,5,null,9,null,null,-1,-4,null,null,null,-2});
         show = tree;
         TreeOperation.show(treeNode);
         treeTest.flatten(tree);
         treeTest.isBalanced(tree);
+        treeTest.diameterOfBinaryTree(tree);
         int i = treeTest.sumOfLeftLeaves(treeNode);
+    }
+
+    /**
+     * [543]二叉树的直径
+     *
+     * @param root
+     * @return
+     */
+    public int diameterOfBinaryTree(TreeNode root) {
+        diameterOfBinaryTreeBFS(root);
+        return max;
+    }
+
+    public int diameterOfBinaryTreeBFS(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftDepth = diameterOfBinaryTreeBFS(root.left);
+        int rightDepth = diameterOfBinaryTreeBFS(root.right);
+        max = Math.max(max, leftDepth + rightDepth);
+        return Math.max(leftDepth, rightDepth) + 1;
     }
 
     /**
@@ -84,7 +109,7 @@ public class TreeTest {
      *
      * @param root
      */
-    public void getMinimumDifferenceBFS2(TreeNode root,  AtomicInteger min) {
+    public void getMinimumDifferenceBFS2(TreeNode root, AtomicInteger min) {
         if (root == null) {
             return;
         }
