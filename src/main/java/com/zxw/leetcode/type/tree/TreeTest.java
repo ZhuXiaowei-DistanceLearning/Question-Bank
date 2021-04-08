@@ -43,13 +43,35 @@ public class TreeTest {
         treeNode.left = t4;
         treeNode.right = t7;
         boolean balanced = treeTest.isBalanced(treeNode);
-        TreeNode tree = TreeOperation.createTree(new Integer[]{4,-7,-3,null,null,-9,-3,9,-7,-4,null,6,null,-6,-6,null,null,0,6,5,null,9,null,null,-1,-4,null,null,null,-2});
+        TreeNode tree = TreeOperation.createTree(new Integer[]{4, -7, -3, null, null, -9, -3, 9, -7, -4, null, 6, null, -6, -6, null, null, 0, 6, 5, null, 9, null, null, -1, -4, null, null, null, -2});
         show = tree;
         TreeOperation.show(treeNode);
         treeTest.flatten(tree);
         treeTest.isBalanced(tree);
         treeTest.diameterOfBinaryTree(tree);
         int i = treeTest.sumOfLeftLeaves(treeNode);
+    }
+
+    /**
+     * [563]二叉树的坡度
+     *
+     * @param root
+     * @return
+     */
+    int tilt = 0;   // 结果
+    public int findTilt(TreeNode root) {
+        findTiltBFS(root);
+        return tilt;
+    }
+
+    public int findTiltBFS(TreeNode root) {
+        if (root == null) { // 递归出口，空树的节点之和为0
+            return 0;
+        }
+        int leftTreeSum = findTiltBFS(root.left);    // 计算当前节点的左子树节点之和
+        int rightTreeSum = findTiltBFS(root.right);  // 计算当前节点的右子树节点之和
+        tilt += Math.abs(leftTreeSum - rightTreeSum);   // 计算当前节点的坡度并加入结果
+        return root.val + leftTreeSum + rightTreeSum;   // 返回以当前节点为根的整棵树的节点之和
     }
 
     /**
