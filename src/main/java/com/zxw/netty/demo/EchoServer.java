@@ -1,64 +1,83 @@
+/*
+ * Copyright 2012 The Netty Project
+ *
+ * The Netty Project licenses this file to you under the Apache License,
+ * version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at:
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
 package com.zxw.netty.demo;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-
-import javax.sound.sampled.Port;
-import java.net.InetSocketAddress;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.SelfSignedCertificate;
 
 /**
- * Netty:
- *  BootStrap:启动引导类
- *  Channel:执行网络io操作
- *  Selector:轮询io
- *  NioEventLoop：维护了一个线程和队列，执行I/O和非I/O任务
- *  NioEventLoopGroup:管理NioEventLoop
- *  ChannelHandler：处理I/O事件或拦截I/O操作并将其转发到其 ChannelPipeline(业务处理链)中的下一个处理程序。
- *  ChannelHandlerContext：保存 Channel 相关的所有上下文信息，同时关联一个 ChannelHandler 对象。
- *  ChannelPipline:保存 ChannelHandler 的 List，用于处理或拦截 Channel 的入站事件和出站操作。
- *
- * @author zxw
- * @date 2020-05-12 15:15:19
- * @Description
+ * Echoes back any received data from a client.
  */
-public class EchoServer {
-    private final int port;
+public final class EchoServer {
+    static final boolean SSL = System.getProperty("ssl") != null;
+    static final int PORT = Integer.parseInt(System.getProperty("port", "8007"));
 
-    public EchoServer(int port) {
-        this.port = port;
-    }
+    public static void main(String[] args) throws Exception {
+        // Configure SSL.
+        final SslContext sslCtx;
+        if (SSL) {
+            SelfSignedCertificate ssc = new SelfSignedCertificate();
+            sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
+        } else {
+            sslCtx = null;
+        }
 
-    public static void main(String[] args) throws InterruptedException {
-        EchoServer echoServer = new EchoServer(10010);
-        final EchoServerHandler echoServerHandler = new EchoServerHandler();
-        EventLoopGroup group = new NioEventLoopGroup();
+        // Configure the server.
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        final EchoServerHandler serverHandler = new EchoServerHandler();
         try {
-            // 创建EventLoopGroup
-            // 创建Server-Bootstrap
-            ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap.group(group)
-                    // 执行所使用的的NIO传输channel
+            ServerBootstrap b = new ServerBootstrap();
+            b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    // 使用指定的端口设置套接字
-                    .localAddress(new InetSocketAddress(10010))
-                    // 添加一个channelHandler到字Channel的ChannelPipeline
-                    .childHandler(new ChannelInitializer() {
+                    .option(ChannelOption.SO_BACKLOG, 100)
+                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(Channel ch) throws Exception {
-                            ch.pipeline().addLast(echoServerHandler);
+                        public void initChannel(SocketChannel ch) throws Exception {
+                            ChannelPipeline p = ch.pipeline();
+                            if (sslCtx != null) {
+                                p.addLast(sslCtx.newHandler(ch.alloc()));
+                            }
+                            //p.addLast(new LoggingHandler(LogLevel.INFO));
+                            p.addLast(serverHandler);
                         }
                     });
-            ChannelFuture f = bootstrap.bind().sync();
+
+            // Start the server.
+            ChannelFuture f = b.bind(PORT).sync();
+
+            // Wait until the server socket is closed.
             f.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         } finally {
-            group.shutdownGracefully().sync();
+            // Shut down all event loops to terminate all threads.
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
         }
     }
 }
