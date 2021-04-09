@@ -4,10 +4,7 @@ import com.zxw.common.datastruct.Node;
 import com.zxw.common.datastruct.TreeNode;
 import org.apache.poi.ss.formula.functions.T;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -51,6 +48,32 @@ public class TreeTest {
         treeTest.isBalanced(tree);
         treeTest.diameterOfBinaryTree(tree);
         int i = treeTest.sumOfLeftLeaves(treeNode);
+    }
+
+    /**
+     * [637]二叉树的层平均值
+     * @param root
+     * @return
+     */
+    List<Double> list =new LinkedList<>();
+    public List<Double> averageOfLevels(TreeNode root) {
+        bfs(root);
+        return list;
+    }
+    public void bfs(TreeNode root){
+        Queue<TreeNode> queue=new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty()){
+            double sum=0;
+            int m=queue.size();
+            for(int i=0;i<m;i++){
+                TreeNode node = queue.poll();
+                sum+= (double)node.val;
+                if(node.left!=null) queue.add(node.left);
+                if(node.right!=null) queue.add(node.right);
+            }
+            list.add(sum/m);
+        }
     }
 
     /**
