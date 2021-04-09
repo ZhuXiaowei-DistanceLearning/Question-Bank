@@ -2,6 +2,7 @@ package com.zxw.leetcode.type.tree;
 
 import com.zxw.common.datastruct.Node;
 import com.zxw.common.datastruct.TreeNode;
+import jnr.ffi.annotations.In;
 import org.apache.poi.ss.formula.functions.T;
 
 import java.util.*;
@@ -14,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 3.后序遍历
  * 判断每个节点下一步要做的动作是什么
  * 递归类型的题目，看看当前节点以及子节点需要做什么
+ *
  * @author zxw
  * @date 2021/4/2 14:02
  */
@@ -51,28 +53,60 @@ public class TreeTest {
     }
 
     /**
+     * 两数之和 IV - 输入 BST
+     *
+     * @param root
+     * @param k
+     * @return
+     */
+    public boolean findTarget(TreeNode root, int k) {
+        List<Integer> list = new ArrayList<>();
+        findTargetBFS(root,list);
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = i+1; i < list.size(); j++) {
+                if(list.get(i) + list.get(j) == k){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void findTargetBFS(TreeNode root, List list) {
+        if (root == null) {
+            return;
+        }
+        findTargetBFS(root.left, list);
+        list.add(root.val);
+        findTargetBFS(root.right, list);
+    }
+
+    /**
      * [637]二叉树的层平均值
+     *
      * @param root
      * @return
      */
-    List<Double> list =new LinkedList<>();
+    List<Double> list = new LinkedList<>();
+
     public List<Double> averageOfLevels(TreeNode root) {
         bfs(root);
         return list;
     }
-    public void bfs(TreeNode root){
-        Queue<TreeNode> queue=new LinkedList<>();
+
+    public void bfs(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
         queue.add(root);
-        while(!queue.isEmpty()){
-            double sum=0;
-            int m=queue.size();
-            for(int i=0;i<m;i++){
+        while (!queue.isEmpty()) {
+            double sum = 0;
+            int m = queue.size();
+            for (int i = 0; i < m; i++) {
                 TreeNode node = queue.poll();
-                sum+= (double)node.val;
-                if(node.left!=null) queue.add(node.left);
-                if(node.right!=null) queue.add(node.right);
+                sum += (double) node.val;
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
             }
-            list.add(sum/m);
+            list.add(sum / m);
         }
     }
 
@@ -88,14 +122,14 @@ public class TreeTest {
     }
 
     public void tree2strBFS(TreeNode t) {
-        if(t==null) return;
+        if (t == null) return;
         res.append(t.val);
-        if(t.left!=null || t.right!=null) // 当其左孩子或右孩子不为空时，不管当前的根节点是否为空都要输出左孩子的值
+        if (t.left != null || t.right != null) // 当其左孩子或右孩子不为空时，不管当前的根节点是否为空都要输出左孩子的值
         {
             res.append("(");
             tree2strBFS(t.left);
             res.append(")");
-            if(t.right!=null) // 只有当右孩子不为空时，才用输出右孩子的值
+            if (t.right != null) // 只有当右孩子不为空时，才用输出右孩子的值
             {
                 res.append("(");
                 tree2strBFS(t.right);
