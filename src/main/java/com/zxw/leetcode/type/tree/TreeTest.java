@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 2.中序遍历
  * 3.后序遍历
  * 判断每个节点下一步要做的动作是什么
- *
+ * 递归类型的题目，看看当前节点以及子节点需要做什么
  * @author zxw
  * @date 2021/4/2 14:02
  */
@@ -25,6 +25,7 @@ public class TreeTest {
     TreeNode prevNode;
     int max = 0;
     int min = 99999;
+    StringBuilder res = new StringBuilder();
 
     public static void main(String[] args) {
         TreeTest treeTest = new TreeTest();
@@ -53,12 +54,41 @@ public class TreeTest {
     }
 
     /**
+     * [606]根据二叉树创建字符串
+     *
+     * @param t
+     * @return
+     */
+    public String tree2str(TreeNode t) {
+        tree2strBFS(t);
+        return res.toString();
+    }
+
+    public void tree2strBFS(TreeNode t) {
+        if(t==null) return;
+        res.append(t.val);
+        if(t.left!=null || t.right!=null) // 当其左孩子或右孩子不为空时，不管当前的根节点是否为空都要输出左孩子的值
+        {
+            res.append("(");
+            tree2strBFS(t.left);
+            res.append(")");
+            if(t.right!=null) // 只有当右孩子不为空时，才用输出右孩子的值
+            {
+                res.append("(");
+                tree2strBFS(t.right);
+                res.append(")");
+            }
+        }
+    }
+
+    /**
      * [563]二叉树的坡度
      *
      * @param root
      * @return
      */
     int tilt = 0;   // 结果
+
     public int findTilt(TreeNode root) {
         findTiltBFS(root);
         return tilt;
