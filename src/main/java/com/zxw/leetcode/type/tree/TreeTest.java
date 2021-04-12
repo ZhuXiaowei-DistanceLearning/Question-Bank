@@ -7,6 +7,7 @@ import org.apache.commons.math3.util.Pair;
 import org.apache.poi.ss.formula.functions.T;
 
 import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -51,6 +52,51 @@ public class TreeTest {
         treeTest.isBalanced(tree);
         treeTest.diameterOfBinaryTree(tree);
         int i = treeTest.sumOfLeftLeaves(treeNode);
+    }
+
+    /**
+     * [700]二叉搜索树中的搜索
+     *
+     * @param root
+     * @param val
+     * @return
+     */
+    public TreeNode searchBST(TreeNode root, int val) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode res = null;
+        Queue<TreeNode> queue = new LinkedBlockingQueue<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            TreeNode poll = queue.poll();
+            if (poll == null) {
+                continue;
+            }
+            if (poll.val == val) {
+                res = poll;
+            }
+            if (poll.val > val) {
+                queue.add(poll.left);
+            } else {
+                queue.add(poll.right);
+            }
+        }
+        return res;
+    }
+
+    public TreeNode searchBSTBSF(TreeNode root, int val) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val == val) {
+            return root;
+        }
+        if (root.val > val) {
+            return searchBSTBSF(root.left, val);
+        } else {
+            return searchBSTBSF(root.right, val);
+        }
     }
 
     /**
