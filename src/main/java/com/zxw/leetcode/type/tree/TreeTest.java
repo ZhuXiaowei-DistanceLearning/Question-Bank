@@ -3,6 +3,7 @@ package com.zxw.leetcode.type.tree;
 import com.zxw.common.datastruct.Node;
 import com.zxw.common.datastruct.TreeNode;
 import jnr.ffi.annotations.In;
+import org.apache.commons.math3.util.Pair;
 import org.apache.poi.ss.formula.functions.T;
 
 import java.util.*;
@@ -53,6 +54,44 @@ public class TreeTest {
     }
 
     /**
+     * [559]N 叉树的最大深度
+     *
+     * @param root
+     * @return
+     */
+    public int maxDepth(Node root) {
+        Queue<Pair<Node, Integer>> stack = new LinkedList<>();
+        if (root != null) {
+            stack.add(new Pair(root, 1));
+        }
+
+        int depth = 0;
+        while (!stack.isEmpty()) {
+            Pair<Node, Integer> current = stack.poll();
+            root = current.getKey();
+            int current_depth = current.getValue();
+            if (root != null) {
+                depth = Math.max(depth, current_depth);
+//                for (Node c : root.children) {
+//                    stack.add(new Pair(c, current_depth + 1));
+//                }
+            }
+        }
+        return depth;
+    }
+
+    /**
+     * [671]二叉树中第二小的节点
+     *
+     * @param root
+     * @return
+     */
+    public int findSecondMinimumValue(TreeNode root) {
+
+        return 0;
+    }
+
+    /**
      * 两数之和 IV - 输入 BST
      *
      * @param root
@@ -61,10 +100,10 @@ public class TreeTest {
      */
     public boolean findTarget(TreeNode root, int k) {
         List<Integer> list = new ArrayList<>();
-        findTargetBFS(root,list);
+        findTargetBFS(root, list);
         for (int i = 0; i < list.size(); i++) {
-            for (int j = i+1; i < list.size(); j++) {
-                if(list.get(i) + list.get(j) == k){
+            for (int j = i + 1; i < list.size(); j++) {
+                if (list.get(i) + list.get(j) == k) {
                     return true;
                 }
             }
