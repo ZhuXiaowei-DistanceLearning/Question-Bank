@@ -55,7 +55,37 @@ public class TreeTest {
     }
 
     /**
-     * minDiffInBST
+     * [872]叶子相似的树
+     */
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        List<Integer> l1 = new ArrayList<>();
+        List<Integer> l2 = new ArrayList<>();
+        leafSimilarBFS(root1, l1);
+        leafSimilarBFS(root2, l2);
+        if (l1.size() != l2.size()) {
+            return false;
+        }
+        for (int i = 0; i < l1.size(); i++) {
+            if (!l1.get(i).equals(l2.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void leafSimilarBFS(TreeNode root, List<Integer> list) {
+        if (root == null) {
+            return;
+        }
+        leafSimilarBFS(root.left, list);
+        leafSimilarBFS(root.right, list);
+        if (root.left == null && root.right == null) {
+            list.add(root.val);
+        }
+    }
+
+    /**
+     * [783]二叉搜索树节点最小距离
      *
      * @param root
      * @return
@@ -67,7 +97,7 @@ public class TreeTest {
 
     public void minDiffInBSTBFS(TreeNode root) {
         if (root == null) {
-            return ;
+            return;
         }
         minDiffInBSTBFS(root.left);
         if (prevNode == null) {
