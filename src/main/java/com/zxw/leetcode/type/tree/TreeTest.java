@@ -55,6 +55,30 @@ public class TreeTest {
     }
 
     /**
+     * minDiffInBST
+     *
+     * @param root
+     * @return
+     */
+    public int minDiffInBST(TreeNode root) {
+        this.minDiffInBSTBFS(root);
+        return min;
+    }
+
+    public void minDiffInBSTBFS(TreeNode root) {
+        if (root == null) {
+            return ;
+        }
+        minDiffInBSTBFS(root.left);
+        if (prevNode == null) {
+            prevNode = root;
+        } else {
+            min = Math.min(Math.abs(prevNode.val - root.val), min);
+        }
+        minDiffInBSTBFS(root.right);
+    }
+
+    /**
      * [700]二叉搜索树中的搜索
      *
      * @param root
