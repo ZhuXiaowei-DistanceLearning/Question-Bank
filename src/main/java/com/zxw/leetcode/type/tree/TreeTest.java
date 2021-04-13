@@ -55,6 +55,39 @@ public class TreeTest {
     }
 
     /**
+     * [897]递增顺序查找树
+     *
+     * @param root
+     * @return
+     */
+    public TreeNode increasingBST(TreeNode root) {
+        TreeNode res = null;
+        TreeNode prev = null;
+        List<Integer> treeList = new ArrayList<>();
+        for (int i = 0; i < treeList.size(); i++) {
+            if(res == null){
+                res = new TreeNode(treeList.get(i));
+                prev = res;
+            }else{
+                TreeNode next = new TreeNode(treeList.get(i));
+                prev.right = next;
+                prev = prev.right;
+            }
+        }
+        return res;
+    }
+
+    public void increasingBSTBSF(TreeNode root, List<Integer> treeList) {
+        if (root == null) {
+            return;
+        }
+        increasingBSTBSF(root.left, treeList);
+        increasingBSTBSF(root.right, treeList);
+        treeList.add(root.val);
+    }
+
+
+    /**
      * [872]叶子相似的树
      */
     public boolean leafSimilar(TreeNode root1, TreeNode root2) {
