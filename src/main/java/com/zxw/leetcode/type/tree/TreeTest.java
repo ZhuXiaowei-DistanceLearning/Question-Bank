@@ -3,6 +3,7 @@ package com.zxw.leetcode.type.tree;
 import com.zxw.common.datastruct.Node;
 import com.zxw.common.datastruct.TreeNode;
 import jnr.ffi.annotations.In;
+import org.apache.batik.util.HaltingThread;
 import org.apache.commons.math3.util.Pair;
 import org.apache.poi.ss.formula.functions.T;
 
@@ -55,6 +56,29 @@ public class TreeTest {
     }
 
     /**
+     * [938]二叉搜索树的范围和
+     * @param root
+     * @param low
+     * @param high
+     * @return
+     */
+    public int rangeSumBST(TreeNode root, int low, int high) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.val > high) {
+            rangeSumBST(root.left, low, high);
+        } else if (root.val < low) {
+            rangeSumBST(root.right, low, high);
+        } else {
+            max += root.val;
+            rangeSumBST(root.left, low, high);
+            rangeSumBST(root.right, low, high);
+        }
+        return max;
+    }
+
+    /**
      * [897]递增顺序查找树
      *
      * @param root
@@ -65,10 +89,10 @@ public class TreeTest {
         TreeNode prev = null;
         List<Integer> treeList = new ArrayList<>();
         for (int i = 0; i < treeList.size(); i++) {
-            if(res == null){
+            if (res == null) {
                 res = new TreeNode(treeList.get(i));
                 prev = res;
-            }else{
+            } else {
                 TreeNode next = new TreeNode(treeList.get(i));
                 prev.right = next;
                 prev = prev.right;
