@@ -26,6 +26,7 @@ public class TreeTest {
     static TreeNode show;
     TreeNode prevNode;
     int max = 0;
+    int sum = 0;
     int min = 99999;
     StringBuilder res = new StringBuilder();
 
@@ -56,6 +57,33 @@ public class TreeTest {
     }
 
     /**
+     * [1022]从根到叶的二进制数之和
+     *
+     * @param root
+     * @return
+     */
+    public int sumRootToLeaf(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        sumRootToLeafBFS(root, "");
+        return sum;
+    }
+
+    public void sumRootToLeafBFS(TreeNode root, String s) {
+        if (root == null) {
+            return;
+        }
+        s += root.val;
+        if (root.left == null && root.right == null) {
+            sum += Integer.parseInt(s, 2);
+            return;
+        }
+        sumRootToLeafBFS(root.left, s);
+        sumRootToLeafBFS(root.right, s);
+    }
+
+    /**
      * [993]二叉树的堂兄弟节点
      *
      * @param root
@@ -65,8 +93,8 @@ public class TreeTest {
      */
     public boolean isCousins(TreeNode root, int x, int y) {
         Map<String, Pair> map = new HashMap<>();
-        isCousinsBFS(root, x, root, map,0);
-        isCousinsBFS(root, y, root, map,0);
+        isCousinsBFS(root, x, root, map, 0);
+        isCousinsBFS(root, y, root, map, 0);
         Pair xp = map.get(x);
         Pair yp = map.get(y);
         if (xp.getKey().equals(yp.getKey()) && !xp.getValue().equals(yp.getValue())) {
