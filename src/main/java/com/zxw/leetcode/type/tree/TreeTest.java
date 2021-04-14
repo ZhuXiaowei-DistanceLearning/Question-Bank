@@ -56,7 +56,44 @@ public class TreeTest {
     }
 
     /**
+     * [993]二叉树的堂兄弟节点
+     *
+     * @param root
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean isCousins(TreeNode root, int x, int y) {
+        Map<String, Pair> map = new HashMap<>();
+        isCousinsBFS(root, x, root, map,0);
+        isCousinsBFS(root, y, root, map,0);
+        Pair xp = map.get(x);
+        Pair yp = map.get(y);
+        if (xp.getKey().equals(yp.getKey()) && !xp.getValue().equals(yp.getValue())) {
+            return true;
+        }
+        return false;
+    }
+
+    public void isCousinsBFS(TreeNode root, int value, TreeNode prev, Map map, int h) {
+        if (root == null) {
+            return;
+        }
+        h++;
+        isCousinsBFS(root.left, value, root, map, h);
+        isCousinsBFS(root.right, value, root, map, h);
+        if (root.val == value) {
+            if (prev == null) {
+                map.put(value, new Pair(0, prev.val));
+            } else {
+                map.put(value, new Pair(h, prev.val));
+            }
+        }
+    }
+
+    /**
      * [938]二叉搜索树的范围和
+     *
      * @param root
      * @param low
      * @param high
