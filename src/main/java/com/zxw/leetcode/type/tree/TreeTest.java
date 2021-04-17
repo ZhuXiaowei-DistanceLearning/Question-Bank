@@ -57,6 +57,37 @@ public class TreeTest {
     }
 
     /**
+     * public boolean isSymmetric(TreeNode root) {
+     * <p>
+     * }
+     *
+     * @param root
+     * @return
+     */
+        public boolean isSymmetric(TreeNode root) {
+            if (root == null) {
+                return true;
+            }
+            return isSymmetricBFS(root.left, root.right);
+        }
+
+        public boolean isSymmetricBFS(TreeNode left, TreeNode right) {
+            if (left == null && right == null) {
+                return true;
+            }
+            if (left == null || right == null) {
+                return false;
+            }
+            if (left.val != right.val) {
+                return false;
+            }
+            isSymmetricBFS(left.left, left.right);
+            isSymmetricBFS(right.left, right.right);
+            isSymmetricBFS(left.right, right.left);
+            return true;
+        }
+
+    /**
      * [1022]从根到叶的二进制数之和
      *
      * @param root
@@ -703,7 +734,7 @@ public class TreeTest {
      * @param root
      * @return
      */
-    public boolean isSymmetric(TreeNode root) {
+    public boolean isSymmetric2(TreeNode root) {
         if (root == null) {
             return true;
         }
