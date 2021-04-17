@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TreeTest {
     static TreeNode show;
     TreeNode prevNode;
+    TreeNode nodeRes;
     int max = 0;
     int sum = 0;
     int min = 99999;
@@ -57,6 +58,31 @@ public class TreeTest {
     }
 
     /**
+     * 17.12 BiNode
+     * @param root
+     * @return
+     */
+    public TreeNode convertBiNode(TreeNode root) {
+        convertBiNodeBFS(root);
+        return nodeRes;
+    }
+
+    public void convertBiNodeBFS(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        convertBiNodeBFS(root.left);
+        if (nodeRes == null) {
+            nodeRes = new TreeNode(root.val);
+            prevNode = nodeRes;
+        } else {
+            prevNode.right = new TreeNode(root.val);
+            prevNode = prevNode.right;
+        }
+        convertBiNodeBFS(root.right);
+    }
+
+    /**
      * public boolean isSymmetric(TreeNode root) {
      * <p>
      * }
@@ -64,28 +90,28 @@ public class TreeTest {
      * @param root
      * @return
      */
-        public boolean isSymmetric(TreeNode root) {
-            if (root == null) {
-                return true;
-            }
-            return isSymmetricBFS(root.left, root.right);
-        }
-
-        public boolean isSymmetricBFS(TreeNode left, TreeNode right) {
-            if (left == null && right == null) {
-                return true;
-            }
-            if (left == null || right == null) {
-                return false;
-            }
-            if (left.val != right.val) {
-                return false;
-            }
-            isSymmetricBFS(left.left, left.right);
-            isSymmetricBFS(right.left, right.right);
-            isSymmetricBFS(left.right, right.left);
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
             return true;
         }
+        return isSymmetricBFS(root.left, root.right);
+    }
+
+    public boolean isSymmetricBFS(TreeNode left, TreeNode right) {
+        if (left == null && right == null) {
+            return true;
+        }
+        if (left == null || right == null) {
+            return false;
+        }
+        if (left.val != right.val) {
+            return false;
+        }
+        isSymmetricBFS(left.left, left.right);
+        isSymmetricBFS(right.left, right.right);
+        isSymmetricBFS(left.right, right.left);
+        return true;
+    }
 
     /**
      * [1022]从根到叶的二进制数之和
