@@ -38,6 +38,27 @@ public class TreeTestMedium {
     }
 
     /**
+     * [96]不同的二叉搜索树
+     *
+     * @param n
+     * @return
+     */
+    public int numTrees(int n) {
+        
+        return 0;
+    }
+
+    /**
+     * [95]不同的二叉搜索树 II
+     *
+     * @param n
+     * @return
+     */
+    public List<TreeNode> generateTrees(int n) {
+        return null;
+    }
+
+    /**
      * [94]二叉树的中序遍历
      *
      * @param root
@@ -57,5 +78,4 @@ public class TreeTestMedium {
         list.add(root.val);
         inorderTraversalBFS(root.right, list);
     }
-
 }
