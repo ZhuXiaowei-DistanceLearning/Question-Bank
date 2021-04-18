@@ -1,1 +1,11 @@
--XX:NewSize=104857600 -XX:MaxNewSize=104857600 -XX:InitialHeapSize=209715200 -XX:MaxHeapSize=209715200 -XX:SurvivorRatio=8 -XX:PretenureSizeThreshold=3145728 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:gc.log
+Java HotSpot(TM) 64-Bit Server VM (25.201-b09) for windows-amd64 JRE (1.8.0_201-b09), built on Dec 15 2018 18:36:39 by "java_re" with MS VC++ 10.0 (VS2010)
+Memory: 4k page, physical 33503884k(19602880k free), swap 38484620k(18759368k free)
+CommandLine flags: -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/usr/local/app/oom -XX:InitialHeapSize=314572800 -XX:MaxHeapSize=314572800 -XX:MaxNewSize=209715200 -XX:MaxTenuringThreshold=15 -XX:NewSize=209715200 -XX:OldPLABSize=16 -XX:PretenureSizeThreshold=20971520 -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:SurvivorRatio=2 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseConcMarkSweepGC -XX:-UseLargePagesIndividualAllocation -XX:+UseParNewGC 
+Heap
+ par new generation   total 153600K, used 8200K [0x00000000ed400000, 0x00000000f9c00000, 0x00000000f9c00000)
+  eden space 102400K,   8% used [0x00000000ed400000, 0x00000000edc021b0, 0x00000000f3800000)
+  from space 51200K,   0% used [0x00000000f3800000, 0x00000000f3800000, 0x00000000f6a00000)
+  to   space 51200K,   0% used [0x00000000f6a00000, 0x00000000f6a00000, 0x00000000f9c00000)
+ concurrent mark-sweep generation total 102400K, used 0K [0x00000000f9c00000, 0x0000000100000000, 0x0000000100000000)
+ Metaspace       used 3172K, capacity 4494K, committed 4864K, reserved 1056768K
+  class space    used 346K, capacity 386K, committed 512K, reserved 1048576K
