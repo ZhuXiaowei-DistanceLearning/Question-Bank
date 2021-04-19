@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * BFS（Breath First Search）广度优先搜索
- * DFS（Deep First Search）深度优先搜索。
+ * BFS（Breadth First Search）广度优先搜索,先进先出层级排列
+ * DFS（Depth First Search）深度优先搜索，递归
  */
 public class TreeTestMedium {
     static TreeNode show;
