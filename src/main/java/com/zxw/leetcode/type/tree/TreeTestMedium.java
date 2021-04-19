@@ -3,10 +3,15 @@ package com.zxw.leetcode.type.tree;
 import com.zxw.common.datastruct.TreeNode;
 import com.zxw.leetcode.type.tree.TreeOperation;
 import jnr.ffi.annotations.In;
+import org.jruby.ast.DAsgnNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * BFS（Breath First Search）广度优先搜索
+ * DFS（Deep First Search）深度优先搜索。
+ */
 public class TreeTestMedium {
     static TreeNode show;
     TreeNode prevNode;
@@ -38,14 +43,41 @@ public class TreeTestMedium {
     }
 
     /**
+     * [98]验证二叉搜索树
+     *
+     * @param root
+     * @return
+     */
+    public boolean isValidBST(TreeNode root) {
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    public boolean isValidBST(TreeNode root, long minVal, long maxVal) {
+        if (root == null)
+            return true;
+        //每个节点如果超过这个范围，直接返回false
+        if (root.val >= maxVal || root.val <= minVal)
+            return false;
+        //这里再分别以左右两个子节点分别判断，
+        //左子树范围的最小值是minVal，最大值是当前节点的值，也就是root的值，因为左子树的值要比当前节点小
+        //右子数范围的最大值是maxVal，最小值是当前节点的值，也就是root的值，因为右子树的值要比当前节点大
+        return isValidBST(root.left, minVal, root.val) && isValidBST(root.right, root.val, maxVal);
+    }
+
+    /**
      * [96]不同的二叉搜索树
      *
      * @param n
      * @return
      */
     public int numTrees(int n) {
-        
-        return 0;
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2; i < n + 1; i++)
+            for (int j = 1; j < i + 1; j++)
+                dp[i] += dp[j - 1] * dp[i - j];
+        return dp[n];
     }
 
     /**
