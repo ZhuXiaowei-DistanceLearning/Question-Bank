@@ -25,6 +25,7 @@ public class TreeTestMedium {
     List<Integer> listRes = new ArrayList<>();
 
     public static void main(String[] args) {
+        TreeTestMedium treeTestMedium = new TreeTestMedium();
         TreeNode treeNode = new TreeNode(1);
         TreeNode t1 = new TreeNode(1);
         TreeNode t2 = new TreeNode(3);
@@ -39,9 +40,10 @@ public class TreeTestMedium {
         t4.right = t2;
         treeNode.left = t4;
         treeNode.right = t7;
-        TreeNode tree = TreeOperation.createTree(new Integer[]{4, -7, -3, null, null, -9, -3, 9, -7, -4, null, 6, null, -6, -6, null, null, 0, 6, 5, null, 9, null, null, -1, -4, null, null, null, -2});
+        TreeNode tree = TreeOperation.createTree(new Integer[]{1, 2, 3, 4, null, null, 5});
         show = tree;
-        TreeOperation.show(treeNode);
+        TreeOperation.show(tree);
+        treeTestMedium.zigzagLevelOrder(tree);
     }
 
     /**
@@ -67,6 +69,39 @@ public class TreeTestMedium {
                 if (poll.right != null) queue.add(poll.right);
             }
             res.add(0, list);
+        }
+        return res;
+    }
+
+    /**
+     * [103]二叉树的锯齿形程序遍历
+     *
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        boolean t = true;
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedBlockingQueue<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            ArrayList<Integer> list = new ArrayList<>();
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode poll = queue.poll();
+                if (poll.left != null) queue.add(poll.left);
+                if (poll.right != null) queue.add(poll.right);
+                if (t) {
+                    list.add(poll.val);
+                } else {
+                    list.add(0, poll.val);
+                }
+            }
+            t = !t;
+            res.add(list);
         }
         return res;
     }
