@@ -66,12 +66,12 @@ public class TreeTestMedium {
         if (root == null) {
             return;
         }
-        if (root.left == null && root.right == null && targetSum == 0) {
+        list.add(root.val);
+        if(root.left == null && root.right == null && targetSum-root.val == 0){
             List<Integer> dest = new ArrayList(Arrays.asList(new Integer[list.size()]));
             Collections.copy(dest,list);
             res.add(dest);
         }
-        list.add(root.val);
         pathSumDFS(res, list, root.left, targetSum - root.val);
         pathSumDFS(res, list, root.right, targetSum - root.val);
         list.remove(list.size() - 1);
