@@ -3,17 +3,18 @@ package com.zxw.leetcode.type.tree;
 import com.zxw.common.datastruct.TreeNode;
 import com.zxw.leetcode.type.tree.TreeOperation;
 import jnr.ffi.annotations.In;
+import lombok.extern.slf4j.Slf4j;
 import org.jruby.ast.DAsgnNode;
+import org.jruby.ext.api.array;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * BFS（Breadth First Search）广度优先搜索,先进先出层级排列
  * DFS（Depth First Search）深度优先搜索，递归
  */
+@Slf4j
 public class TreeTestMedium {
     static TreeNode show;
     TreeNode prevNode;
@@ -44,6 +45,70 @@ public class TreeTestMedium {
         show = tree;
         TreeOperation.show(tree);
         treeTestMedium.zigzagLevelOrder(tree);
+        treeTestMedium.pathSum(tree, 3);
+    }
+
+    /**
+     * [113]路径总和 II
+     *
+     * @param root
+     * @param targetSum
+     * @return
+     */
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        pathSumDFS(res, list, root, targetSum);
+        return res;
+    }
+
+    public void pathSumDFS(List<List<Integer>> res, List<Integer> list, TreeNode root, int targetSum) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null && targetSum == 0) {
+            List<Integer> dest = new ArrayList(Arrays.asList(new Integer[list.size()]));
+            Collections.copy(dest,list);
+            res.add(dest);
+        }
+        list.add(root.val);
+        pathSumDFS(res, list, root.left, targetSum - root.val);
+        pathSumDFS(res, list, root.right, targetSum - root.val);
+        list.remove(list.size() - 1);
+    }
+
+    /**
+     * [105]从前序与中序遍历序列构造二叉树
+     *
+     * @param preorder
+     * @param inorder
+     * @return
+     */
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return null;
+    }
+
+    private TreeNode buildTreeHelper(int[] preorder, int p_start, int p_end, int[] inorder, int i_start, int i_end) {
+        // preorder 为空，直接返回 null
+        if (p_start == p_end) {
+            return null;
+        }
+        int root_val = preorder[p_start];
+        TreeNode root = new TreeNode(root_val);
+        //在中序遍历中找到根节点的位置
+        int i_root_index = 0;
+        for (int i = i_start; i < i_end; i++) {
+            if (root_val == inorder[i]) {
+                i_root_index = i;
+                break;
+            }
+        }
+        int leftNum = i_root_index - i_start;
+        //递归的构造左子树
+        root.left = buildTreeHelper(preorder, p_start + 1, p_start + leftNum + 1, inorder, i_start, i_root_index);
+        //递归的构造右子树
+        root.right = buildTreeHelper(preorder, p_start + leftNum + 1, p_end, inorder, i_root_index + 1, i_end);
+        return root;
     }
 
     /**
