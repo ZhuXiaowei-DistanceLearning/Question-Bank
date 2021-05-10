@@ -1,5 +1,5 @@
 #这是基础镜像
-FROM java:java11
+FROM openjdk:11.0.4
 # VOLUME 指定了临时文件目录为/tmp。
 VOLUME /tmp
 #复制jar包到镜像中，并且将名字改成app.jar

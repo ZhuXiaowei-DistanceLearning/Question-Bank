@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @author zxw
  * @date 2021-05-09 0:35
  */
-@RequestMapping("/test")
+@RequestMapping("/string")
 @RestController
-public class TestController {
+public class StringController {
     @GetMapping
     public String hello(){
         JSONObject jsonObject = new JSONObject();

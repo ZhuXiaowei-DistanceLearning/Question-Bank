@@ -1,5 +1,6 @@
 package com.zxw.leetcode.type.tree;
 
+import com.zxw.common.datastruct.Node;
 import com.zxw.common.datastruct.TreeNode;
 import com.zxw.leetcode.type.tree.TreeOperation;
 import jnr.ffi.annotations.In;
@@ -46,6 +47,15 @@ public class TreeTestMedium {
         TreeOperation.show(tree);
         treeTestMedium.zigzagLevelOrder(tree);
         treeTestMedium.pathSum(tree, 3);
+    }
+
+    /**
+     * [117]填充每个节点的下一个右侧节点指针 II
+     * @param root
+     * @return
+     */
+    public Node connect(Node root) {
+        return null;
     }
 
     /**

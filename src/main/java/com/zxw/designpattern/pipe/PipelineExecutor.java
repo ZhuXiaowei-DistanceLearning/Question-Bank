@@ -3,6 +3,7 @@ package com.zxw.designpattern.pipe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -16,6 +17,7 @@ import java.util.Objects;
  * @date 2020-12-23 17:26
  */
 @Component
+@ConditionalOnBean(name="pipelineRouteMap")
 public class PipelineExecutor {
     private final Logger logger = LoggerFactory.getLogger(PipelineExecutor.class);
     @Autowired

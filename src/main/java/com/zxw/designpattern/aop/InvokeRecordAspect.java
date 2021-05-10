@@ -5,16 +5,16 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-@Aspect
+//@Aspect
 @Order(1)
-@Component
+//@Component
 public class InvokeRecordAspect extends BaseMethodAspect {
 
     /**
      * 指定切点（处理打上 InvokeRecordAnno 的方法）
      */
     @Override
-    @Pointcut("@annotation(InvokeRecordAnno)")
+//    @Pointcut("@annotation(InvokeRecordAnno)")
     protected void pointcut() { }
 
     /**
