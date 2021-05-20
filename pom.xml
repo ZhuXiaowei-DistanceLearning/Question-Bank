@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>11</java.version>
+        <powermock.version>2.0.9</powermock.version>
     </properties>
 
     <dependencies>
@@ -146,6 +147,36 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.74</version>
         </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>2.0.9</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>2.0.9</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-core</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -161,7 +192,6 @@
                 <version>1.0.0</version>
                 <configuration>
                     <dockerDirectory>src/main/docker</dockerDirectory>
-                    <dockerHost>tcp://192.168.31.164:2375</dockerHost>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
