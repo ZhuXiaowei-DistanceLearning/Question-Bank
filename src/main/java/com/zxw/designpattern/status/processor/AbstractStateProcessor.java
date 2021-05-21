@@ -22,8 +22,8 @@ public abstract class AbstractStateProcessor<T, C> implements StateProcessor<T, 
     private PlugingExecutor pluginExecutor;
 
     @Override
-    public final ServiceResult<T> action(StateContext<C> context) throws Exception {
-        ServiceResult<T> result = null;
+    public final ServiceResult<T,C> action(StateContext<C> context) throws Exception {
+        ServiceResult<T,C> result = null;
         try {
             // 参数校验器
             result = checkerExecutor.parallelCheck(checkable.getParamChecker(), context);

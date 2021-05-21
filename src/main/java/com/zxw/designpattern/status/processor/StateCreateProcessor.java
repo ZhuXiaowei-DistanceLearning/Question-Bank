@@ -17,7 +17,7 @@ public class StateCreateProcessor extends AbstractStateProcessor<String, CreateO
     }
 
     @Override
-    public ServiceResult<String> check(StateContext<CreateOrderContext> context) {
+    public ServiceResult<String, CreateOrderContext> check(StateContext<CreateOrderContext> context) {
         return null;
     }
 
@@ -27,7 +27,7 @@ public class StateCreateProcessor extends AbstractStateProcessor<String, CreateO
     }
 
     @Override
-    public ServiceResult<String> action(String nextState, StateContext<CreateOrderContext> context) throws Exception {
+    public ServiceResult<String, CreateOrderContext> action(String nextState, StateContext<CreateOrderContext> context) throws Exception {
         return null;
     }
 

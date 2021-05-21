@@ -31,7 +31,7 @@ public class OrderCreatedProcessor extends AbstractStateProcessor<String, Create
     }
 
     @Override
-    public ServiceResult<String, String> check(StateContext<CreateOrderContext> context) {
+    public ServiceResult<String, CreateOrderContext> check(StateContext<CreateOrderContext> context) {
         return null;
     }
 
@@ -44,12 +44,12 @@ public class OrderCreatedProcessor extends AbstractStateProcessor<String, Create
     }
 
     @Override
-    public ServiceResult<String, String> action(String nextState, StateContext<CreateOrderContext> context) throws Exception {
+    public ServiceResult<String, CreateOrderContext> action(String nextState, StateContext<CreateOrderContext> context) throws Exception {
         return null;
     }
 
     @Override
-    public ServiceResult<String, String> save(String nextState, StateContext<CreateOrderContext> context) throws Exception {
+    public ServiceResult<String, CreateOrderContext> save(String nextState, StateContext<CreateOrderContext> context) throws Exception {
         OrderInfo orderInfo = context.getContext().getOrderInfo();
         // 更新状态
         orderInfo.setOrderState(nextState);

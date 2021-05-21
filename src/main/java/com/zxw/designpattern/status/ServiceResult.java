@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServiceResult<T, C> {
-    public ServiceResult(String orderId, String business) {
-    }
+    private T t;
+    private C c;
 
     public boolean isSuccess() {
         return false;
