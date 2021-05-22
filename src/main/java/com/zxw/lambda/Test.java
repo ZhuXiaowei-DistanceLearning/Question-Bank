@@ -1,9 +1,7 @@
 package com.zxw.lambda;
 
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.stream.Stream;
 
@@ -35,4 +33,10 @@ public class Test {
         });
         System.out.println("end");
     }
+
+    // reduce
+    int count = Stream.of(1, 2, 3).reduce(0, (acc, element) -> acc + element);
+    BinaryOperator<Integer> accumulator = (acc, element) -> acc + element;
+    int count1 = accumulator.apply(accumulator.apply(accumulator.apply(0, 1), 2), 3);
+
 }
