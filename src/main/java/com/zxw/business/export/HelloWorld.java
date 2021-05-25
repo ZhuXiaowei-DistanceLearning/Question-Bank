@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -25,6 +26,7 @@ public class HelloWorld {
      */
     public static final String newPDFPath = "C:\\Users\\zxw\\Desktop\\hello.pdf";
     public static final String templatePath = "C:\\Users\\zxw\\Desktop\\企业三方数据查询授权书（金服准入资料）.pdf";
+//    public static final String templatePath = "C:\\Users\\zxw\\Desktop\\44019932711899201.pdf";
 
     /**
      * 创建一个PDF文件：hello.pdf
@@ -39,6 +41,10 @@ public class HelloWorld {
 
     public void fillPDF() {
         try {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("authName", "爱仕达多");
+            map.put("time", "2021-4-27");
+            map.put("legalName", "期望的所所");
             //输出流
             out = new FileOutputStream(newPDFPath);
             //读取pdf模板//
@@ -46,12 +52,14 @@ public class HelloWorld {
             bos = new ByteArrayOutputStream();
             stamper = new PdfStamper(reader, bos);
             AcroFields form = stamper.getAcroFields();
-            java.util.Iterator<String> it = form.getFields().keySet().iterator();
+            java.util.Iterator<String> formField = form.getFields().keySet().iterator();
             // [{"fieldId":"authName",},
             //{"fieldId":"legalName",}, {"fieldId":"time",]
-            form.setField("authName", "爱仕达多");
-            form.setField("legalName", "期望的所所");
-            form.setField("time", "2021-4-27");
+            while (formField.hasNext()) {
+                String next = formField.next();
+                // 填充pdf数据
+                form.setField(next, String.valueOf(map.get(next)));
+            }
             stamper.setFormFlattening(true);//如果为false那么生成的PDF文件还能编辑，一定要设为true
             stamper.close();
             Document doc = new Document();
