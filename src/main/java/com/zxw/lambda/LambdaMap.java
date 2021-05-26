@@ -24,8 +24,14 @@ public class LambdaMap {
     }
 
     public static void main(String[] args) {
-        String test = artistCache.computeIfAbsent("test", (k) -> "qwe");
-        artistCache.computeIfAbsent("test", (k) -> "asd");
+        String test = artistCache.computeIfAbsent("test", (k) -> {
+            System.out.println(k);
+            return "qwe";
+        });
+        artistCache.computeIfAbsent("test", (k) -> {
+            System.out.println(k);
+            return "asd";
+        });
         System.out.println(test);
         System.out.println(artistCache.get("test"));
     }
