@@ -1,6 +1,8 @@
 package com.zxw.lambda;
 
+import javax.swing.text.DateFormatter;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.stream.Stream;
@@ -8,6 +10,7 @@ import java.util.stream.Stream;
 /**
  * 让代码在多核CPU上高校运行，批量处理数据的并行类库
  * Lambda其实返回的是一个函数，而不是其中的代码结果
+// * 为了编写 这类处理批量数据的并行类库，需要在语言层面上修改现有的 Java：增加 Lambda 表达式。
  *
  * @author zxw
  * @date 2021-05-21 21:17
@@ -26,6 +29,7 @@ public class Test {
     BinaryOperator<Long> addExplicit = (Long x, Long y) -> x + y;
 
     public static void main(String[] args) {
+        ThreadLocal<DateFormatter> formatter = ThreadLocal.withInitial(() -> new DateFormatter(new SimpleDateFormat("dd-MMM-yyyy")));
         List<String> strings = Arrays.asList("1", "2", "3");
         Stream<String> stringStream = strings.stream().filter(e -> {
             System.out.println(e);

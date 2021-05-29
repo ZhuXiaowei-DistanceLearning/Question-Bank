@@ -10,6 +10,8 @@ import java.util.stream.Stream;
  */
 @Data
 public class Artist {
+    private String name;
+    private String nationality;
     private Stream<Integer> members;
     private boolean sSolo;
     private Integer length;
