@@ -1,14 +1,9 @@
 package com.zxw.lambda.exercises.chapter5;
 
-import com.insightfullogic.java8.examples.chapter1.Artist;
-import com.insightfullogic.java8.exercises.Exercises;
+import com.zxw.lambda.examples.chapter1.Artist;
+import com.zxw.lambda.exercises.Exercises;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static java.util.Comparator.comparing;
 
 public class LongestName {
 

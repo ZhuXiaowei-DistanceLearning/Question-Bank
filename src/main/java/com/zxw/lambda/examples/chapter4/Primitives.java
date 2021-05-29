@@ -1,6 +1,6 @@
 package com.zxw.lambda.examples.chapter4;
 
-import com.insightfullogic.java8.examples.chapter1.Album;
+import com.zxw.lambda.examples.chapter1.Album;
 
 import java.util.IntSummaryStatistics;
 

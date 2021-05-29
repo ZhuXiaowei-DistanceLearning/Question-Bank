@@ -1,7 +1,8 @@
 package com.zxw.lambda.examples.chapter5;
 
-import com.insightfullogic.java8.examples.chapter1.Album;
-import com.insightfullogic.java8.examples.chapter1.Artist;
+import com.zxw.lambda.answers.chapter5.WordCount;
+import com.zxw.lambda.examples.chapter1.Album;
+import com.zxw.lambda.examples.chapter1.Artist;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +12,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import static com.insightfullogic.java8.examples.chapter5.CollectorExamples.countWords;
 import static java.nio.charset.Charset.defaultCharset;
 import static java.util.stream.Collectors.groupingBy;
 
@@ -28,7 +28,7 @@ public class MethodReferences {
                                     .stream()
                                     .flatMap(SPACES::splitAsStream);
 
-        return countWords(words);
+        return WordCount.countWords(words);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.zxw.lambda.examples.chapter8.template_method.lambdas;
 
-import com.insightfullogic.java8.examples.chapter8.template_method.ApplicationDenied;
+
+import com.zxw.lambda.examples.chapter8.template_method.ApplicationDenied;
 
 // BEGIN LoanApplication
 public class LoanApplication {

@@ -1,6 +1,6 @@
 package com.zxw.lambda.exercises.chapter5;
 
-import com.insightfullogic.java8.exercises.Exercises;
+import com.zxw.lambda.exercises.Exercises;
 
 import java.util.*;
 import java.util.function.BiConsumer;

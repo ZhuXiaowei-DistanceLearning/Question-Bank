@@ -1,6 +1,6 @@
 package com.zxw.lambda.answers.chapter5;
 
-import com.insightfullogic.java8.examples.chapter1.Artist;
+import com.zxw.lambda.examples.chapter1.Artist;
 
 import java.util.Comparator;
 import java.util.List;

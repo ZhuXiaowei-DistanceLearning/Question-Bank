@@ -1,25 +1,20 @@
 package com.zxw.lambda.examples.chapter6;
 
-import com.insightfullogic.java8.examples.chapter1.Album;
-import com.insightfullogic.java8.examples.chapter1.SampleData;
-import com.insightfullogic.java8.examples.chapter1.Track;
-
-import org.openjdk.jmh.Main;
-import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.runner.RunnerException;
+import com.zxw.lambda.examples.chapter1.Album;
+import com.zxw.lambda.examples.chapter1.SampleData;
+import com.zxw.lambda.examples.chapter1.Track;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
-@State(Scope.Benchmark)
-@BenchmarkMode(Mode.AverageTime)
+//@State(Scope.Benchmark)
+//@BenchmarkMode(Mode.AverageTime)
 public class ArraySum {
 
-    public static void main(String[] ignore) throws IOException, RunnerException {
+    public static void main(String[] ignore) throws IOException {
         final String[] args = {
             ".*ArraySum.*",
             "-wi",
@@ -27,12 +22,12 @@ public class ArraySum {
             "-i",
             "5"
         };
-        Main.main(args);
+//        Main.main(args);
     }
 
     public List<Album> albums;
 
-    @Setup
+//    @Setup
     public void initAlbums() {
         int n = Integer.getInteger("arraysum.size", 1000);
         albums = IntStream.range(0, n)
@@ -40,7 +35,7 @@ public class ArraySum {
                           .collect(toList());
     }
 
-    @GenerateMicroBenchmark
+//    @GenerateMicroBenchmark
     // BEGIN serial
 public int serialArraySum() {
     return albums.stream()
@@ -50,7 +45,7 @@ public int serialArraySum() {
 }
     // END serial
 
-    @GenerateMicroBenchmark
+//    @GenerateMicroBenchmark
     // BEGIN parallel
 public int parallelArraySum() {
     return albums.parallelStream()

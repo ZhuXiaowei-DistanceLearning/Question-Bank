@@ -1,12 +1,8 @@
 package com.zxw.lambda.exercises.chapter6;
 
-import com.insightfullogic.java8.exercises.Exercises;
-import org.openjdk.jmh.Main;
-import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.runner.RunnerException;
+import com.zxw.lambda.exercises.Exercises;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -14,11 +10,11 @@ import java.util.stream.IntStream;
 /**
  * Just run this class's main method and it will time benchmarks using the harness
  */
-@State(Scope.Thread)
-@BenchmarkMode(Mode.AverageTime)
+//@State(Scope.Thread)
+//@BenchmarkMode(Mode.AverageTime)
 public class OptimisationExample {
 
-    public static void main(String[] ignore) throws IOException, RunnerException {
+    public static void main(String[] ignore) throws IOException {
         final String[] args = {
                 ".*OptimisationExample.*",
                 "-wi",
@@ -28,12 +24,12 @@ public class OptimisationExample {
                 "-f",
                 "1"
         };
-        Main.main(args);
+//        Main.main(args);
     }
 
     private List<Integer> linkedListOfNumbers;
 
-    @Setup
+//    @Setup
     public void init() {
         linkedListOfNumbers = new LinkedList<>();
         addNumbers(linkedListOfNumbers);
@@ -46,7 +42,7 @@ public class OptimisationExample {
                  .forEach(container::add);
     }
 
-    @GenerateMicroBenchmark
+//    @GenerateMicroBenchmark
     // BEGIN slowSumOfSquares
     public int slowSumOfSquares() {
         return linkedListOfNumbers.parallelStream()
@@ -55,7 +51,7 @@ public class OptimisationExample {
     }
     // END slowSumOfSquares
 
-    @GenerateMicroBenchmark
+//    @GenerateMicroBenchmark
     public int fastSumOfSquares() {
         return Exercises.replaceThisWithSolution();
     }

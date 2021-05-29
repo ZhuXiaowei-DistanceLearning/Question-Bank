@@ -1,6 +1,6 @@
 package com.zxw.lambda.examples.chapter5.mutable_custom;
 
-import com.insightfullogic.java8.examples.chapter1.Album;
+import com.zxw.lambda.examples.chapter1.Album;
 
 public final class AlbumSale {
 

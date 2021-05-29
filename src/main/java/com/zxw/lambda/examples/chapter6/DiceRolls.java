@@ -1,9 +1,5 @@
 package com.zxw.lambda.examples.chapter6;
 
-import org.openjdk.jmh.Main;
-import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.runner.RunnerException;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -13,13 +9,13 @@ import java.util.stream.IntStream;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.summingDouble;
 
-@State(Scope.Benchmark)
-@BenchmarkMode(Mode.AverageTime)
+//@State(Scope.Benchmark)
+//@BenchmarkMode(Mode.AverageTime)
 public class DiceRolls {
 
     private static final int N = 100000000;
 
-    public static void main(String[] ignore) throws IOException, RunnerException {
+    public static void main(String[] ignore) throws IOException {
         final String[] args = {
             ".*DiceRolls.*",
             "-wi",
@@ -27,10 +23,10 @@ public class DiceRolls {
             "-i",
             "5"
         };
-        Main.main(args);
+//        Main.main(args);
     }
 
-    @GenerateMicroBenchmark
+//    @GenerateMicroBenchmark
     // BEGIN serial
 public Map<Integer, Double> serialDiceRolls() {
     double fraction = 1.0 / N;
@@ -40,7 +36,7 @@ public Map<Integer, Double> serialDiceRolls() {
 }
     // END serial
 
-    @GenerateMicroBenchmark
+//    @GenerateMicroBenchmark
     // BEGIN parallel
 public Map<Integer, Double> parallelDiceRolls() {
     double fraction = 1.0 / N;

@@ -1,8 +1,8 @@
 package com.zxw.lambda.examples.chapter9;
 
-import com.insightfullogic.java8.examples.chapter1.Album;
-import com.insightfullogic.java8.examples.chapter1.Artist;
-import com.insightfullogic.java8.examples.chapter1.Track;
+import com.zxw.lambda.examples.chapter1.Album;
+import com.zxw.lambda.examples.chapter1.Artist;
+import com.zxw.lambda.examples.chapter1.Track;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

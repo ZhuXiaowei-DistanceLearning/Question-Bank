@@ -1,13 +1,11 @@
 package com.zxw.lambda.exercises.chapter3;
 
-import com.insightfullogic.java8.examples.chapter1.Album;
-import com.insightfullogic.java8.examples.chapter1.Artist;
-import com.insightfullogic.java8.exercises.Exercises;
+import com.zxw.lambda.examples.chapter1.Album;
+import com.zxw.lambda.examples.chapter1.Artist;
+import com.zxw.lambda.exercises.Exercises;
 
 import java.util.List;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
 
 public class Question1 {
     public static int addUp(Stream<Integer> numbers) {

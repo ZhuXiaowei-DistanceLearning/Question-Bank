@@ -1,6 +1,6 @@
 package com.zxw.lambda.exercises.chapter3;
 
-import com.insightfullogic.java8.exercises.Exercises;
+import com.zxw.lambda.exercises.Exercises;
 
 import java.util.ArrayList;
 import java.util.List;

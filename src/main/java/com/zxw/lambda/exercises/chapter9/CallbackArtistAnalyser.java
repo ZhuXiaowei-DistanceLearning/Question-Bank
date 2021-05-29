@@ -1,7 +1,7 @@
 package com.zxw.lambda.exercises.chapter9;
 
-import com.insightfullogic.java8.examples.chapter1.Artist;
-import com.insightfullogic.java8.exercises.Exercises;
+import com.zxw.lambda.examples.chapter1.Artist;
+import com.zxw.lambda.exercises.Exercises;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

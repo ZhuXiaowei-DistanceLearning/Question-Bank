@@ -1,9 +1,6 @@
 package com.zxw.lambda.exercises.chapter5;
 
-import com.insightfullogic.java8.exercises.Exercises;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.zxw.lambda.exercises.Exercises;
 
 public class Fibonacci {
 
