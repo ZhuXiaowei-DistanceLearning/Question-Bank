@@ -25,8 +25,8 @@ public class HelloWorld {
      * 生成的PDF文件的路径。
      */
     public static final String newPDFPath = "C:\\Users\\zxw\\Desktop\\hello.pdf";
-    public static final String templatePath = "C:\\Users\\zxw\\Desktop\\企业三方数据查询授权书（金服准入资料）.pdf";
-//    public static final String templatePath = "C:\\Users\\zxw\\Desktop\\44019932711899201.pdf";
+    public static final String templatePath = "C:\\Users\\zxw\\Desktop\\个人三方-法人（中农准入材料）.pdf";
+//    public static final String templatePath = "C:\\Users\\zxw\\Desktop\\44320643419770944.pdf";
 
     /**
      * 创建一个PDF文件：hello.pdf
@@ -45,6 +45,11 @@ public class HelloWorld {
             map.put("authName", "爱仕达多");
             map.put("time", "2021-4-27");
             map.put("legalName", "期望的所所");
+            map.put("YWLX", "请问请问");
+            map.put("authName", "请问请问");
+            map.put("time", "2021-06-01 16:36:47");
+            map.put("idNO", "320323199106060631");
+            map.put("GLGS", "请问请问");
             //输出流
             out = new FileOutputStream(newPDFPath);
             //读取pdf模板//
@@ -55,8 +60,11 @@ public class HelloWorld {
             java.util.Iterator<String> formField = form.getFields().keySet().iterator();
             // [{"fieldId":"authName",},
             //{"fieldId":"legalName",}, {"fieldId":"time",]
+//            BaseFont bf = BaseFont.createFont("SimSun", BaseFont.IDENTITY_H, true);
+            BaseFont bf = BaseFont.createFont("STSong-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
             while (formField.hasNext()) {
                 String next = formField.next();
+                form.setFieldProperty(next, "textfont", bf, null);
                 // 填充pdf数据
                 form.setField(next, String.valueOf(map.get(next)));
             }
