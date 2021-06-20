@@ -5,6 +5,7 @@ import com.zxw.designpattern.status.checker.Checker;
 import com.zxw.designpattern.status.context.StateContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +19,7 @@ import java.util.concurrent.Future;
  * 校验器的执行器
  */
 @Slf4j
+@Component
 public class PlugingExecutor<T, C> {
     /**
      * 执行并行校验器，

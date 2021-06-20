@@ -1,11 +1,12 @@
 package com.zxw.designpattern.status.processor;
 
-import com.zxw.designpattern.status.*;
+import com.zxw.designpattern.status.Checkable;
+import com.zxw.designpattern.status.ServiceResult;
+import com.zxw.designpattern.status.StateActionStep;
 import com.zxw.designpattern.status.checker.executor.CheckerExecutor;
 import com.zxw.designpattern.status.checker.executor.PlugingExecutor;
 import com.zxw.designpattern.status.context.StateContext;
 import com.zxw.designpattern.status.processor.annotaion.StateProcessor;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -16,7 +17,7 @@ import javax.annotation.Resource;
 public abstract class AbstractStateProcessor<T, C> implements StateProcessor<T, C>, StateActionStep<T, C> {
     @Resource
     private CheckerExecutor checkerExecutor;
-    @Resource
+//    @Resource
     Checkable checkable;
     @Resource
     private PlugingExecutor pluginExecutor;
