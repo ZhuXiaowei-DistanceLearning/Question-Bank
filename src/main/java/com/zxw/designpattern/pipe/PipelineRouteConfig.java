@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * @author zxw
  * @date 2020-12-14 22:12
  */
-@Component
+//@Component
 public class PipelineRouteConfig implements ApplicationContextAware {
     ApplicationContext applicationContext;
     private static final Map<Class<? extends PipelineContext>, List<Class<? extends ContextHandler<? extends PipelineContext>>>> PIPELINE_ROUTE_MAP = new HashMap<>();
