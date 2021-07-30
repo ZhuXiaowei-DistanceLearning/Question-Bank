@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * @author zxw
  * @date 2020-12-25 10:02
  */
-public class ResultVo implements Serializable {
+public class ResultVo<T> implements Serializable {
     private static final long serialVersionUID = 3525257727440701302L;
     private String code;
     private Object data;
@@ -19,6 +19,14 @@ public class ResultVo implements Serializable {
     private String desc;
 
     public static ResultVo success() {
+        ResultVo resultVo = new ResultVo();
+        resultVo.setCode("200");
+        resultVo.setMessage("请求成功");
+        resultVo.setDesc("");
+        return resultVo;
+    }
+
+    public static ResultVo success(Object data) {
         ResultVo resultVo = new ResultVo();
         resultVo.setCode("200");
         resultVo.setMessage("请求成功");

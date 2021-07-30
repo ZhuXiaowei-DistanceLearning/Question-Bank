@@ -44,22 +44,22 @@
         <dependency>
             <groupId>org.reactivestreams</groupId>
             <artifactId>reactive-streams</artifactId>
-            <version>LATEST</version>
+            <version>1.0.3</version>
         </dependency>
         <dependency>
             <groupId>org.reactivestreams</groupId>
             <artifactId>reactive-streams-tck</artifactId>
-            <version>LATEST</version>
+            <version>1.0.3</version>
         </dependency>
         <dependency>
             <groupId>org.reactivestreams</groupId>
             <artifactId>reactive-streams-tck-flow</artifactId>
-            <version>LATEST</version>
+            <version>1.0.3</version>
         </dependency>
         <dependency>
             <groupId>org.reactivestreams</groupId>
             <artifactId>reactive-streams-examples</artifactId>
-            <version>LATEST</version>
+            <version>1.0.3</version>
         </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>LATEST</version>
+            <version>5.0.0</version>
         </dependency>
         <dependency>
             <groupId>cglib</groupId>
@@ -94,7 +94,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
-            <version>LATEST</version>
+            <version>1.8</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -309,7 +309,6 @@
         </plugins>
     </build>
 
-
     <profiles>
         <profile>
             <id>jdk11</id>
@@ -322,6 +321,23 @@
                 <maven.compiler.target>${java.version}</maven.compiler.target>
                 <maven.compiler.compilerVersion>${java.version}</maven.compiler.compilerVersion>
             </properties>
+        </profile>
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <sonar.jdbc.url>
+                    jdbc:postgresql://127.0.0.1/sonarqube
+                </sonar.jdbc.url>
+                <sonar.jdbc.username>postgres</sonar.jdbc.username>
+                <sonar.jdbc.password>123456</sonar.jdbc.password>
+                <sonar.login>admin</sonar.login>
+                <sonar.password>123456</sonar.password>
+                <sonar.host.url>http://localhost:9000</sonar.host.url>
+            </properties>
+
         </profile>
     </profiles>
 
