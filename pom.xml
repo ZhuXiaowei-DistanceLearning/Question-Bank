@@ -10,6 +10,8 @@
         <module>web</module>
         <module>algorithm</module>
         <module>common</module>
+        <module>distribute-lock</module>
+        <module>cache</module>
     </modules>
 <!--    <parent>-->
 <!--        <groupId>org.springframework.boot</groupId>-->
