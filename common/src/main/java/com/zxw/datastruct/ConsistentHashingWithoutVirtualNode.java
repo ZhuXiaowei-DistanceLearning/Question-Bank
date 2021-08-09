@@ -1,11 +1,12 @@
 package com.zxw.datastruct;
 
-import java.util.LinkedList;  
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.LinkedList;
 import java.util.List;  
 import java.util.SortedMap;  
 import java.util.TreeMap;  
 
-import org.apache.commons.lang.StringUtils;  
 
 /** 
   * 带虚拟节点的一致性Hash算法 
@@ -79,7 +80,7 @@ import org.apache.commons.lang.StringUtils;
             virtualNode = subMap.get(i);  
          }  
          //virtualNode虚拟节点名称要截取一下  
-         if(StringUtils.isNotBlank(virtualNode)){  
+         if(StringUtils.isNotBlank(virtualNode)){
              return virtualNode.substring(0, virtualNode.indexOf("&&"));  
          }  
          return null;  

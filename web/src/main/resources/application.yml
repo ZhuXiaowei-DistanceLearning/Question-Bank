@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: question-bank
+server:
+  port: 8081
+logging:
+  file:
+    path: /static
+    name: mylogger
+springdoc:
+  swagger-ui:
+    path: /swagger-ui-custom.html
+    operations-sorter: method
+    #custom path for api docs
+    url: /doc/openapi.json
+#--spring:
+#  profiles:
+#    active=chaos-monkey:
+#chaos:
+#  monkey:
+#    # 启动monkey
+#    enabled: true
+#    assaults:
+#      # 确定多少请求被攻击，1为攻击所有请求；5：每5个请求攻击一次
+#      level: 1
+#      # 增加最小延时，毫秒
+#      latency-range-start: 5000
+#      # 增加最大延时，毫秒
+#      latency-range-end: 10000
+#      # 延时攻击启动
+#      latency-active: true
+#      # 异常攻击启动
+#      exceptions-active: true
+#      # kill应用启动
+#      kill-application-active: true
+#    watcher: # 控制范围
+#      controller: true
+#      rest-controller: true
+#      service: true
+#      repository: true # （JDBC和JPA）
+#      component: true

@@ -1,6 +1,6 @@
 package designpattern.template;
 
-import com.zxw.web.vo.ResultVo;
+import com.zxw.vo.base.ResultVo;
 
 /**
  * 数据检查工具产品化对外服务接口
