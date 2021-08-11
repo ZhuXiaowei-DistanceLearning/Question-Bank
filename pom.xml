@@ -12,6 +12,7 @@
         <module>common</module>
         <module>distribute-lock</module>
         <module>cache</module>
+        <module>transaction</module>
     </modules>
 <!--    <parent>-->
 <!--        <groupId>org.springframework.boot</groupId>-->
