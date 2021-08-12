@@ -1,6 +1,6 @@
 package designpattern.template;
 
-import com.zxw.vo.base.ResultVo;
+import com.zxw.vo.base.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -25,12 +25,12 @@ public abstract class AbstractDataCheckProductService implements DataCheckProduc
      * @return
      */
     @Override
-    public <T> ResultVo<Long> dataCheck(DataCheckRequestDTO requestDTO) {
+    public <T> Result<Long> dataCheck(DataCheckRequestDTO requestDTO) {
         try {
             //1. 参数合法性检查
             Pair<Boolean, String> paramCheckResult = commonParamCheck(requestDTO);
             if (!paramCheckResult.getLeft()) {
-                return ResultVo.fail("", paramCheckResult.getRight());
+                return Result.fail("", paramCheckResult.getRight());
             }
 
             //2. 创建导出任务
@@ -46,10 +46,10 @@ public abstract class AbstractDataCheckProductService implements DataCheckProduc
             //5. 更新任务为完成状态
             updateRouteTask(taskRecordDO.getId(), DDportTaskStatus.FINISHED.getValue(), resultList.size() - 1, "", ossUrl);
 
-            return ResultVo.success(taskRecordDO.getId());
+            return Result.success(taskRecordDO.getId());
         } catch (Exception e) {
             log.error("dataCheck-error, beanName=" + getBeanName(), e);
-            return ResultVo.fail("", e.getMessage());
+            return Result.fail("", e.getMessage());
         }
     }
 

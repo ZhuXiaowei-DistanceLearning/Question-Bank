@@ -1,6 +1,6 @@
 package designpattern.template;
 
-import com.zxw.vo.base.ResultVo;
+import com.zxw.vo.base.Result;
 
 /**
  * 数据检查工具产品化对外服务接口
@@ -12,5 +12,5 @@ public interface DataCheckProductService {
      * 数据检查
      * @param requestDTO 请求参数
      * */
-  <T> ResultVo<Long> dataCheck(DataCheckRequestDTO requestDTO);
+  <T> Result<Long> dataCheck(DataCheckRequestDTO requestDTO);
 }

@@ -7,7 +7,7 @@ import java.util.List;
  * @author zxw
  * @date 2020-12-25 10:02
  */
-public class ResultVo<T> implements Serializable {
+public class Result<T> implements Serializable {
     private static final long serialVersionUID = 3525257727440701302L;
     private String code;
     private Object data;
@@ -15,38 +15,38 @@ public class ResultVo<T> implements Serializable {
     private long totalCount;
     private String desc;
 
-    public static ResultVo success() {
-        ResultVo resultVo = new ResultVo();
-        resultVo.setCode("200");
-        resultVo.setMessage("请求成功");
-        resultVo.setDesc("");
-        return resultVo;
+    public static Result success() {
+        Result result = new Result();
+        result.setCode("200");
+        result.setMessage("请求成功");
+        result.setDesc("");
+        return result;
     }
 
-    public static ResultVo success(Object data) {
-        ResultVo resultVo = new ResultVo();
-        resultVo.setCode("200");
-        resultVo.setMessage("请求成功");
-        resultVo.setDesc("");
-        return resultVo;
+    public static Result success(Object data) {
+        Result result = new Result();
+        result.setCode("200");
+        result.setMessage("请求成功");
+        result.setDesc("");
+        return result;
     }
 
-    public static ResultVo success(List data, long totalCount) {
-        ResultVo resultVo = new ResultVo();
-        resultVo.setCode("200");
-        resultVo.setMessage("请求成功");
-        resultVo.setDesc("");
-        resultVo.setData(data);
-        resultVo.setTotalCount(totalCount);
-        return resultVo;
+    public static Result success(List data, long totalCount) {
+        Result result = new Result();
+        result.setCode("200");
+        result.setMessage("请求成功");
+        result.setDesc("");
+        result.setData(data);
+        result.setTotalCount(totalCount);
+        return result;
     }
 
-    public static ResultVo fail(String code, String message) {
-        ResultVo resultVo = new ResultVo();
-        resultVo.setCode(code);
-        resultVo.setMessage(message);
-        resultVo.setDesc("");
-        return resultVo;
+    public static Result fail(String code, String message) {
+        Result result = new Result();
+        result.setCode(code);
+        result.setMessage(message);
+        result.setDesc("");
+        return result;
     }
 
     public static long getSerialVersionUID() {
