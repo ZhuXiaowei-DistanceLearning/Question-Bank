@@ -13,6 +13,7 @@
         <module>distribute-lock</module>
         <module>cache</module>
         <module>transaction</module>
+        <module>unit-test</module>
     </modules>
 <!--    <parent>-->
 <!--        <groupId>org.springframework.boot</groupId>-->

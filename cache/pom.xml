@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.zxw</groupId>
-            <artifactId>common</artifactId>
+             <artifactId>infrastructure</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
