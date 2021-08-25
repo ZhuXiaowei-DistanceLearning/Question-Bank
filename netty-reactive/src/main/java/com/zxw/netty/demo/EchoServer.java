@@ -48,13 +48,21 @@ public final class EchoServer {
         }
 
         // Configure the server.
+        // 第一步：
+        // 配置服务端的NIO线程组
+        // 主线程组，用于接受客户端的连接，但是不做任何具体的业务处理
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        // 工作线程组，老板线程组会把任务丢给他，让手下线程组去做任务，服务客户
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         final EchoServerHandler serverHandler = new EchoServerHandler();
         try {
+            // 用于配置Server相关参数，并启动Server
             ServerBootstrap b = new ServerBootstrap();
+            // 配置parentGroup和ChildGroup
             b.group(bossGroup, workerGroup)
+                    // 配置通道
                     .channel(NioServerSocketChannel.class)
+                    // 配置通道的ChannelPipeline
                     .option(ChannelOption.SO_BACKLOG, 100)
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ChannelInitializer<SocketChannel>() {
@@ -68,10 +76,10 @@ public final class EchoServer {
                             p.addLast(serverHandler);
                         }
                     });
-
+            // 绑定端口，并启动server，同时设置启动方式为同步
             // Start the server.
             ChannelFuture f = b.bind(PORT).sync();
-
+            // 等待服务端监听端口关闭
             // Wait until the server socket is closed.
             f.channel().closeFuture().sync();
         } finally {
