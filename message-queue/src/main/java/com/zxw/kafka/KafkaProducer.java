@@ -13,11 +13,13 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class KafkaProducer implements ProducerHandler {
+
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
     @Override
     public void sendMessage(String message) {
+        kafkaTemplate.send("test", message);
         log.info("消息发送成功");
     }
 

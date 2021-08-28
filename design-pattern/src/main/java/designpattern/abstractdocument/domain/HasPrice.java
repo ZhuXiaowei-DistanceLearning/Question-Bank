@@ -24,6 +24,7 @@
 package designpattern.abstractdocument.domain;
 
 
+import designpattern.abstractdocument.Document;
 import designpattern.abstractdocument.domain.enums.Property;
 
 import java.util.Optional;

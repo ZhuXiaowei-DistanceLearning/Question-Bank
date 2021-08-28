@@ -34,7 +34,7 @@ public class StringController {
     public void webClient() {
         WebClient webClient = WebClient.create("http://localhost:8081");   // 1
         Mono<String> resp = webClient
-                .get().uri("/string") // 2
+                .get().uri("/mq/sendMessage") // 2
                 .retrieve() // 3
                 .bodyToMono(String.class);  // 4
         resp.subscribe(System.out::println);    // 5
