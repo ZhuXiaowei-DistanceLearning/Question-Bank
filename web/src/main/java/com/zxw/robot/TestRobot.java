@@ -3,7 +3,6 @@ package com.zxw.robot;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -16,7 +15,7 @@ public class TestRobot {
     static Double shiyongY = null;
 
     public static void main(String[] args) throws AWTException, InterruptedException {
-        start();
+//        start();
 //        PointerInfo pinfo = MouseInfo.getPointerInfo();
 //        Point p = pinfo.getLocation();
         Robot robot = null;
@@ -57,12 +56,12 @@ public class TestRobot {
     public static void start() {
 
         try {
-            Runtime.getRuntime().exec("C:/Windows/System32/cmd.exe /k start C:\\Users\\zxw\\Desktop\\p78t5.exe");
+//            Runtime.getRuntime().exec("C:/Windows/System32/cmd.exe /k start C:\\Users\\zxw\\Desktop\\p78t5.exe");
             if (shiyongX == null) {
                 setClickMouse(shiyongX, shiyongY);
             }
             onclick(shiyongX, shiyongY);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -138,10 +137,10 @@ public class TestRobot {
     public static void altTab(Robot robot) {
         robot.keyPress(KeyEvent.VK_ALT);
         robot.keyPress(KeyEvent.VK_TAB);
-        robot.delay(1000);
+        robot.delay(50);
         robot.keyRelease(KeyEvent.VK_ALT);
         robot.keyRelease(KeyEvent.VK_TAB);
-        robot.delay(1000);
+        robot.delay(2000);
     }
 
     public static void clearAll(Robot robot) {

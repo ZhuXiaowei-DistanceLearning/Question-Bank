@@ -9,12 +9,12 @@
         <module>netty-reactive</module>
         <module>web</module>
         <module>algorithm</module>
-        <module>common</module>
         <module>distribute-lock</module>
         <module>cache</module>
         <module>transaction</module>
         <module>unit-test</module>
         <module>fx-ui</module>
+        <module>infrastructure</module>
     </modules>
 <!--    <parent>-->
 <!--        <groupId>org.springframework.boot</groupId>-->
