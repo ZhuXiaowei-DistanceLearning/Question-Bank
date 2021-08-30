@@ -20,6 +20,11 @@ public class KafkaConsumer implements ConsumerHandler<ConsumerRecord<?, ?>> {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
+    /**
+     * 消息重复处理方案
+     * 1.redis去重
+     * @param record
+     */
     @Override
     @KafkaListener(topics = {"test"})
     public void receiveMessage(ConsumerRecord<?, ?> record) {
