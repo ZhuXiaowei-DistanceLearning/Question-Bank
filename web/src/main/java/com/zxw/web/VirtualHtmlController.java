@@ -1,8 +1,10 @@
 package com.zxw.web;
 
-import org.springframework.ui.ModelMap;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,10 +15,11 @@ import java.util.List;
  * @date 2021/8/31 9:06
  */
 @RequestMapping("/virtual/view")
+@Controller
 public class VirtualHtmlController {
 
     @GetMapping("/my")
-    public String my(ModelMap map) {
+    public Mono<String> my(Model model) {
         List<String> res = new ArrayList<>();
         LocalDate now = LocalDate.now();
         String basic = "1" + String.valueOf(now.getMonth().ordinal() + 1) + String.valueOf(now.getDayOfMonth());
@@ -36,7 +39,16 @@ public class VirtualHtmlController {
                 res.add(sb.toString());
             }
         }
-        map.put("res", res);
-        return "/phone";
+        model.addAttribute("res", res);
+        return Mono.create(monoSink -> monoSink.success("phone"));
+    }
+
+    @GetMapping("/hello")
+    public Mono<String> hello(final Model model) {
+        model.addAttribute("name", "泥瓦匠");
+        model.addAttribute("city", "浙江温岭");
+
+        String path = "test";
+        return Mono.create(monoSink -> monoSink.success(path));
     }
 }
