@@ -13,6 +13,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.zxw</groupId>
             <artifactId>netty-reactive</artifactId>
             <version>0.0.1-SNAPSHOT</version>

@@ -1,5 +1,7 @@
 package com.zxw.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,12 @@ import java.util.List;
 @Controller
 public class VirtualHtmlController {
 
+    @Autowired
+    private ReactiveStringRedisTemplate redisTemplate;
+
     @GetMapping("/my")
     public Mono<String> my(Model model) {
+        Object aaa = redisTemplate.opsForValue().get("aaa");
         List<String> res = new ArrayList<>();
         LocalDate now = LocalDate.now();
         String basic = "1" + String.valueOf(now.getMonth().ordinal() + 1) + String.valueOf(now.getDayOfMonth());

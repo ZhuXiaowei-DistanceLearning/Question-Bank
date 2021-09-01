@@ -1,6 +1,13 @@
 spring:
   application:
     name: question-bank
+  redis:
+    lettuce:
+      pool:
+        max-active: 8
+    host: 192.168.11.208
+    port: 6379
+    password: foobared
 #  thymeleaf:
 #    enabled: true  #开启thymeleaf视图解析
 #    encoding: utf-8  #编码
