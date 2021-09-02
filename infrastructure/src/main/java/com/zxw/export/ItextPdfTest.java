@@ -1,20 +1,20 @@
 package com.zxw.export;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+
 /**
  * 第1章：PDF和iText简介
  * 1.1第一个iText示例：Hello World
  */
-public class HelloWorld {
+public class ItextPdfTest {
     PdfReader reader;
     FileOutputStream out;
     ByteArrayOutputStream bos;
@@ -33,9 +33,9 @@ public class HelloWorld {
      * @param args no arguments needed
      */
     public static void main(String[] args) throws DocumentException, IOException {
-        HelloWorld helloWorld = new HelloWorld();
+        ItextPdfTest itextPdfTest = new ItextPdfTest();
 //        helloWorld.createPdf(newPDFPath);
-        helloWorld.fillPDF();
+        itextPdfTest.fillPDF();
     }
 
     public void fillPDF() {
