@@ -16,6 +16,7 @@
         <module>fx-ui</module>
         <module>infrastructure</module>
         <module>application</module>
+        <module>domain</module>
     </modules>
 <!--    <parent>-->
 <!--        <groupId>org.springframework.boot</groupId>-->
