@@ -8,6 +8,8 @@ spring:
     host: 192.168.11.208
     port: 6379
     password: foobared
+#logging:
+#  config: classpath:logback-spring.xml
 #  thymeleaf:
 #    enabled: true  #开启thymeleaf视图解析
 #    encoding: utf-8  #编码
@@ -18,9 +20,7 @@ spring:
 server:
   port: 8081
 logging:
-  file:
-    path: /static
-    name: mylogger
+  config: classpath:logback-spring.xml
 
 springdoc:
   swagger-ui:
