@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author zxw
@@ -22,14 +24,20 @@ public class MqController {
     @Autowired
     private ProducerFactory producerFactory;
 
+    ExecutorService executorService = Executors.newFixedThreadPool(16);
+
     @GetMapping("/sendMessage")
     public Result<String> sendMessage(String handlerName) {
-        JSONObject msg = new JSONObject();
-        msg.put("timestamp", System.currentTimeMillis());
-        msg.put("guid", UUID.randomUUID().toString());
         ProducerHandler handler = producerFactory.getHandler(handlerName);
-        handler.sendMessage(msg.toJSONString());
-        return Result.success("消息发送成功");
+        while (true) {
+            executorService.execute(() -> {
+                JSONObject msg = new JSONObject();
+                msg.put("timestamp", System.currentTimeMillis());
+                msg.put("guid", UUID.randomUUID().toString());
+                handler.sendMessage(msg.toJSONString());
+            });
+        }
+//        return Result.success("消息发送成功");
     }
 
 }
