@@ -4,7 +4,9 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.*;
+import lombok.extern.slf4j.Slf4j;
 
+import javax.swing.filechooser.FileSystemView;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +16,7 @@ import java.util.HashMap;
  * 第1章：PDF和iText简介
  * 1.1第一个iText示例：Hello World
  */
+@Slf4j
 public class ItextPdfTest {
     PdfReader reader;
     FileOutputStream out;
@@ -23,8 +26,9 @@ public class ItextPdfTest {
     /**
      * 生成的PDF文件的路径。
      */
-    public static final String newPDFPath = "C:\\Users\\zxw\\Desktop\\hello.pdf";
-    public static final String templatePath = "C:\\Users\\zxw\\Desktop\\个人三方-法人（中农准入材料）.pdf";
+    public static final String desktopPath = FileSystemView.getFileSystemView().getHomeDirectory().getAbsolutePath();
+    public static final String newPDFPath = desktopPath + "/hello.pdf";
+    public static final String templatePath = "D:\\软件存储\\WeChat Files\\wxid_6443924439612\\FileStorage\\File\\2021-09\\9f166abdf145487e85de230c5d066c5c.pdf";
 //    public static final String templatePath = "C:\\Users\\zxw\\Desktop\\44320643419770944.pdf";
 
     /**
@@ -46,9 +50,9 @@ public class ItextPdfTest {
             map.put("legalName", "期望的所所");
             map.put("YWLX", "请问请问");
             map.put("authName", "请问请问");
-            map.put("time", "2021-06-01 16:36:47");
-            map.put("idNO", "320323199106060631");
-            map.put("GLGS", "请问请问");
+            map.put("date", "2021-06-01 16:36:47");
+            map.put("name_2", "320323199106060631");
+            map.put("name_1", "请问\r\t\n请问");
             //输出流
             out = new FileOutputStream(newPDFPath);
             //读取pdf模板//
@@ -60,13 +64,15 @@ public class ItextPdfTest {
             // [{"fieldId":"authName",},
             //{"fieldId":"legalName",}, {"fieldId":"time",]
 //            BaseFont bf = BaseFont.createFont("SimSun", BaseFont.IDENTITY_H, true);
-            BaseFont bf = BaseFont.createFont("STSong-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+            BaseFont bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
             while (formField.hasNext()) {
                 String next = formField.next();
+                log.info("获取到pdf变量key:{}", next);
                 form.setFieldProperty(next, "textfont", bf, null);
                 // 填充pdf数据
                 form.setField(next, String.valueOf(map.get(next)));
             }
+            System.out.println("请问\n\t\n请问");
             stamper.setFormFlattening(true);//如果为false那么生成的PDF文件还能编辑，一定要设为true
             stamper.close();
             Document doc = new Document();
