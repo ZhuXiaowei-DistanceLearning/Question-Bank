@@ -1,9 +1,11 @@
 package com.zxw.generator;
 
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +20,7 @@ import java.util.Scanner;
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        generate("localhost:3306", "ds_0");
+        generate("localhost:3306", "dynamic_data");
     }
 
     /**
@@ -50,7 +52,7 @@ public class CodeGenerator {
         DataSourceConfig dsc = getDataSourceConfig(host, schema);
         // 包配置
         PackageConfig pc = getPackageConfig();
-        InjectionConfig cfg = getFileOutConfig();
+        InjectionConfig cfg = getFileOutConfig(gc.getOutputDir());
         TemplateConfig templateConfig = getTemplateConfig();
         StrategyConfig strategy = getStrategyConfig(pc);
         mpg.setTemplate(templateConfig);
@@ -95,7 +97,7 @@ public class CodeGenerator {
         return templateConfig;
     }
 
-    private static InjectionConfig getFileOutConfig() {
+    private static InjectionConfig getFileOutConfig(String filePath) {
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
             @Override
@@ -104,21 +106,20 @@ public class CodeGenerator {
             }
         };
         // 如果模板引擎是 freemarker
-//        String templatePath = "/templates/mapper.xml.ftl";
+        String templatePath = "/templates/mapper.xml.ftl";
         // 如果模板引擎是 velocity
-        String templatePath = "/templates/mapper.xml.vm";
+//        String templatePath = "/templates/mapper.xml.vm";
 
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
         // 自定义配置会被优先输出
-//        focList.add(new FileOutConfig(templatePath) {
-//            @Override
-//            public String outputFile(TableInfo tableInfo) {
-//                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-//                return desktopDir.getAbsolutePath() + "/mapper/" + pc.getModuleName()
-//                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
-//            }
-//        });
+        focList.add(new FileOutConfig(templatePath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                return filePath + "/mapper/" + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+            }
+        });
         /*
         cfg.setFileCreate(new IFileCreate() {
             @Override
@@ -162,6 +163,9 @@ public class CodeGenerator {
         File desktopDir = FileSystemView.getFileSystemView().getHomeDirectory();
         gc.setOutputDir(desktopDir.getAbsolutePath());
         gc.setAuthor("zxw");
+        gc.setFileOverride(true);
+        gc.setBaseResultMap(true);
+        gc.setBaseColumnList(true);
         gc.setOpen(false);
         return gc;
     }
