@@ -5,9 +5,20 @@ spring:
     lettuce:
       pool:
         max-active: 8
-    host: 192.168.11.208
-    port: 6379
-    password: foobared
+    host: redis.test.magpie.com
+    port: 16379
+    password: znw@123
+    database: 10
+  datasource:
+    primary:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://mysql.dev.magpie.com:3306/e_seal?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+      username: root
+      password: Admin!@123
+  data:
+    mongodb:
+      uri: mongodb://192.168.200.108:27017/magpie_test?maxIdleTimeMS=3000
+
 #logging:
 #  config: classpath:logback-spring.xml
 #  thymeleaf:
