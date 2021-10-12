@@ -43,7 +43,7 @@ public class LoginController {
         String verificationCode = redisTemplate.opsForValue().get(phone);
         log.info("手机号:{}是否获取过验证码:{}", phone, !Objects.isNull(verificationCode));
         if (StringUtils.isEmpty(verificationCode)) {
-            RandomUtil.randomNumbers(6);
+            verificationCode = RandomUtil.randomNumbers(6);
         }
     }
 }
