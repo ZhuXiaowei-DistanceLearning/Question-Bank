@@ -1,23 +1,31 @@
 package com.zxw.web;
 
+import cn.hutool.core.util.RandomUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.stream.IntStream;
+import java.util.Objects;
 
 /**
  * @author zxw
  * @date 2021/10/11 9:38
  */
 @RestController
-@RequestMapping
+@RequestMapping("/login")
+@Slf4j
 public class LoginController {
 
     @Autowired
     private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     /**
      * 安全验收标准:
@@ -30,11 +38,12 @@ public class LoginController {
      * 发送短信验证码之前，先验证图形验证码是否正确（可选）
      * 集成第三方API做登录保护（可选）
      */
-    @GetMapping("/getSms")
-    public void getSms() {
-        IntStream.range(1, 10)
-                .forEach(e -> {
-                    reactiveStringRedisTemplate.opsForValue().set(String.valueOf(e), String.valueOf(e)).subscribe(System.out::println);
-                });
+    @GetMapping("/getSms/{phone}")
+    public void getSms(@PathVariable("phone") String phone) {
+        String verificationCode = redisTemplate.opsForValue().get(phone);
+        log.info("手机号:{}是否获取过验证码:{}", phone, !Objects.isNull(verificationCode));
+        if (StringUtils.isEmpty(verificationCode)) {
+            RandomUtil.randomNumbers(6);
+        }
     }
 }
