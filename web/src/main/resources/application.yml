@@ -5,10 +5,10 @@ spring:
     lettuce:
       pool:
         max-active: 8
-    host: redis.test.magpie.com
+    host: redis.dev.magpie.com
     port: 16379
     password: znw@123
-    database: 10
+    database: 0
   datasource:
     primary:
       driver-class-name: com.mysql.jdbc.Driver
@@ -18,6 +18,22 @@ spring:
   data:
     mongodb:
       uri: mongodb://192.168.200.108:27017/magpie_test?maxIdleTimeMS=3000
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    producer:
+      acks: 1
+      client-id: kafka-producer
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      retries: 0
+    consumer:
+      group-id: hello-group
+      enable-auto-commit: false
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 #logging:
 #  config: classpath:logback-spring.xml

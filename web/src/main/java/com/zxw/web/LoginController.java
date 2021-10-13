@@ -1,15 +1,19 @@
 package com.zxw.web;
 
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.zxw.consts.Constants;
+import com.zxw.exception.BusinessException;
+import com.zxw.utils.PhoneUtils;
+import com.zxw.vo.LoginReqVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -39,11 +43,44 @@ public class LoginController {
      * 集成第三方API做登录保护（可选）
      */
     @GetMapping("/getSms/{phone}")
-    public void getSms(@PathVariable("phone") String phone) {
-        String verificationCode = redisTemplate.opsForValue().get(phone);
-        log.info("手机号:{}是否获取过验证码:{}", phone, !Objects.isNull(verificationCode));
-        if (StringUtils.isEmpty(verificationCode)) {
-            verificationCode = RandomUtil.randomNumbers(6);
+    public Mono<Void> getSms(@PathVariable("phone") String phone) {
+        String phoneNum = PhoneUtils.getPhoneNum();
+        String phoneKey = "login_" + phone;
+        String verificationObject = redisTemplate.opsForValue().get(phoneKey);
+        log.info("手机号:{}是否获取过验证码:{}", phoneNum, !Objects.isNull(verificationObject));
+        JSONObject codeInfo = JSON.parseObject(verificationObject);
+        if (codeInfo == null) {
+            codeInfo = new JSONObject();
+            codeInfo.put("number", 1);
+        } else {
+            Long applicationTime = codeInfo.getLong("application_time");
+            if (System.currentTimeMillis() - applicationTime < 3600 * 60) {
+                throw new BusinessException("", "60秒内仅可申请一次验证码");
+            }
         }
+        String verificationCode = RandomUtil.randomNumbers(6);
+        codeInfo.put("verificationCode", verificationCode);
+        codeInfo.put("application_time", System.currentTimeMillis());
+        redisTemplate.opsForValue().set(phoneKey, codeInfo.toJSONString());
+        return Mono.empty();
+    }
+
+    @PostMapping("/login")
+    public Mono<Void> login(@RequestBody LoginReqVo reqVo) {
+        String phoneKey = "login_" + reqVo.getPhone();
+        String phoneCodeInfo = redisTemplate.opsForValue().get(phoneKey);
+        if (StringUtils.isEmpty(phoneCodeInfo)) {
+            throw new BusinessException("", "60秒内仅可申请一次验证码");
+        }
+        JSONObject codeInfo = JSON.parseObject(phoneCodeInfo);
+        Long applicationTime = codeInfo.getLong("application_time");
+        Integer number = codeInfo.getInteger("number");
+        if (number > 3) {
+            throw new BusinessException("", "已超过最大使用次数,请重新申请");
+        }
+        if (System.currentTimeMillis() - applicationTime > 2 * Constants.MINUTE) {
+            throw new BusinessException("", "该验证码已失效,请重新申请");
+        }
+        return Mono.empty();
     }
 }

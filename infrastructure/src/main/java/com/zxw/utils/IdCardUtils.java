@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-public class CreateIDCardNo {
+public class IdCardUtils {
 
 	// 18位身份证号码各位的含义:
 	// 1-2位省、自治区、直辖市代码；

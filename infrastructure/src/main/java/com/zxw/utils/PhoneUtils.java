@@ -2,7 +2,7 @@ package com.zxw.utils;
 
 import java.util.Scanner;
 
-public class RandomPhoneNum {
+public class PhoneUtils {
     static Scanner sc = new Scanner(System.in);
 
     public static <lenPhone> void main(String[] args) {

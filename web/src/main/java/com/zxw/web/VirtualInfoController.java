@@ -1,8 +1,8 @@
 package com.zxw.web;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zxw.utils.CreateIDCardNo;
-import com.zxw.utils.RandomPhoneNum;
+import com.zxw.utils.IdCardUtils;
+import com.zxw.utils.PhoneUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +23,8 @@ public class VirtualInfoController {
     @GetMapping
     public Mono<String> info() {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("phone", RandomPhoneNum.getPhoneNum());
-        jsonObject.put("idCard", CreateIDCardNo.getRandomID());
+        jsonObject.put("phone", PhoneUtils.getPhoneNum());
+        jsonObject.put("idCard", IdCardUtils.getRandomID());
         return Mono.just(jsonObject.toJSONString());
     }
 

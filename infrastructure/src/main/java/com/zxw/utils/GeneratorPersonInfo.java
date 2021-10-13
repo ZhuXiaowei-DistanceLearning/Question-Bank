@@ -12,8 +12,8 @@ public class GeneratorPersonInfo {
     static Logger log = LoggerFactory.getLogger(GeneratorPersonInfo.class);
 
     public static void main(String[] args) {
-        String phoneNum = RandomPhoneNum.getPhoneNum();
-        String idCard = CreateIDCardNo.getRandomID();
+        String phoneNum = PhoneUtils.getPhoneNum();
+        String idCard = IdCardUtils.getRandomID();
         log.info("生成虚拟用户信息,手机号:{},证件号:{}", phoneNum, idCard);
     }
 }
