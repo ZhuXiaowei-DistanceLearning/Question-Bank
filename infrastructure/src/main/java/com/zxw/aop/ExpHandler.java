@@ -1,11 +1,15 @@
 package com.zxw.aop;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.zxw.exception.BusinessException;
 import com.zxw.vo.base.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Locale;
 
 /**
  * @author zxw
@@ -18,6 +22,8 @@ public class ExpHandler {
     @ExceptionHandler({BusinessException.class})
     public Result<Void> handleBusinessException(ServerHttpRequest request, BusinessException e) {
         Result<Void> result = Result.fail(e.getErrorCode(), e.getErrorMsg());
+        ApplicationContext applicationContext = SpringUtil.getApplicationContext();
+        applicationContext.getMessage(e.getErrorCode(), e.getArgs(), "", Locale.CHINA);
         log.error("//// catch a【{}】 request url :{}, errorCode:{},errorMsg:{}", new Object[]{e.getClass().getSimpleName(), request.getURI(), result.getCode(), result.getMessage(), e});
         return result;
     }

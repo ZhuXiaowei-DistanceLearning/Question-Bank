@@ -9,12 +9,14 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class BusinessException extends RuntimeException{
+public class BusinessException extends RuntimeException {
     private String errorCode;
     private String errorMsg;
+    private final Object[] args;
 
-    public BusinessException(Throwable throwable) {
-        super(throwable);
+    public BusinessException(String errorCode, Object... args) {
+        this.errorCode = errorCode;
+        this.args = args;
     }
 
     @Override

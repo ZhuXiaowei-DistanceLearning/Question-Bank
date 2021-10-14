@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zxw.consts.Constants;
 import com.zxw.exception.BusinessException;
+import com.zxw.exception.ExpMsgConsts;
 import com.zxw.utils.PhoneUtils;
 import com.zxw.vo.LoginReqVo;
 import lombok.extern.slf4j.Slf4j;
@@ -54,8 +55,8 @@ public class LoginController {
             codeInfo.put("number", 1);
         } else {
             Long applicationTime = codeInfo.getLong("application_time");
-            if (System.currentTimeMillis() - applicationTime < 3600 * 60) {
-                throw new BusinessException("", "60秒内仅可申请一次验证码");
+            if (System.currentTimeMillis() - applicationTime < Constants.MINUTE) {
+                throw new BusinessException(ExpMsgConsts.COMMON_ERROR, "60秒内仅可申请一次验证码");
             }
         }
         String verificationCode = RandomUtil.randomNumbers(6);
@@ -70,16 +71,16 @@ public class LoginController {
         String phoneKey = "login_" + reqVo.getPhone();
         String phoneCodeInfo = redisTemplate.opsForValue().get(phoneKey);
         if (StringUtils.isEmpty(phoneCodeInfo)) {
-            throw new BusinessException("", "60秒内仅可申请一次验证码");
+            throw new BusinessException(ExpMsgConsts.COMMON_ERROR, "60秒内仅可申请一次验证码");
         }
         JSONObject codeInfo = JSON.parseObject(phoneCodeInfo);
         Long applicationTime = codeInfo.getLong("application_time");
         Integer number = codeInfo.getInteger("number");
         if (number > 3) {
-            throw new BusinessException("", "已超过最大使用次数,请重新申请");
+            throw new BusinessException(ExpMsgConsts.COMMON_ERROR, "已超过最大使用次数,请重新申请");
         }
         if (System.currentTimeMillis() - applicationTime > 2 * Constants.MINUTE) {
-            throw new BusinessException("", "该验证码已失效,请重新申请");
+            throw new BusinessException(ExpMsgConsts.COMMON_ERROR, "该验证码已失效,请重新申请");
         }
         return Mono.empty();
     }
