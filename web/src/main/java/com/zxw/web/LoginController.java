@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.zxw.consts.Constants;
 import com.zxw.exception.BusinessException;
 import com.zxw.exception.ExpMsgConsts;
-import com.zxw.utils.PhoneUtils;
 import com.zxw.vo.LoginReqVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zxw
@@ -45,10 +45,9 @@ public class LoginController {
      */
     @GetMapping("/getSms/{phone}")
     public Mono<Void> getSms(@PathVariable("phone") String phone) {
-        String phoneNum = PhoneUtils.getPhoneNum();
         String phoneKey = "login_" + phone;
         String verificationObject = redisTemplate.opsForValue().get(phoneKey);
-        log.info("手机号:{}是否获取过验证码:{}", phoneNum, !Objects.isNull(verificationObject));
+        log.info("手机号:{}是否获取过验证码:{}", phone, !Objects.isNull(verificationObject));
         JSONObject codeInfo = JSON.parseObject(verificationObject);
         if (codeInfo == null) {
             codeInfo = new JSONObject();
@@ -62,16 +61,17 @@ public class LoginController {
         String verificationCode = RandomUtil.randomNumbers(6);
         codeInfo.put("verificationCode", verificationCode);
         codeInfo.put("application_time", System.currentTimeMillis());
-        redisTemplate.opsForValue().set(phoneKey, codeInfo.toJSONString());
+        redisTemplate.opsForValue().set(phoneKey, codeInfo.toJSONString(), 2, TimeUnit.MINUTES);
         return Mono.empty();
     }
 
-    @PostMapping("/login")
-    public Mono<Void> login(@RequestBody LoginReqVo reqVo) {
+    @PostMapping
+    public Mono<String> login(@RequestBody LoginReqVo reqVo) {
+        log.info("用户登录手机号:{},验证码:{}", reqVo.getPhone(), reqVo.getVerificationCode());
         String phoneKey = "login_" + reqVo.getPhone();
         String phoneCodeInfo = redisTemplate.opsForValue().get(phoneKey);
         if (StringUtils.isEmpty(phoneCodeInfo)) {
-            throw new BusinessException(ExpMsgConsts.COMMON_ERROR, "60秒内仅可申请一次验证码");
+            throw new BusinessException(ExpMsgConsts.COMMON_ERROR, "请先申请验证码");
         }
         JSONObject codeInfo = JSON.parseObject(phoneCodeInfo);
         Long applicationTime = codeInfo.getLong("application_time");
@@ -82,6 +82,14 @@ public class LoginController {
         if (System.currentTimeMillis() - applicationTime > 2 * Constants.MINUTE) {
             throw new BusinessException(ExpMsgConsts.COMMON_ERROR, "该验证码已失效,请重新申请");
         }
-        return Mono.empty();
+        String verificationCode = codeInfo.getString("verificationCode");
+        if (!StringUtils.equals(verificationCode, reqVo.getVerificationCode())) {
+            number += 1;
+            codeInfo.put("number", number);
+            redisTemplate.opsForValue().set(phoneKey, codeInfo.toJSONString());
+            throw new BusinessException(ExpMsgConsts.COMMON_ERROR, "验证码错误请重新填写");
+        }
+        redisTemplate.delete(phoneKey);
+        return Mono.just("登录成功");
     }
 }

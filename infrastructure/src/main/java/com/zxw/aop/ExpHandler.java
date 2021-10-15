@@ -21,10 +21,10 @@ public class ExpHandler {
 
     @ExceptionHandler({BusinessException.class})
     public Result<Void> handleBusinessException(ServerHttpRequest request, BusinessException e) {
-        Result<Void> result = Result.fail(e.getErrorCode(), e.getErrorMsg());
         ApplicationContext applicationContext = SpringUtil.getApplicationContext();
-        applicationContext.getMessage(e.getErrorCode(), e.getArgs(), "", Locale.CHINA);
-        log.error("//// catch a【{}】 request url :{}, errorCode:{},errorMsg:{}", new Object[]{e.getClass().getSimpleName(), request.getURI(), result.getCode(), result.getMessage(), e});
+        String message = applicationContext.getMessage(e.getErrorCode(), e.getArgs(), "", Locale.CHINA);
+        Result<Void> result = Result.fail(e.getErrorCode(), message);
+        log.error("//// catch a【{}】 request url :{}, errorCode:{},errorMsg:{}", new Object[]{e.getClass().getSimpleName(), request.getURI(), result.getCode(), message, e});
         return result;
     }
 

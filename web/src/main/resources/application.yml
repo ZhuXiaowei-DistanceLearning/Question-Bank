@@ -34,6 +34,8 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  messages:
+    basename: i18n/app
 
 #logging:
 #  config: classpath:logback-spring.xml
