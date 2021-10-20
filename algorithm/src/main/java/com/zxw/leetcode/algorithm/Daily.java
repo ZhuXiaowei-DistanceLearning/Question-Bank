@@ -2,7 +2,9 @@ package com.zxw.leetcode.algorithm;
 
 import com.zxw.datastruct.TreeNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author zxw
@@ -11,23 +13,40 @@ import java.util.*;
 public class Daily {
     public static void main(String[] args) {
         Daily daily = new Daily();
-        daily.kidsWithCandies(new int[]{2, 3, 5, 1, 3}, 3);
-        daily.shuffle(new int[]{2, 5, 1, 3, 4, 7}, 3);
-        daily.subtractProductAndSum(234);
-        daily.defangIPaddr("1.1.1.1");
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        System.out.println(calendar.get(Calendar.YEAR));
-        System.out.println(calendar.get(Calendar.DATE));
-        String s1 = new String("ab");
-        String s2 = "ab";
-        String s3 = s1 + "c";
-        System.out.println(s3);
-        System.out.println(s2 == s1);
-        HashMap map = new HashMap();
+//        daily.kidsWithCandies(new int[]{2, 3, 5, 1, 3}, 3);
+//        daily.shuffle(new int[]{2, 5, 1, 3, 4, 7}, 3);
+//        daily.subtractProductAndSum(234);
+//        daily.defangIPaddr("1.1.1.1");
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(new Date());
+//        System.out.println(calendar.get(Calendar.YEAR));
+//        System.out.println(calendar.get(Calendar.DATE));
+//        String s1 = new String("ab");
+//        String s2 = "ab";
+//        String s3 = s1 + "c";
+//        System.out.println(s3);
+//        System.out.println(s2 == s1);
+//        HashMap map = new HashMap();
+        daily.minMoves(new int[]{1, 1000000000});
 //        for (int i = 0; i < 10000000; i++) {
 //            map.put(i, i);
 //        }
+    }
+
+    /**
+     * 453. 最小操作次数使数组元素相等
+     *
+     * @param nums
+     * @return
+     */
+    public int minMoves(int[] nums) {
+        int n = nums.length;
+        long min = nums[0], sum = 0;
+        for (int i : nums) {
+            min = Math.min(min, i);
+            sum += i;
+        }
+        return (int)(sum - min * n);
     }
 
     /**
