@@ -34,6 +34,16 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  rabbitmq:
+    host: 192.168.200.109
+    port: 5672
+    username: zhuxw
+    password: 123456
+    virtual-host: /apec
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 250
   messages:
     basename: i18n/app
 
