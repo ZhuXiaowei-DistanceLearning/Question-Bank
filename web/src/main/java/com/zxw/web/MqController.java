@@ -3,11 +3,10 @@ package com.zxw.web;
 import com.alibaba.fastjson.JSONObject;
 import com.zxw.base.ProducerHandler;
 import com.zxw.factory.ProducerFactory;
+import com.zxw.service.DelayJobService;
 import com.zxw.vo.base.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -24,6 +23,9 @@ public class MqController {
     @Autowired
     private ProducerFactory producerFactory;
 
+    @Autowired
+            private DelayJobService delayJobService;
+
     ExecutorService executorService = Executors.newFixedThreadPool(16);
 
     @GetMapping("/sendMessage")
@@ -38,6 +40,12 @@ public class MqController {
             });
         }
 //        return Result.success("消息发送成功");
+    }
+
+    @PostMapping("/delayHandler")
+    public Result<String> delayHandler(@RequestBody String message) {
+        delayJobService.delayHandler(message);
+        return Result.success("添加延时队列成功");
     }
 
 }
