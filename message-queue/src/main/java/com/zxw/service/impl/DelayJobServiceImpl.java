@@ -2,6 +2,7 @@ package com.zxw.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.zxw.constants.RedisKeyConsts;
 import com.zxw.delay.entity.DelayJob;
 import com.zxw.exception.BusinessException;
 import com.zxw.exception.ExpMsgConsts;
@@ -20,19 +21,6 @@ import java.util.UUID;
 public class DelayJobServiceImpl implements DelayJobService {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
-    /**
-     * 一组以时间为维度的有序队列，用来存放所有需要延迟的／已经被reserve的Job（这里只存放Job Id）。
-     */
-    private String DELAY_BUCKET = "delay_bucket";
-    /**
-     * 存放处于Ready状态的Job（这里只存放Job Id），以供消费程序消费。
-     */
-    private String READY_QUEUE = "delay_ready_queue";
-    /**
-     * Job Pool用来存放所有Job的元信息。
-     */
-    private String JOB_POOL = "delay_job_pool";
-
 
     /**
      * 其核心设计思路：
@@ -59,8 +47,11 @@ public class DelayJobServiceImpl implements DelayJobService {
     public void put(DelayJob job) {
         String jobId = UUID.randomUUID().toString();
         job.setId(jobId);
-        redisTemplate.opsForHash().put(JOB_POOL, jobId, JSON.toJSONString(job));
-        redisTemplate.opsForZSet().addIfAbsent(DELAY_BUCKET, jobId, System.currentTimeMillis());
+//        DefaultRedisScript redisScript =new DefaultRedisScript<>();
+//        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("lua/addJob.lua")));
+//        redisTemplate.execute(redisScript,keys,RedisKeyUtil.getTopicId(topic, arg.getId()),arg,runTimeMillis);
+        redisTemplate.opsForHash().put(RedisKeyConsts.JOB_POOL, jobId, JSON.toJSONString(job));
+        redisTemplate.opsForZSet().addIfAbsent(RedisKeyConsts.DELAY_BUCKET, jobId, System.currentTimeMillis());
     }
 
     @Override
