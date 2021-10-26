@@ -1,24 +1,21 @@
-package com.zxw.event;
+package com.zxw.delay.event;
 
 import com.zxw.constants.RedisKeyConsts;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zxw
- * @date 2021/10/26 10:12
+ * @date 2021/10/26 11:43
  */
 @Component
-@Slf4j
-public class BucketThread {
+public class ReadyQueueThread {
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -27,12 +24,8 @@ public class BucketThread {
     public void init() {
         executorService.execute(() -> {
             while (true) {
-                Set<String> queue = redisTemplate.opsForZSet().rangeByScore(RedisKeyConsts.DELAY_BUCKET, 0, System.currentTimeMillis(), 0, 1);
-                if (CollectionUtils.isNotEmpty(queue)) {
-                    queue.forEach(k -> {
-                        redisTemplate.opsForList().leftPush(RedisKeyConsts.READY_QUEUE,k);
-                    });
-                }
+                String jobId = redisTemplate.opsForList().rightPop(RedisKeyConsts.READY_QUEUE,1, TimeUnit.SECONDS);
+                Object job = redisTemplate.opsForHash().get(RedisKeyConsts.JOB_POOL, jobId);
             }
         });
     }

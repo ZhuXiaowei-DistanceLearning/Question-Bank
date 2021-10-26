@@ -35,4 +35,8 @@ public class DelayJob {
      * Job执行超时时间。单位：秒。
      */
     private String ttr;
+    /**
+     * job状态
+     */
+    private String status;
 }
