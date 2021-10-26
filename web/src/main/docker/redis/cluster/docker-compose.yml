@@ -1,0 +1,74 @@
+version: '3'
+services:
+    redis1:
+        image:  redis:5.0.10-alpine
+        container_name: redis-cluster-server-node1
+        command: ["redis-server","/usr/local/etc/redis/redis.conf"]
+        volumes: 
+           - ./conf/redis-node1.conf:/usr/local/etc/redis/redis.conf
+           - ./node1/data:/data
+        environment:
+           - TZ=Asia/Shanghai
+        restart: always
+        network_mode: "host"
+
+
+    redis2:
+        image: redis:5.0.10-alpine
+        container_name: redis-cluster-server-node2
+        command: ["redis-server","/usr/local/etc/redis/redis.conf"]
+        volumes:
+           - ./conf/redis-node2.conf:/usr/local/etc/redis/redis.conf
+           - ./node2/data:/data
+        environment:
+           - TZ=Asia/Shanghai
+        restart: always
+        network_mode: "host"
+
+    redis3:
+        image: redis:5.0.10-alpine
+        container_name: redis-cluster-server-node3
+        command: ["redis-server","/usr/local/etc/redis/redis.conf"]
+        volumes:
+           - ./conf/redis-node3.conf:/usr/local/etc/redis/redis.conf
+           - ./node3/data:/data
+        environment:
+           - TZ=Asia/Shanghai
+        restart: always
+        network_mode: "host"
+
+    redis4:
+        image: redis:5.0.10-alpine
+        container_name: redis-cluster-server-node4
+        command: ["redis-server","/usr/local/etc/redis/redis.conf"]
+        volumes:
+           - ./conf/redis-node4.conf:/usr/local/etc/redis/redis.conf
+           - ./node4/data:/data
+        environment:
+           - TZ=Asia/Shanghai
+        restart: always
+        network_mode: "host"
+
+    redis5:
+        image: redis:5.0.10-alpine
+        container_name: redis-cluster-server-node5
+        command: ["redis-server","/usr/local/etc/redis/redis.conf"]
+        volumes:
+           - ./conf/redis-node5.conf:/usr/local/etc/redis/redis.conf
+           - ./node5/data:/data
+        environment:
+           - TZ=Asia/Shanghai
+        restart: always
+        network_mode: "host"
+        
+    redis6:
+        image: redis:5.0.10-alpine
+        container_name: redis-cluster-server-node6
+        command: ["redis-server","/usr/local/etc/redis/redis.conf"]
+        volumes:
+           - ./conf/redis-node6.conf:/usr/local/etc/redis/redis.conf
+           - ./node6/data:/data
+        environment:
+           - TZ=Asia/Shanghai
+        restart: always
+        network_mode: "host"
