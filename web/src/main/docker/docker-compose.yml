@@ -147,3 +147,16 @@ services:
       - TZ=Asia/Shanghai
     restart: always
     network_mode: "host"
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    hostname: portainer
+    restart: always
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./portainer/data:/data"
+    environment:
+      TZ: Asia/Shanghai
+      LANG: en_US.UTF-8
+    ports:
+      - "9000:9000"
