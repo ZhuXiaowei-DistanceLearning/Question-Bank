@@ -11,6 +11,8 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 
 /**
+ * 一个Flux对象代表一个包含0…N个元素的响应式序列
+ * 一个Mono对象代表一个包含零/一个（0…1）元素的结果。
  * @author zxw
  * @date 2021-05-09 0:35
  */
@@ -30,6 +32,7 @@ public class StringController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("hello", "word");
         jsonObject.put("Language", "chinese");
+        Flux.just(1,2,3,4,5,6).subscribe(System.out::println,System.out::println,()-> System.out.println("Completed"));
         return Flux.just(jsonObject.toJSONString(), "aaaa");
     }
 
