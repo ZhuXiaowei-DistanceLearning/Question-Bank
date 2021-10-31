@@ -18,6 +18,7 @@ public class RouterConfig {
     public RouterFunction<ServerResponse> timerRouter() {
         return route(GET("/time"), req -> timeHandler.getTime(req))
                 // 这种方式相对于上一行更加简洁
-                .andRoute(GET("/date"), timeHandler::getDate);
+                .andRoute(GET("/date"), timeHandler::getDate)
+                .andRoute(GET("/times"), timeHandler::sendTimePerSec);
     }
 }
