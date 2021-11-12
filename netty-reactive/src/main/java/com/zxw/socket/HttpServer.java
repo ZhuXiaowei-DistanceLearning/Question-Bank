@@ -1,5 +1,7 @@
 package com.zxw.socket;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,8 +14,11 @@ import java.net.Socket;
  * @author zxw
  * @date 2021/11/12 13:49
  */
+@Slf4j
 public class HttpServer {
-    public static final String WEB_ROOT = System.getProperty("user.dir") + File.separator + "webroot";
+    //    public static final String WEB_ROOT = System.getProperty("user.dir") + File.separator + "webroot";
+    public static final String WEB_ROOT = System.getProperty("user.dir") + File.separator + "netty-reactive\\src\\main\\java\\com\\zxw\\socket\\";
+    public static final String WEB_ROOT_REL = "com.zxw.socket.";
 
     public static final String SHUTDOWN_COMMAND = "/SHUTDOWN";
 
@@ -34,9 +39,13 @@ public class HttpServer {
                     request.parse();
                     Response response = new Response(output);
                     response.setRequest(request);
-                    response.sendStaticResource();
+                    if (request.getUri().startsWith("/servlet/")) {
+                        ServletProcessor servletProcessor = new ServletProcessor();
+                        servletProcessor.process(request, response);
+                    }
                     shutdown = request.getUri().equals(SHUTDOWN_COMMAND);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     continue;
                 }
             }

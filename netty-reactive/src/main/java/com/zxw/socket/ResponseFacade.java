@@ -1,46 +1,20 @@
 package com.zxw.socket;
 
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletResponse;
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Locale;
 
 /**
  * @author zxw
- * @date 2021/11/12 14:00
+ * @date 2021/11/12 15:28
  */
-@Data
-@Slf4j
-public class Response implements ServletResponse {
-    private OutputStream output;
-    private static final int BUFFER_SIZE = 1024;
-    Request request;
-    PrintWriter writer;
+public class ResponseFacade implements ServletResponse {
+    private ServletResponse servletResponse = null;
 
-    public Response(OutputStream output) {
-        this.output = output;
-    }
-
-    public void sendStaticResource() {
-        byte[] bytes = new byte[BUFFER_SIZE];
-        File file = new File(HttpServer.WEB_ROOT, request.getUri());
-        try (FileInputStream fis = new FileInputStream(file);) {
-            if (file.exists()) {
-                int ch = fis.read(bytes, 0, BUFFER_SIZE);
-                while (ch != -1) {
-                    output.write(bytes, 0, ch);
-                    ch = fis.read(bytes, 0, BUFFER_SIZE);
-                }
-            } else {
-                String errorMessage = "error";
-                output.write(errorMessage.getBytes());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public ResponseFacade(Response response) {
+        this.servletResponse = response;
     }
 
     @Override
@@ -59,8 +33,8 @@ public class Response implements ServletResponse {
     }
 
     @Override
-    public PrintWriter getWriter(){
-        writer = new PrintWriter(output, true);
+    public PrintWriter getWriter() throws IOException {
+        PrintWriter writer = servletResponse.getWriter();
         return writer;
     }
 
