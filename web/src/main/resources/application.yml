@@ -5,21 +5,21 @@ spring:
     lettuce:
       pool:
         max-active: 8
-    host: redis.dev.magpie.com
+    host: zxw.middleware.com
     port: 16379
     password: znw@123
     database: 0
   datasource:
     primary:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://mysql.dev.magpie.com:3306/e_seal?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+      url: jdbc:mysql://zxw.middleware.com:3306/e_seal?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
       username: root
-      password: Admin!@123
+      password: 123456
   data:
     mongodb:
-      uri: mongodb://192.168.200.108:27017/magpie_test?maxIdleTimeMS=3000
+      uri: mongodb://zxw.middleware.com:27017/magpie_test?maxIdleTimeMS=3000
   kafka:
-    bootstrap-servers: 127.0.0.1:9092
+    bootstrap-servers: zxw.middleware.com:9092
     producer:
       acks: 1
       client-id: kafka-producer
@@ -35,7 +35,7 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   rabbitmq:
-    host: 192.168.200.109
+    host: zxw.middleware.com
     port: 5672
     username: zhuxw
     password: 123456

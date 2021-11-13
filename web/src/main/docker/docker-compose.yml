@@ -55,7 +55,7 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: "root"
       RABBITMQ_DEFAULT_PASS: "123456"
-    image: rabbitmq:3.8.3-management
+    image: daocloud.io/rabbitmq:3
     container_name: rabbitmq-server
     restart: always
     volumes:
@@ -71,7 +71,7 @@ services:
     command: redis-server /usr/local/etc/redis/redis.conf
     restart: always
     ports:
-      - 16379:6379
+      - 6379:6379
     volumes:
       - ./redis/single/data:/data
       - ./redis/single/conf/redis.conf:/usr/local/etc/redis/redis.conf
