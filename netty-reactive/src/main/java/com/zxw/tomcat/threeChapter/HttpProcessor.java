@@ -11,6 +11,7 @@ import java.net.Socket;
  */
 public class HttpProcessor {
     private HttpConnector connector;
+    private HttpRequest request;
 
     public HttpProcessor(HttpConnector httpConnector) {
         this.connector = httpConnector;
@@ -19,8 +20,8 @@ public class HttpProcessor {
     public void process(Socket socket) {
         try (InputStream input = socket.getInputStream();
              OutputStream output = socket.getOutputStream();) {
-            HttpRequest request = new HttpRequest(input);
-            HttpResponse response = new HttpResponse(output);
+            request = new HttpRequest(input);
+            HttpResponse response = new HttpResponse(new ResponseStream(output));
             response.setRequest(request);
             response.setHeader("Server", "Servlet Container");
             parseRequest(input, output);
@@ -36,7 +37,6 @@ public class HttpProcessor {
     }
 
     private void parseHeaders(InputStream input) {
-
     }
 
     private void parseRequest(InputStream input, OutputStream output) {

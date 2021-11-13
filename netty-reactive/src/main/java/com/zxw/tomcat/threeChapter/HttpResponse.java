@@ -4,8 +4,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -14,10 +15,11 @@ import java.util.Locale;
  * @date 2021/11/12 17:12
  */
 public class HttpResponse implements HttpServletResponse {
-    private OutputStream output;
+    private ResponseStream output;
     private HttpRequest request;
+    private ResponseWriter writer;
 
-    public HttpResponse(OutputStream output) {
+    public HttpResponse(ResponseStream output) {
         this.output = output;
     }
 
@@ -143,7 +145,10 @@ public class HttpResponse implements HttpServletResponse {
 
     @Override
     public PrintWriter getWriter() throws IOException {
-        return null;
+        ResponseStream responseStream = new ResponseStream(this);
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(responseStream, StandardCharsets.UTF_8);
+        writer = new ResponseWriter(outputStreamWriter);
+        return writer;
     }
 
     @Override
