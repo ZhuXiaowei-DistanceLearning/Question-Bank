@@ -1,6 +1,8 @@
 package com.zxw.tomcat.threeChapter;
 
 import com.zxw.socket.*;
+import com.zxw.tomcat.threeChapter.connector.HttpRequest;
+import com.zxw.tomcat.threeChapter.connector.HttpResponse;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;

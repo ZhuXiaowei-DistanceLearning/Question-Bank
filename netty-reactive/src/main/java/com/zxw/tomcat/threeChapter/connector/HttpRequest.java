@@ -1,26 +1,35 @@
-package com.zxw.tomcat.threeChapter;
+package com.zxw.tomcat.threeChapter.connector;
+
+import lombok.Data;
+import org.apache.catalina.util.ParameterMap;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author zxw
  * @date 2021/11/12 17:12
  */
+@Data
 public class HttpRequest implements HttpServletRequest {
-    private InputStream input;
+    protected HashMap<String, String> headers = new HashMap();
+    protected ArrayList cookies = new ArrayList();
+    private ParameterMap parameters = null;
 
-    public HttpRequest(InputStream input) {
-            this.input = input;
+    private RequestStream input;
+    private String uri;
+
+    public HttpRequest(RequestStream input) {
+        this.input = input;
+    }
+
+    public void addHeader(String key, String value) {
+        headers.put(key, value);
     }
 
     @Override
@@ -105,7 +114,7 @@ public class HttpRequest implements HttpServletRequest {
 
     @Override
     public String getRequestURI() {
-        return null;
+        return uri;
     }
 
     @Override

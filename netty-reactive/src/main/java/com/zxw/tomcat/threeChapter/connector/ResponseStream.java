@@ -1,4 +1,4 @@
-package com.zxw.tomcat.threeChapter;
+package com.zxw.tomcat.threeChapter.connector;
 
 import java.io.IOException;
 import java.io.OutputStream;

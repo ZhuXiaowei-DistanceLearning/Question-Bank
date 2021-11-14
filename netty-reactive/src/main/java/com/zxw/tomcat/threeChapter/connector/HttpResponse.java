@@ -1,4 +1,7 @@
-package com.zxw.tomcat.threeChapter;
+package com.zxw.tomcat.threeChapter.connector;
+
+import org.apache.catalina.connector.CoyoteWriter;
+import org.apache.catalina.connector.OutputBuffer;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
@@ -147,8 +150,8 @@ public class HttpResponse implements HttpServletResponse {
     public PrintWriter getWriter() throws IOException {
         ResponseStream responseStream = new ResponseStream(this);
         OutputStreamWriter outputStreamWriter = new OutputStreamWriter(responseStream, StandardCharsets.UTF_8);
-        writer = new ResponseWriter(outputStreamWriter);
-        return writer;
+        CoyoteWriter coyoteWriter = new CoyoteWriter(new OutputBuffer(2048));
+        return coyoteWriter;
     }
 
     @Override
