@@ -13,7 +13,8 @@ import java.net.Socket;
  * @date 2021/11/12 17:12
  */
 @Slf4j
-public class HttpProcessor {
+public class HttpProcessor implements Runnable {
+    private boolean stop;
     private HttpConnector connector;
     private HttpRequest request;
     private HttpRequestLine requestLine;
@@ -50,5 +51,12 @@ public class HttpProcessor {
         requestLine = new HttpRequestLine();
         input.readLine(requestLine);
         request.setUri(requestLine.getUri());
+    }
+
+    @Override
+    public void run() {
+        while (!stop) {
+
+        }
     }
 }

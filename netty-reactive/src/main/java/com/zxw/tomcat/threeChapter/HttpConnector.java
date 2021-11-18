@@ -2,6 +2,7 @@ package com.zxw.tomcat.threeChapter;
 
 import lombok.Data;
 import org.apache.catalina.Container;
+import org.apache.catalina.connector.Connector;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -13,14 +14,14 @@ import java.net.Socket;
  * @date 2021/11/12 17:11
  */
 @Data
-public class HttpConnector implements Runnable {
+public class HttpConnector extends Connector implements Runnable {
 
     boolean stop;
     private String scheme = "http";
 
     private Container container;
 
-    public void start() {
+    public void begin() {
         Thread thread = new Thread(this);
         thread.start();
     }
