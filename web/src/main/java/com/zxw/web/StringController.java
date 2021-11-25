@@ -2,6 +2,9 @@ package com.zxw.web;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zxw.entity.User;
+import com.zxw.designpattern.pipe.InstanceBuildContext;
+import com.zxw.designpattern.pipe.PipelineExecutor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +25,17 @@ import java.time.Duration;
 @RequestMapping("/string")
 @RestController
 public class StringController {
+
+    @Autowired
+    private PipelineExecutor executor;
+
     @GetMapping
     public Mono<String> hello() {
+        InstanceBuildContext context = new InstanceBuildContext();
+        context.setMonth(1);
+        context.setDate(1);
+        context.setYear(1);
+        executor.acceptSync(context);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("hello", "word");
         jsonObject.put("Language", "chinese");
