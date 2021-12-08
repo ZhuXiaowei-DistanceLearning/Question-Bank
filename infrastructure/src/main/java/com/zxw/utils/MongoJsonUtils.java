@@ -27,7 +27,7 @@ public class MongoJsonUtils {
         }
     }
 
-    
+
 
     public JSONArray getDataArray() {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
