@@ -62,7 +62,8 @@ public final class EchoClient {
                          p.addLast(sslCtx.newHandler(ch.alloc(), HOST, PORT));
                      }
                      //p.addLast(new LoggingHandler(LogLevel.INFO));
-                     p.addLast(new EchoClientHandler());
+//                     p.addLast(new EchoClientHandler());
+                     p.addLast(new EchoClientHandler2());
                  }
              });
 

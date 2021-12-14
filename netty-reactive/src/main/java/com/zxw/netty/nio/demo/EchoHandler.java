@@ -1,6 +1,5 @@
 package com.zxw.netty.nio.demo;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -79,6 +78,7 @@ public class EchoHandler implements Runnable {
 		if (key.isValid()) {
 			// 处理新接入的请求消息
 			if (key.isAcceptable()) {
+				// 处理accept事件
 				ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
 				SocketChannel socketChannel = ssc.accept(); // Non blocking, never null
 				socketChannel.configureBlocking(false);
@@ -88,6 +88,7 @@ public class EchoHandler implements Runnable {
 			}
 			if (key.isReadable()) {
 				// 读取数据
+				// 处理read事件
 				SocketChannel sc = (SocketChannel) key.channel();
 				ByteBuffer readBuffer = ByteBuffer.allocate(1024);
 				int readBytes = sc.read(readBuffer);
@@ -118,6 +119,12 @@ public class EchoHandler implements Runnable {
 		}
 	}
 
+	/**
+	 * 处理写事件
+	 * @param channel
+	 * @param response
+	 * @throws IOException
+	 */
 	private void doWrite(SocketChannel channel, String response) throws IOException {
 		if (response != null && response.trim().length() > 0) {
 			byte[] bytes = response.getBytes();
