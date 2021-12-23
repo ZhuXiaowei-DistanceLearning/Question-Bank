@@ -1,6 +1,7 @@
 package com.zxw.netty.demo.bytebuf;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.Unpooled;
 
 import java.nio.charset.Charset;
@@ -64,14 +65,14 @@ public class ByteBufDemo {
         System.out.println("写数据之后ByteBuf的writeIndex=" + buffer.writerIndex());
         // 写数据
         for (int i = 0; i < buffer.capacity(); i++) {
-            buffer.setByte(i,i);
+            buffer.setByte(i, i);
         }
         // 循环遍历，有数据继续读取
         while (buffer.isReadable()) {
             System.out.print(buffer.readByte());
         }
         for (int i = 0; i < buffer.capacity(); i++) {
-            buffer.setByte(i,i);
+            buffer.setByte(i, i);
         }
         for (int i = 0; i < buffer.capacity(); i++) {
             System.out.print(buffer.getByte(i));
@@ -101,5 +102,38 @@ public class ByteBufDemo {
             System.out.print(buffer.readByte());
             System.out.print(",");
         }
+    }
+
+    public void test5() {
+        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer(6, 10);
+        printByteBufInfo("ByteBufAllocator.buffer(5, 10)", buffer);
+        buffer.writeBytes(new byte[]{1, 2});
+        printByteBufInfo("write 2 Bytes", buffer);
+        buffer.writeInt(100);
+        printByteBufInfo("write Int 100", buffer);
+        buffer.writeBytes(new byte[]{3, 4, 5});
+        printByteBufInfo("write 3 Bytes", buffer);
+        byte[] read = new byte[buffer.readableBytes()];
+        buffer.readBytes(read);
+        printByteBufInfo("readBytes(" + buffer.readableBytes() + ")", buffer);
+        printByteBufInfo("BeforeGetAndSet", buffer);
+        System.out.println("getInt(2): " + buffer.getInt(2));
+        buffer.setByte(1, 0);
+        System.out.println("getByte(1): " + buffer.getByte(1));
+        printByteBufInfo("AfterGetAndSet", buffer);
+
+    }
+
+    private static void printByteBufInfo(String step, ByteBuf buffer) {
+        System.out.println("------" + step + "-----");
+        System.out.println("readerIndex(): " + buffer.readerIndex());
+        System.out.println("writerIndex(): " + buffer.writerIndex());
+        System.out.println("isReadable(): " + buffer.isReadable());
+        System.out.println("isWritable(): " + buffer.isWritable());
+        System.out.println("readableBytes(): " + buffer.readableBytes());
+        System.out.println("writableBytes(): " + buffer.writableBytes());
+        System.out.println("maxWritableBytes(): " + buffer.maxWritableBytes());
+        System.out.println("capacity(): " + buffer.capacity());
+        System.out.println("maxCapacity(): " + buffer.maxCapacity());
     }
 }
