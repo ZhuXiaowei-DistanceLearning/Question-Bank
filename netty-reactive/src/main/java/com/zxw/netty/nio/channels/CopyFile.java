@@ -4,7 +4,12 @@ import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
 
-
+/**
+ * FileChannel：文件数据传输通道
+ * DatagramChannel：UDP 数据传输通道
+ * SocketChannel：客户端 TCP 数据传输通道
+ * ServerSocketChannel：服务器端 TCP 数据传输通道
+ */
 public class CopyFile {
     static public void main(String args[]) throws Exception {
         String infile = "src/main/resources/CopyFile.java";
