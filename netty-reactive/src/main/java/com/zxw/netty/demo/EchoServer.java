@@ -73,7 +73,8 @@ public final class EchoServer {
                                 p.addLast(sslCtx.newHandler(ch.alloc()));
                             }
                             //p.addLast(new LoggingHandler(LogLevel.INFO));
-                            p.addLast(serverHandler);
+//                            p.addLast(serverHandler);
+                            p.addLast(new EchoClientHandler());
                         }
                     });
             // 绑定端口，并启动server，同时设置启动方式为同步
