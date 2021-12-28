@@ -15,13 +15,14 @@
  */
 package com.zxw.netty.demo;
 
+import com.zxw.netty.demo.handler.FirstInBoundHandler;
+import com.zxw.netty.demo.handler.SecondInBoundHandler;
+import com.zxw.netty.demo.handler.ThirdInBoundHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
@@ -63,7 +64,7 @@ public final class EchoClient {
                             if (sslCtx != null) {
                                 p.addLast(sslCtx.newHandler(ch.alloc(), HOST, PORT));
                             }
-                            p.addLast(new LoggingHandler(LogLevel.INFO)).addLast(new EchoClientHandler()).addLast(new EchoClientHandler2());
+                            p.addLast(new FirstInBoundHandler()).addLast(new SecondInBoundHandler()).addLast(new ThirdInBoundHandler());
                         }
                     });
 

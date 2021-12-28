@@ -74,7 +74,7 @@ public final class EchoServer {
                             }
                             //p.addLast(new LoggingHandler(LogLevel.INFO));
 //                            p.addLast(serverHandler);
-                            p.addLast(new EchoClientHandler());
+                            p.addLast(new EchoServerHandler());
                         }
                     });
             // 绑定端口，并启动server，同时设置启动方式为同步
