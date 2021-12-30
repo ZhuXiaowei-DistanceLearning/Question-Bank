@@ -15,6 +15,7 @@
  */
 package com.zxw.netty.demo;
 
+import com.zxw.netty.demo.encode.MessageEncoder;
 import com.zxw.netty.demo.handler.FirstInBoundHandler;
 import com.zxw.netty.demo.handler.SecondInBoundHandler;
 import com.zxw.netty.demo.handler.ThirdInBoundHandler;
@@ -64,7 +65,7 @@ public final class EchoClient {
                             if (sslCtx != null) {
                                 p.addLast(sslCtx.newHandler(ch.alloc(), HOST, PORT));
                             }
-                            p.addLast(new FirstInBoundHandler()).addLast(new SecondInBoundHandler()).addLast(new ThirdInBoundHandler());
+                            p.addLast(new MessageEncoder()).addLast(new FirstInBoundHandler()).addLast(new SecondInBoundHandler()).addLast(new ThirdInBoundHandler());
                         }
                     });
 

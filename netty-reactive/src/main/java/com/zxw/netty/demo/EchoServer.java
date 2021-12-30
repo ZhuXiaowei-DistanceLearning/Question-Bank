@@ -15,12 +15,9 @@
  */
 package com.zxw.netty.demo;
 
+import com.zxw.netty.demo.encode.MessageDecoder;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -74,7 +71,7 @@ public final class EchoServer {
                             }
                             //p.addLast(new LoggingHandler(LogLevel.INFO));
 //                            p.addLast(serverHandler);
-                            p.addLast(new EchoServerHandler());
+                            p.addLast(new MessageDecoder()).addLast(new EchoServerHandler());
                         }
                     });
             // 绑定端口，并启动server，同时设置启动方式为同步
