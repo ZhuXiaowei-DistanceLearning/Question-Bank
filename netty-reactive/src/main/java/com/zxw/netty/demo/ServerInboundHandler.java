@@ -20,28 +20,36 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.CharsetUtil;
+import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
+
+import java.nio.charset.Charset;
+import java.util.UUID;
 
 /**
  * Handler implementation for the echo server.
  */
 @Sharable
 @Slf4j
-public class EchoServerHandler extends ChannelInboundHandlerAdapter {
+public class ServerInboundHandler extends SimpleChannelInboundHandler<ByteBuf> {
+
+    int count = 0;
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ByteBuf in = (ByteBuf) msg;
-        log.info("服务器端接收到消息:{}", in.toString(CharsetUtil.UTF_8));
-        ctx.write(in);
+    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+        byte[] bytes = new byte[msg.readableBytes()];
+        msg.readBytes(bytes);
+        String message = new String(bytes, "utf-8");
+        log.info("服务器端接收到消息:{}", message);
+        log.info("服务器端接收到消息量" + (++this.count));
+        ByteBuf response  = Unpooled.copiedBuffer(UUID.randomUUID().toString()+"--", Charset.defaultCharset());
+        ctx.writeAndFlush(response);
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
         ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
-                        .addListener(ChannelFutureListener.CLOSE);
+                .addListener(ChannelFutureListener.CLOSE);
     }
 
     @Override

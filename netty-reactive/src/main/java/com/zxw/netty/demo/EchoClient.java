@@ -15,14 +15,12 @@
  */
 package com.zxw.netty.demo;
 
-import com.zxw.netty.demo.encode.MessageEncoder;
-import com.zxw.netty.demo.handler.FirstInBoundHandler;
-import com.zxw.netty.demo.handler.SecondInBoundHandler;
-import com.zxw.netty.demo.handler.ThirdInBoundHandler;
+import com.zxw.netty.demo.encode.ClientCoderChannelInitializer;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
@@ -58,16 +56,7 @@ public final class EchoClient {
             b.group(group)
                     .channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY, true)
-                    .handler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        public void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline p = ch.pipeline();
-                            if (sslCtx != null) {
-                                p.addLast(sslCtx.newHandler(ch.alloc(), HOST, PORT));
-                            }
-                            p.addLast(new MessageEncoder()).addLast(new FirstInBoundHandler()).addLast(new SecondInBoundHandler()).addLast(new ThirdInBoundHandler());
-                        }
-                    });
+                    .handler(new ClientCoderChannelInitializer());
 
             // Start the client.
             ChannelFuture f = b.connect(HOST, PORT).sync();

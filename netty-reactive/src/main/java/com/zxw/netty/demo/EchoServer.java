@@ -15,11 +15,12 @@
  */
 package com.zxw.netty.demo;
 
-import com.zxw.netty.demo.encode.MessageDecoder;
+import com.zxw.netty.demo.encode.ServerCoderChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
@@ -51,7 +52,7 @@ public final class EchoServer {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         // 工作线程组，老板线程组会把任务丢给他，让手下线程组去做任务，服务客户
         EventLoopGroup workerGroup = new NioEventLoopGroup();
-        final EchoServerHandler serverHandler = new EchoServerHandler();
+        final ServerInboundHandler serverHandler = new ServerInboundHandler();
         try {
             // 用于配置Server相关参数，并启动Server
             ServerBootstrap b = new ServerBootstrap();
@@ -62,18 +63,7 @@ public final class EchoServer {
                     // 配置通道的ChannelPipeline
                     .option(ChannelOption.SO_BACKLOG, 100)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        public void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline p = ch.pipeline();
-                            if (sslCtx != null) {
-                                p.addLast(sslCtx.newHandler(ch.alloc()));
-                            }
-                            //p.addLast(new LoggingHandler(LogLevel.INFO));
-//                            p.addLast(serverHandler);
-                            p.addLast(new MessageDecoder()).addLast(new EchoServerHandler());
-                        }
-                    });
+                    .childHandler(new ServerCoderChannelInitializer());
             // 绑定端口，并启动server，同时设置启动方式为同步
             // Start the server.
             ChannelFuture f = b.bind(PORT).sync();

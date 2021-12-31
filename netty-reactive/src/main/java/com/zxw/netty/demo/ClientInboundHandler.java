@@ -7,12 +7,14 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.nio.charset.Charset;
+
 /**
  * @author zxw
  * @date 2021-12-12 21:29
  */
 @Slf4j
-public class EchoClientHandler2 extends SimpleChannelInboundHandler<ByteBuf> {
+public class ClientInboundHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
         log.info("客户端接受到消息：{}", msg.toString(CharsetUtil.UTF_8));
@@ -20,7 +22,14 @@ public class EchoClientHandler2 extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(Unpooled.copiedBuffer("示例程序", CharsetUtil.UTF_8));
+        super.channelActive(ctx);
+        for (int i = 0; i < 10; i++) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("这是第");
+            sb.append(i);
+            sb.append("条消息");
+            ctx.writeAndFlush(Unpooled.copiedBuffer(sb.toString(), Charset.defaultCharset()));
+        }
     }
 
     @Override
