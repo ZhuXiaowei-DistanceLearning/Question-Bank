@@ -1,6 +1,8 @@
 package com.zxw.netty.demo.handler.init;
 
-import com.zxw.netty.demo.handler.ClientMessageInboundHandler;
+import com.zxw.netty.demo.encode.MessageDecoder;
+import com.zxw.netty.demo.encode.MessageEncoder;
+import com.zxw.netty.demo.handler.client.ClientMessageInboundHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -17,6 +19,8 @@ public class ClientCoderChannelInitializer extends ChannelInitializer<SocketChan
 //                .addLast(new LongToByteEncoder())
 //                .addLast(new ByteToLongDecoder())
 //                .addLast(new ClientInboundHandler());
+                .addLast(new MessageDecoder())
+                .addLast(new MessageEncoder())
                 .addLast(new ClientMessageInboundHandler());
     }
 }

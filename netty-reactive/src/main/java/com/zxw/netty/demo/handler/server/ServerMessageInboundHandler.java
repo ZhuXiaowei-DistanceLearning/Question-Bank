@@ -1,4 +1,4 @@
-package com.zxw.netty.demo.handler;
+package com.zxw.netty.demo.handler.server;
 
 import com.zxw.netty.demo.encode.MessageProtocol;
 import io.netty.channel.ChannelHandlerContext;

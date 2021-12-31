@@ -52,7 +52,6 @@ public final class EchoServer {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         // 工作线程组，老板线程组会把任务丢给他，让手下线程组去做任务，服务客户
         EventLoopGroup workerGroup = new NioEventLoopGroup();
-        final ServerInboundHandler serverHandler = new ServerInboundHandler();
         try {
             // 用于配置Server相关参数，并启动Server
             ServerBootstrap b = new ServerBootstrap();

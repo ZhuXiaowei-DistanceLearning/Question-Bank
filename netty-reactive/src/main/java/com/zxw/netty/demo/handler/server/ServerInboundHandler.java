@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.zxw.netty.demo;
+package com.zxw.netty.demo.handler.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

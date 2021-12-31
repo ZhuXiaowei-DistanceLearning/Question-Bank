@@ -1,4 +1,4 @@
-package com.zxw.netty.demo;
+package com.zxw.netty.demo.handler.client;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
