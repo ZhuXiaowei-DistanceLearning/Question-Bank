@@ -15,7 +15,7 @@
  */
 package com.zxw.netty.demo;
 
-import com.zxw.netty.demo.encode.ServerCoderChannelInitializer;
+import com.zxw.netty.demo.handler.init.ServerCoderChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;

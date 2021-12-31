@@ -9,13 +9,16 @@ import java.util.List;
 public class MessageDecoder extends ReplayingDecoder<Void> {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        System.out.println("Starting Decode message");
-        int len = in.readableBytes();
-        byte[] content = new byte[len];
+        System.out.println("MessageDecoder 被调用");
+        //需要将获取到的二进制字节码转换成 MessageProtocol
+        int length = in.readInt();
+        byte[] content = new byte[length];
         in.readBytes(content);
-        MessageProtocol msg = new MessageProtocol();
-        msg.setLen(len);
-        msg.setContent(content);
-        out.add(msg);
+
+        //封装成 MessageProtocol 对象，放入 out，传递到下一个Handler
+        MessageProtocol messageProtocol = new MessageProtocol();
+        messageProtocol.setLen(length);
+        messageProtocol.setContent(content);
+        out.add(messageProtocol);
     }
 }
