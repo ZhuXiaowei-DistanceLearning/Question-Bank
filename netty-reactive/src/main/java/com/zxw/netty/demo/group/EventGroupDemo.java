@@ -12,17 +12,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EventGroupDemo {
     public static void main(String[] args) {
-        EventLoopGroup group = new DefaultEventLoopGroup(1);
-        EventLoop next = group.next();
+        EventLoopGroup group = new DefaultEventLoopGroup(2);
         TestRunner testRunner = new TestRunner();
-        next.execute(testRunner);
+        for (int i = 0; i < 10; i++) {
+            EventLoop next = group.next();
+            next.execute(testRunner);
+        }
         group.shutdownGracefully();
     }
 
-    public static class TestRunner implements Runnable{
+    public static class TestRunner implements Runnable {
 
         @Override
         public void run() {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             log.info("测试线程数据");
         }
     }
