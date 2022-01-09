@@ -28,6 +28,7 @@ public class ClientInboundHandler extends SimpleChannelInboundHandler<ByteBuf> {
             sb.append("这是第");
             sb.append(i);
             sb.append("条消息");
+            sb.append("\r\n");
             ctx.writeAndFlush(Unpooled.copiedBuffer(sb.toString(), Charset.defaultCharset()));
         }
     }
