@@ -46,6 +46,7 @@ public class ByteBufDemo {
      */
     public static void test2() {
         Charset charset = Charset.forName("utf-8");
+        ByteBuf intByteBuf = Unpooled.copyInt(200, 2, 3, 4, 5, 6, 7);
         ByteBuf stringByteBuf = Unpooled.copiedBuffer("hello world", charset);
 
         if (stringByteBuf.hasArray()) {
@@ -53,6 +54,12 @@ public class ByteBufDemo {
             byte[] bytes = new byte[lenght];
             stringByteBuf.getBytes(stringByteBuf.readerIndex(), bytes);
             System.out.println(new String(bytes, charset));
+        }
+
+        while (intByteBuf.isReadable()) {
+            System.out.println(intByteBuf.readerIndex());
+            System.out.println(intByteBuf.writerIndex());
+            System.out.println(intByteBuf.readInt());
         }
     }
 

@@ -1,7 +1,6 @@
 package com.zxw.netty.demo.handler.init;
 
-import com.zxw.netty.demo.encode.line.LineDefineDecoder;
-import com.zxw.netty.demo.encode.line.LineServerHandler;
+import com.zxw.netty.demo.handler.server.ServerMessageInboundHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -20,8 +19,10 @@ public class ServerCoderChannelInitializer extends ChannelInitializer<SocketChan
 //                .addLast(new ServerMessageInboundHandler())
 //                .addLast(new MessageDecoder())
 //                .addLast(new MessageEncoder())
-                .addLast(new LineDefineDecoder(1024))
-                .addLast(new LineServerHandler());
-//                .addLast(new ServerMessageInboundHandler());
+//                .addLast(new LineDefineDecoder(10))
+//                .addLast(new LineServerHandler());
+//                .addLast(new LengthFieldDefineDecoder(Integer.MAX_VALUE, 0, 2))
+//                .addLast(new LengthServerHandler());
+                .addLast(new ServerMessageInboundHandler());
     }
 }
