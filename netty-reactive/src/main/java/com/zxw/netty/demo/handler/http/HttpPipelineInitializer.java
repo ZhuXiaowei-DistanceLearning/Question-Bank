@@ -3,10 +3,9 @@ package com.zxw.netty.demo.handler.http;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
-import io.netty.handler.codec.http.HttpRequestDecoder;
-import io.netty.handler.codec.http.HttpRequestEncoder;
-import io.netty.handler.codec.http.HttpResponseDecoder;
-import io.netty.handler.codec.http.HttpResponseEncoder;
+import io.netty.example.http.file.HttpStaticFileServerHandler;
+import io.netty.handler.codec.http.*;
+import io.netty.handler.stream.ChunkedWriteHandler;
 
 /**
  * HttpRequestEncoder 将HttpRequest、HttpContent 和 LastHttpContent 消息编码为字节
@@ -29,7 +28,10 @@ public class HttpPipelineInitializer extends ChannelInitializer<Channel> {
             pipeline.addLast("encoder", new HttpRequestEncoder());
         } else {
             pipeline.addLast("decoder", new HttpRequestDecoder());
+            pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
             pipeline.addLast("encoder", new HttpResponseEncoder());
+            pipeline.addLast("chunked", new ChunkedWriteHandler());
+            pipeline.addLast("file", new HttpStaticFileServerHandler());
         }
     }
 }
