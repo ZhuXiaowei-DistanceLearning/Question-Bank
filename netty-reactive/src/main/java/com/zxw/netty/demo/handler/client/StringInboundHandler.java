@@ -14,7 +14,7 @@ import java.nio.charset.Charset;
  * @date 2021-12-12 21:29
  */
 @Slf4j
-public class ClientInboundHandler extends SimpleChannelInboundHandler<ByteBuf> {
+public class StringInboundHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
         log.info("客户端接受到消息：{}", msg.toString(CharsetUtil.UTF_8));

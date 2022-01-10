@@ -1,4 +1,4 @@
-package com.zxw.netty.demo.handler;
+package com.zxw.netty.demo.handler.client;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -13,37 +13,30 @@ import java.nio.charset.Charset;
  * @date 2021/12/24 11:00
  */
 @Slf4j
-public class FirstInBoundHandler extends SimpleChannelInboundHandler<ByteBuf> {
+public class LongInBoundHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         super.channelRegistered(ctx);
-        log.info("执行自定义的注册事件");
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         super.channelUnregistered(ctx);
-        log.info("执行自定义的取消注册事件");
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
         for (int i = 0; i < 10; i++) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("这是第");
-            sb.append(i);
-            sb.append("条消息");
-            ctx.writeAndFlush(Unpooled.copiedBuffer(sb.toString(), Charset.defaultCharset()));
+            log.info("写入数据:{}", i);
+            ctx.writeAndFlush(Unpooled.copyLong(i));
         }
-        log.info("执行自定义的执行");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
-        log.info("执行自定义的执行结束事件");
     }
 
     @Override

@@ -20,7 +20,6 @@ public class ByteToLongDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         //因为long为8个字节，所以需要8个字节才能读取成一个long类型的数据
-        log.info("ByteToLongDecoder：入栈数据被解码");
         if (in.readableBytes() >= 8){
             out.add(in.readLong());
         }

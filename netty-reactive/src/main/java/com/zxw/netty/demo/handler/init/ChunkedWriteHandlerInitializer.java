@@ -1,4 +1,4 @@
-package com.zxw.netty.demo.handler;
+package com.zxw.netty.demo.handler.init;
 
 import io.netty.channel.*;
 import io.netty.handler.ssl.SslContext;

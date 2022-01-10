@@ -31,7 +31,7 @@ import java.util.UUID;
  */
 @Sharable
 @Slf4j
-public class ServerInboundHandler extends SimpleChannelInboundHandler<ByteBuf> {
+public class ServerStringInboundHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     int count = 0;
 
