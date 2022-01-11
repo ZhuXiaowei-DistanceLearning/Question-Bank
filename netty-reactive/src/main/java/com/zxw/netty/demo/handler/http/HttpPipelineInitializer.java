@@ -28,6 +28,7 @@ public class HttpPipelineInitializer extends ChannelInitializer<Channel> {
         } else {
             pipeline.addLast("decoder", new HttpServerCodec());
             pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
+            pipeline.addLast("out", new HttpServerOutHandler());
 //            pipeline.addLast("encoder", new HttpResponseEncoder());
             pipeline.addLast("chunked", new ChunkedWriteHandler());
 //            pipeline.addLast("file", new HttpStaticFileServerHandler());
