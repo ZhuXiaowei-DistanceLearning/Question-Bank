@@ -15,7 +15,7 @@
  */
 package com.zxw.netty.demo;
 
-import com.zxw.netty.demo.handler.init.ServerCoderChannelInitializer;
+import com.zxw.netty.demo.handler.http.HttpPipelineInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -62,7 +62,8 @@ public final class EchoServer {
                     // 配置通道的ChannelPipeline
                     .option(ChannelOption.SO_BACKLOG, 100)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new ServerCoderChannelInitializer());
+//                    .childHandler(new ServerCoderChannelInitializer());
+                    .childHandler(new HttpPipelineInitializer(false));
             // 绑定端口，并启动server，同时设置启动方式为同步
             // Start the server.
             ChannelFuture f = b.bind(PORT).sync();

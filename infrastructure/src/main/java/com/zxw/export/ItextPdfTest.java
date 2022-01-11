@@ -45,14 +45,17 @@ public class ItextPdfTest {
     public void fillPDF() {
         try {
             HashMap<String, String> map = new HashMap<>();
-            map.put("authName", "爱仕达多");
-            map.put("time", "2021-4-27");
-            map.put("legalName", "期望的所所");
-            map.put("YWLX", "请问请问");
-            map.put("authName", "请问请问");
-            map.put("date", "2021-06-01 16:36:47");
-            map.put("name_2", "320323199106060631");
+            map.put("name", "测试");
+            map.put("ID_card", "身份证");
+            map.put("ID_number", "434534153513");
+            map.put("phone", "15622390724");
+            map.put("year", "2022");
+            map.put("month", "01");
+            map.put("date", "10");
             map.put("name_1", "请问\r\t\n请问");
+            map.put("name_2", "320323199106060631");
+            map.put("fill_1", "一");
+            map.put("fill_2", "测试业务");
             //输出流
             out = new FileOutputStream(newPDFPath);
             //读取pdf模板//
@@ -67,12 +70,11 @@ public class ItextPdfTest {
             BaseFont bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
             while (formField.hasNext()) {
                 String next = formField.next();
-                log.info("获取到pdf变量key:{}", next);
+                log.info("获取到pdf变量key：{},填充变量：{}", next, map.get(next));
                 form.setFieldProperty(next, "textfont", bf, null);
                 // 填充pdf数据
-                form.setField(next, String.valueOf(map.get(next)));
+                form.setField(next, map.get(next));
             }
-            System.out.println("请问\n\t\n请问");
             stamper.setFormFlattening(true);//如果为false那么生成的PDF文件还能编辑，一定要设为true
             stamper.close();
             Document doc = new Document();

@@ -3,7 +3,6 @@ package com.zxw.netty.demo.handler.http;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
-import io.netty.example.http.file.HttpStaticFileServerHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
@@ -27,11 +26,12 @@ public class HttpPipelineInitializer extends ChannelInitializer<Channel> {
             pipeline.addLast("decoder", new HttpResponseDecoder());
             pipeline.addLast("encoder", new HttpRequestEncoder());
         } else {
-            pipeline.addLast("decoder", new HttpRequestDecoder());
+            pipeline.addLast("decoder", new HttpServerCodec());
             pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
-            pipeline.addLast("encoder", new HttpResponseEncoder());
+//            pipeline.addLast("encoder", new HttpResponseEncoder());
             pipeline.addLast("chunked", new ChunkedWriteHandler());
-            pipeline.addLast("file", new HttpStaticFileServerHandler());
+//            pipeline.addLast("file", new HttpStaticFileServerHandler());
+            pipeline.addLast("handler", new HttpServerHandler());
         }
     }
 }
