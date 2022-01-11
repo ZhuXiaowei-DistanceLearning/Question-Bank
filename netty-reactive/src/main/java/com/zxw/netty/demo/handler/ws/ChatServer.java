@@ -48,14 +48,9 @@ public class ChatServer {
     }
 
     public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            System.err.println("Please give port as argument");
-            System.exit(1);
-        }
-        int port = Integer.parseInt(args[0]);
         final ChatServer endpoint = new ChatServer();
         ChannelFuture future = endpoint.start(
-                new InetSocketAddress(port));
+                new InetSocketAddress(8007));
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {

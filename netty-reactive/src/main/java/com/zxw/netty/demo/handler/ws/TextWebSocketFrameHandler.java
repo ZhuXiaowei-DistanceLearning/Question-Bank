@@ -20,7 +20,7 @@ public class TextWebSocketFrameHandler
         if (evt == WebSocketServerProtocolHandler
                 .ServerHandshakeStateEvent.HANDSHAKE_COMPLETE) {
             //如果该事件表示握手成功，则从该Channelipeline中移除 HttpRequestHandler，因为将不会接收到任何HTTP 消息了
-            ctx.pipeline().remove(HttpRequestHandler.class);
+//            ctx.pipeline().remove(HttpRequestHandler.class);
             //通知所有已经连接的WebSocket 客户端新的客户端已经连接上了
             group.writeAndFlush(new TextWebSocketFrame(
                     "Client " + ctx.channel() + " joined"));
