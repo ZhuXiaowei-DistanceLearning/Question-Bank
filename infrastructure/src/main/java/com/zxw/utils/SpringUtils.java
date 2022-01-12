@@ -1,0 +1,129 @@
+package com.zxw.utils;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.cglib.beans.BeanMap;
+import org.springframework.cglib.beans.ImmutableBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.io.support.LocalizedResourceHelper;
+import org.springframework.lang.Nullable;
+import org.springframework.util.*;
+import org.springframework.web.util.UriUtils;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class SpringUtils {
+    private String testName;
+
+    private static ApplicationContext ac;
+
+    public static void main(String[] args) {
+//         reflectionExample();
+//        cglibExample();
+//        springExample();
+        assertExample();
+    }
+
+    @Nullable
+    private static void reflectionExample() {
+        // 各种反射姿势，可以躲过代码检查
+        Method reflectionExample = ReflectionUtils.findMethod(SpringUtils.class, "reflectionExample");
+        System.out.println(reflectionExample);
+        Field testName = ReflectionUtils.findField(SpringUtils.class, "testName");
+        ReflectionUtils.makeAccessible(testName);
+        System.out.println(testName);
+        Nullable annotation = AnnotationUtils.findAnnotation(reflectionExample, Nullable.class);
+        System.out.println(annotation);
+    }
+
+    private static void cglibExample() {
+        // 注意cglib是对字节码操作，代理模式就不在这里介绍了，spring aop非常好用了，不过这个是spring带的cglib实际上不是spring的东西
+
+        // 创建不可变bean，简直太好用了，避免缓存被别人瞎改
+        SpringUtils bean = new SpringUtils();
+        bean.setTestName("hello");
+        SpringUtils immutableBean = (SpringUtils) ImmutableBean.create(bean);
+        // 下面这步会直接报错
+//         immutableBean.setTestName("123");
+
+        // 对象复制，目前最快的复制,第一个source,第二个atrget,如果要复制list需要自行循环
+        BeanCopier copier = BeanCopier.create(SpringUtils.class, SpringUtils.class, false);
+        SpringUtils sourceBean = new SpringUtils();
+        SpringUtils targetBean = new SpringUtils();
+        sourceBean.setTestName("123");
+        targetBean.setTestName("223");
+        copier.copy(sourceBean, targetBean, null);
+        System.out.println(targetBean);
+        // 注意第一步可以static缓存起来，BulkBean虽然可以处理复杂逻辑，但是个人认为复杂逻辑就老实写代码实现，用这个反而累赘
+
+        // 对象转map，可以重新封装，也可以直接用
+        Map<String, Object> map = new HashMap<>();
+        map.putAll(BeanMap.create(targetBean));
+        Map<String, Object> beanMap = BeanMap.create(targetBean);
+        System.out.println(map);
+        System.out.println(beanMap);
+
+        // map转对象
+        SpringUtils springUtilsFinal = new SpringUtils();
+        BeanMap.create(springUtilsFinal).putAll(map);
+        System.out.println(springUtilsFinal);
+    }
+
+    private static void springExample() {
+        // 获取request
+//        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        // 获取cookie
+//        Cookie cookie = WebUtils.getCookie(request, "hello");
+        // 转义url
+        UriUtils.decode("", StandardCharsets.UTF_8);
+        UriUtils.encode("", StandardCharsets.UTF_8);
+        // 记录时间戳
+        StopWatch sw = new StopWatch("startTest");
+        sw.start("step 1");
+        sw.stop();
+        sw.start("step 2");
+        sw.stop();
+        System.out.println(sw.prettyPrint());
+    }
+
+    private void beanExample(){
+        // 获取bean
+        SpringUtils bean = ac.getBean(SpringUtils.class);
+        // 根据继承或实现获取bean
+        Map<String, SpringUtils> beansOfType = ac.getBeansOfType(SpringUtils.class);
+        // 获取当前代理对象，service层常用
+        AopContext.currentProxy();
+    }
+
+    private static void assertExample() {
+        Assert.notEmpty(new ArrayList<>());
+    }
+
+    private void otherExample(){
+        // 其下有各种转义，用处有限
+        System.out.println(StringEscapeUtils.class);
+        // 资源加载工具类，但是不如springBoot注解好用
+        System.out.println(ResourceUtils.class);
+        // 读取properties，马马虎虎的东西，java自带的也不差
+        System.out.println(LocalizedResourceHelper.class);
+        // apache的IO包可太好用了,以及很多其它和apache重复的就不介绍了
+        System.out.println(FileCopyUtils.class);
+    }
+}
