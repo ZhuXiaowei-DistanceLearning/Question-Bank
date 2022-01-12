@@ -1,5 +1,7 @@
 package com.zxw.netty.nio.demo;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,6 +15,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Slf4j
 public class NIOEchoClientHandler implements Runnable {
 
 	private String host;
@@ -94,10 +97,10 @@ public class NIOEchoClientHandler implements Runnable {
 			SocketChannel sc = (SocketChannel) key.channel();
 			if (key.isConnectable()) {
 				if (sc.finishConnect()) {
-					System.out.println("连接到服务器......");
+					log.info("连接到服务器......");
 					
 					ByteBuffer buffer = ByteBuffer.allocate(1024);
-					System.out.println("请输入消息[输入\"Quit\"]退出：");
+					log.info("请输入消息[输入\"Quit\"]退出：");
 
 					executorService.submit(() -> {
 						while(true) {
@@ -109,7 +112,7 @@ public class NIOEchoClientHandler implements Runnable {
 								String msg = br.readLine();
 								
 								if (msg.equals("Quit")) {
-									System.out.println("关闭客户端......");
+									log.info("关闭客户端......");
 									key.cancel();
 									sc.close();
 									this.stop = true;
@@ -121,7 +124,7 @@ public class NIOEchoClientHandler implements Runnable {
 								
 								sc.write(buffer);
 								
-								System.out.println("请输入消息[输入\"Quit\"]退出：");
+								log.info("请输入消息[输入\"Quit\"]退出：");
 
 							} catch (Exception ex) {
 								ex.printStackTrace();
@@ -142,7 +145,7 @@ public class NIOEchoClientHandler implements Runnable {
 					byte[] bytes = new byte[readBuffer.remaining()];
 					readBuffer.get(bytes);
 					String body = new String(bytes, "UTF-8");
-					System.out.println(body);
+					log.info(body);
 					
 					if(body.equals("Quit"))
 					{
@@ -157,39 +160,39 @@ public class NIOEchoClientHandler implements Runnable {
 			}
 			
 			if(key.isWritable()){
-				 System.out.println("The key is writable");
+				 log.info("The key is writable");
 			}
 		}
 	}
  
 
 	private void doWrite(SocketChannel sc) throws IOException {
-/*		System.out.println("请输入消息[输入\"Quit\"]退出：");
+/*		log.info("请输入消息[输入\"Quit\"]退出：");
 		BufferedReader stdIn = new BufferedReader(new InputStreamReader(
 				System.in));
 		String userInput;
 
 		while ((userInput = stdIn.readLine()) != null) {
 			out.println(userInput);
-			System.out.println(in.readLine());*/
+			log.info(in.readLine());*/
 			byte[] req = "QUERY TIME ORDER".getBytes();
 			ByteBuffer writeBuffer = ByteBuffer.allocate(req.length);
 			writeBuffer.put(req);
 			writeBuffer.flip();
 			sc.write(writeBuffer);
 			if (!writeBuffer.hasRemaining())
-				System.out.println("Send order 2 server succeed.");
+				log.info("Send order 2 server succeed.");
 
 /*			
 			if (userInput.equals("Quit")) {
-				System.out.println("Closing client");
+				log.info("Closing client");
 				out.close();
 				in.close();
 				stdIn.close();
 				echoSocket.close();
 				System.exit(1);
 			}
-			System.out.println("请输入消息[输入\"Quit\"]退出：");
+			log.info("请输入消息[输入\"Quit\"]退出：");
 
 		}*/
 		
