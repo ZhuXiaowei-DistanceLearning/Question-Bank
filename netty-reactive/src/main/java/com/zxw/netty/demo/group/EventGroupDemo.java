@@ -15,27 +15,28 @@ import java.util.concurrent.ExecutionException;
  */
 @Slf4j
 public class EventGroupDemo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         EventLoopGroup group = new DefaultEventLoopGroup(2);
-        TestRunner testRunner = new TestRunner();
         System.out.println((16 & -16) == 16);
         System.out.println((14 & -14));
         for (int i = 0; i < 10; i++) {
             EventLoop next = group.next();
-            next.execute(testRunner);
             Promise<?> promise = new DefaultPromise<>(next);
-            try {
-                Object o = promise.get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
+            TestRunner testRunner = new TestRunner(promise);
+            next.execute(testRunner);
+            log.info("now:{}", promise.getNow()); // 还没有结果
+            log.info("get:{}", promise.get());
+
         }
 //        group.shutdownGracefully();
     }
 
     public static class TestRunner implements Runnable {
+        Promise promise;
+
+        public TestRunner(Promise promise) {
+            this.promise = promise;
+        }
 
         @Override
         public void run() {
@@ -45,6 +46,7 @@ public class EventGroupDemo {
                 e.printStackTrace();
             }
             log.info("测试线程数据");
+            promise.setSuccess("10231");
         }
     }
 }

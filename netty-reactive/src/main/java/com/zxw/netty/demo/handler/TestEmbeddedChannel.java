@@ -11,13 +11,20 @@ import java.nio.charset.Charset;
 
 @Slf4j
 public class TestEmbeddedChannel {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        EmbeddedChannel channel = new EmbeddedChannel();
+        ChannelPromise channelPromise = channel.newPromise();
+        channelPromise.addListener(future -> {
+            Object unused = future.get();
+            System.out.println(unused);
+        });
         ChannelInboundHandlerAdapter h1 = new ChannelInboundHandlerAdapter() {
             @Override
             public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
                 ByteBuf buf = (ByteBuf) msg;
                 log.info("接收到入站消息h1:{}", buf.toString(Charset.defaultCharset()));
                 ByteBuf byteBuf = Unpooled.copiedBuffer("hello world", Charset.defaultCharset());
+                channelPromise.setSuccess();
                 super.channelRead(ctx, byteBuf);
             }
         };
@@ -45,16 +52,16 @@ public class TestEmbeddedChannel {
                 super.write(ctx, msg, promise);
             }
         };
-        EmbeddedChannel channel = new EmbeddedChannel();
         ChannelPipeline pipeline = channel.pipeline();
         pipeline.addLast("h1", h1);
         pipeline.addLast("h3", h3);
         pipeline.addLast("h2", h2);
         pipeline.addLast("h4", h4);
+        log.info("{}", channelPromise.getNow());
         // 模拟入站操作
         channel.writeInbound(ByteBufAllocator.DEFAULT.buffer().writeBytes("hello".getBytes()));
         // 模拟出站操作
         channel.writeOutbound(ByteBufAllocator.DEFAULT.buffer().writeBytes("world".getBytes()));
-
+        log.info("{}", channelPromise.get());
     }
 }
