@@ -11,6 +11,9 @@ public class NIOEchoClient {
 			} catch (NumberFormatException e) {
 			}
 		}
+		for (int i = 0; i < 10; i++) {
 		new Thread(new NIOEchoClientHandler("127.0.0.1", port), "NIOEchoClient-001").start();
+
+		}
 	}
 }

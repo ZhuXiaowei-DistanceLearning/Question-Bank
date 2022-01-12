@@ -19,12 +19,13 @@ public class EchoHandler implements Runnable {
 
 	public EchoHandler(int port) {
 		try {
-			//
+			// 打开Selector来处理Channel
 			selector = Selector.open();
 			servChannel = ServerSocketChannel.open();
 			servChannel.configureBlocking(false);
+			// socket函数和bind函数
 			servChannel.socket().bind(new InetSocketAddress(port), 1024);
-			// 注册接收事件
+			// 将ServerSocket注册到Selector以接受连接
 			servChannel.register(selector, SelectionKey.OP_ACCEPT);
 			System.out.println("服务器在端口[" + port + "]等待客户请求......");
 		} catch (IOException e) {
@@ -42,7 +43,10 @@ public class EchoHandler implements Runnable {
 		while (!stop) {
 			try {
 				// 阻塞等待需要发生的事件
+				// 等待需要处理的新事件；阻塞 将一直持续到下一个传入事件
+				// 阻塞直到有一个socket接收到数据
 				selector.select(1000);
+				// 获取所有接收事件的SelectionKey实例
 				Set<SelectionKey> selectedKeys = selector.selectedKeys();
 				Iterator<SelectionKey> it = selectedKeys.iterator();
 				SelectionKey key = null;
@@ -77,11 +81,13 @@ public class EchoHandler implements Runnable {
 
 		if (key.isValid()) {
 			// 处理新接入的请求消息
+			// 检查事件是否是一个新的已经就绪可以被接受的连接
 			if (key.isAcceptable()) {
 				// 处理accept事件
 				ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
 				SocketChannel socketChannel = ssc.accept(); // Non blocking, never null
 				socketChannel.configureBlocking(false);
+				// 接受客户端，并将它注册到选择器
 				SelectionKey sk = socketChannel.register(selector, SelectionKey.OP_READ);
 
 				sk.attach(num++);

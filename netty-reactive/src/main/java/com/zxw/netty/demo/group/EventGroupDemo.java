@@ -20,6 +20,7 @@ public class EventGroupDemo {
         System.out.println((16 & -16) == 16);
         System.out.println((14 & -14));
         for (int i = 0; i < 10; i++) {
+            // 运行任务来处理在连接的生命周期内发生的事件是任何网络框架的基本功能
             EventLoop next = group.next();
             Promise<?> promise = new DefaultPromise<>(next);
             TestRunner testRunner = new TestRunner(promise);
