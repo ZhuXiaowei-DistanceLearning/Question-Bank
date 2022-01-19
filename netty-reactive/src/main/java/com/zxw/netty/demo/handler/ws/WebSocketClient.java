@@ -24,6 +24,7 @@ import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketCl
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,8 +33,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
+@Slf4j
 public final class WebSocketClient {
     static final String URL = System.getProperty("url", "ws://127.0.0.1:8080/websocket");
 
@@ -42,7 +45,7 @@ public final class WebSocketClient {
 
     public static void main(String[] args) throws Exception {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
-        IntStream.range(0, 2)
+        IntStream.range(0, 5)
                 .forEach(e -> {
                     executorService.execute(() -> {
                         try {
@@ -106,6 +109,9 @@ public final class WebSocketClient {
                 BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 
                 while (true) {
+                    int i = ThreadLocalRandom.current().nextInt(2000);
+                    log.info("{}", i);
+                    Thread.sleep(i);
                     String msg = "来自用户[" + Thread.currentThread().getName() + "]发言：" + StringRandom.getStringRandom(10);
 //                    String msg = console.readLine();
                     if (msg == null) {
