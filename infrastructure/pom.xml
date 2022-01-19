@@ -101,6 +101,11 @@
             <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>22.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>5.0.0</version>
@@ -109,6 +114,12 @@
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-base</artifactId>
             <version>4.1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>cn.afterturn</groupId>
@@ -196,6 +207,12 @@
             <groupId>net.librec</groupId>
             <artifactId>librec-core</artifactId>
             <version>${librec-core.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>

@@ -20,7 +20,7 @@ public class SeleniumDemo {
     public static void testSelenium() {
         File file = new File("chromedriver");
         System.out.println(file.getAbsolutePath());
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\zxw\\Desktop\\driver\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "D:\\code\\IDEA CODE\\Question-Bank\\chromedriver.exe");
         WebDriver webDriver = new ChromeDriver();
         webDriver.get("http://huaban.com/");
         WebElement webElement = webDriver.findElement(By.xpath("/html"));
