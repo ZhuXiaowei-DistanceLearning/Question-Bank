@@ -8,6 +8,8 @@ import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Selectable;
 
+import java.util.List;
+
 /**
  * @author zxw
  * @date 2022-01-19 20:35
@@ -28,8 +30,10 @@ public class SpiderDemo {
         @Override
         public void process(Page page) {
             Selectable detail = page.getHtml();
-            log.info("{}", detail.xpath("/html/body/div[4]/div/div[3]/ul").get());
-            log.info("{}", detail.xpath("/html/body/div[4]/div/div[3]/ul").all());
+            log.info("{}", detail.get());
+            Selectable links = detail.xpath("/html/body/div[4]/div/div[3]/ul").links();
+            List<String> all = links.all();
+            page.addTargetRequests(all);
         }
 
         @Override
