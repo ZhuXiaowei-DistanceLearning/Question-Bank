@@ -1,34 +1,85 @@
 package com.zxw.test;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.FilePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 
-import java.io.File;
+import java.util.Set;
 
 /**
  * @author zxw
  * @date 2022-01-19 22:38
  */
 public class SeleniumDemo {
-    public static void testSelenium() {
-        File file = new File("chromedriver");
-        System.out.println(file.getAbsolutePath());
-        System.setProperty("webdriver.chrome.driver", "D:\\code\\IDEA CODE\\Question-Bank\\chromedriver.exe");
+    public static void testSelenium() throws InterruptedException {
+//        System.setProperty("webdriver.chrome.driver", "D:\\code\\IDEA CODE\\Question-Bank\\chromedriver.exe");
+//        ChromeDriverService chromeDriverService = new ChromeDriverService();
+        ChromeOptions options = new ChromeOptions();
         WebDriver webDriver = new ChromeDriver();
-        webDriver.get("http://huaban.com/");
-        WebElement webElement = webDriver.findElement(By.xpath("/html"));
-        System.out.println(webElement.getAttribute("outerHTML"));
-        webDriver.close();
+        JavascriptExecutor js;
+        try {
+            js = (JavascriptExecutor) webDriver;
+//            webDriver.get("http://management.s.znseed.top/passport?redirect=%2F");
+            webDriver.get("https://videojs.com/");
+            WebElement wait;
+            while (true) {
+                wait = webDriver.findElement(By.xpath("//*[@id=\"vjs_video_3_html5_api\"]"));
+                if (wait != null) {
+                    break;
+                }
+                Thread.sleep(1000);
+            }
+            js.executeScript("var video = document.getElementById('vjs_video_3_html5_api');console.log(video.muted = true);console.log(arguments[0].play());video.play();return video;",wait);
+            System.out.println("页面加载完成");
+            webDriver.manage().window().maximize();
+            js.executeAsyncScript("alert(1)", "");
+            // 回退操作
+//        webDriver.navigate().back();
+            // 刷新
+//        webDriver.navigate().refresh();
+            // 转发
+//        webDriver.navigate().forward();
+            // 前进
+//        webDriver.navigate().to("");
+            WebElement username = webDriver.findElement(By.id("username"));
+            // 右键操作
+            WebElement password = webDriver.findElement(By.id("password"));
+            WebElement submit = webDriver.findElement(By.xpath("//*[@id=\"formLogin\"]/div[3]/div/div/span/button"));
+            // 键盘模拟输入
+            username.sendKeys("zhaolei");
+            password.sendKeys("123456a");
+            // 切换frame
+//            webDriver.switchTo().frame(0);
+            // 接受弹框
+//            webDriver.switchTo().alert().accept();
+            Actions actions = new Actions(webDriver);
+            // 鼠标悬停
+//            actions.contextClick(submit).moveToElement(submit);
+            // 鼠标拖放
+//            actions.contextClick(submit).dragAndDropBy(submit,0,0);
+            // 执行action中所有的存储行为
+//            actions.contextClick(submit).perform();
+            submit.click();
+            // 移动屏幕
+            Set<Cookie> cookies = webDriver.manage().getCookies();
+            cookies.forEach(e -> {
+                System.out.println("key:" + e.getName() + " value:" + e.getValue());
+            });
+            Thread.sleep(5000);
+            actions.moveByOffset(500, 500).perform();
+            Thread.sleep(1000);
+        } finally {
+            if (webDriver != null) webDriver.close();
+        }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         testSelenium();
 //        test2();
     }
