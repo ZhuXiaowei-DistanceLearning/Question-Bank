@@ -3,6 +3,7 @@ package com.zxw.jd;
 import lombok.Data;
 import okhttp3.*;
 
+import java.net.HttpCookie;
 import java.util.*;
 
 /**
@@ -14,6 +15,9 @@ public class SpiderSession {
     private final OkHttpClient mOkHttpClient = new OkHttpClient.Builder().cookieJar(new CookieJarManager()).build();
     private String cookieDirPath;
     private String userAgent;
+    private String tokenId ;
+    private List<HttpCookie> cookies;
+    //头部添加session
 
     public void getToken(String url){
         mOkHttpClient.cookieJar().loadForRequest(HttpUrl.get(url));
@@ -48,15 +52,7 @@ public class SpiderSession {
     }
 
     public String get(String url) {
-        final Request.Builder builder = new Request.Builder();
-        builder.url(url);
-        final Request request = builder.build();
-        try (Response response = mOkHttpClient.newCall(request).execute()) {
-            return response.body().string();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
+        return "";
     }
 
     public class CookieJarManager implements CookieJar {

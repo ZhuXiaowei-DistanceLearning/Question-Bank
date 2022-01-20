@@ -12,6 +12,6 @@ public class BuyMain {
         QrLogin qrLogin = new QrLogin();
         SpiderSession spiderSession = new SpiderSession();
         qrLogin.setSpiderSession(spiderSession);
-        qrLogin.getLoginQrCode();
+        qrLogin.login();
     }
 }
