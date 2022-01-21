@@ -9,9 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BuyMain {
     public static void main(String[] args) {
-        QrLogin qrLogin = new QrLogin();
-        SpiderSession spiderSession = new SpiderSession();
-        qrLogin.setSpiderSession(spiderSession);
-        qrLogin.login();
+        JdSession jdSession = new JdSession();
+        QrLoginService loginService = new JdQrLogin(jdSession);
+        loginService.login();
+        Seckill seckill = new Seckill(jdSession);
+        seckill.yuShou();
     }
 }
