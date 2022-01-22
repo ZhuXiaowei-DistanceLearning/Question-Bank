@@ -24,10 +24,15 @@ public class MaoTaiSku {
         JSONObject jsonObject = JdParseUtils.parseResult(get.execute().body());
         log.info("本场预约开始时间:{}", jsonObject.getString("stime"));
         log.info("本场预约结束时间:{}", jsonObject.getString("yueEtime"));
-        log.info("本场预约数量:{}", jsonObject.getInteger("num"));
+        log.info("本场预约人数:{}", jsonObject.getInteger("num"));
         log.info("本场预约抢购开始时间:{}", jsonObject.getString("qiangStime"));
         log.info("本场预约信息:{}", jsonObject.getString("info"));
         log.info("本场预约地址:{}", jsonObject.getString("url"));
         return "https:" + jsonObject.getString("url");
+    }
+
+    public static void main(String[] args) {
+        MaoTaiSku test = new MaoTaiSku();
+        test.getYuShouUrl();
     }
 }
