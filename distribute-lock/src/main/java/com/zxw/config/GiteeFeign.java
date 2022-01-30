@@ -1,14 +1,11 @@
 package com.zxw.config;
 
 import feign.*;
-import feign.codec.Decoder;
-import feign.codec.Encoder;
-import feign.gson.GsonDecoder;
-import feign.gson.GsonEncoder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,21 +16,24 @@ import java.util.concurrent.TimeUnit;
 public class GiteeFeign {
     interface Gitee {
         @RequestLine("GET /api/v5/repos/{owner}/{repo}/stargazers?access_token=80998f907bbd005a61e1be10e4a51cb5&page=1&per_page=20")
-        List<Stargazers> repo(@Param("owner") String owner, @Param("repo") String repo);
+        List<Stargazers> repo(@Param("owner") String owner, @Param("repo") String repo,@Param("token") String token);
 
-        @RequestLine("GET /api/v5/repos/{owner}/{repo}/stargazers?access_token=80998f907bbd005a61e1be10e4a51cb5&page=1&per_page=20")
-        List<Stargazers> repo2(@Param("owner") String owner, @Param("repo") String repo);
+        @RequestLine("GET /api/v5/repos/{owner}/{repo}/stargazers?access_token=xxx&page=1&per_page=20")
+        @Headers({"X-Ping: {token}"})
+        List<Stargazers> repo2(@QueryMap Map map, @Param("token") String token);
+
+        @RequestLine("GET /api/v5/repos/{owner}/{repo}/stargazers?access_token=xxx&page=1&per_page=20")
+        @Body("<v01:getResourceRecordsOfZone><zoneName>{zoneName}</zoneName><rrType>0</rrType></v01:getResourceRecordsOfZone>")
+        List<Stargazers> repo3(Map map);
 
         default List<Stargazers> stargazers(String owner, String repo) {
-            return repo(owner, repo);
+            return repo(owner, repo, "");
         }
 
         static Gitee connect() {
-            final Decoder decoder = new GsonDecoder();
-            final Encoder encoder = new GsonEncoder();
             return Feign.builder()
-                    .encoder(encoder)
-                    .decoder(decoder)
+                    .encoder(new FeignGsonEncoder())
+                    .decoder(new FeignGsonDecoder())
                     .logger(new Logger.ErrorLogger())
                     .logLevel(Logger.Level.BASIC)
                     .requestInterceptor(template -> {
@@ -71,7 +71,7 @@ public class GiteeFeign {
 
     public static void main(String[] args) {
         Gitee connect = Gitee.connect();
-        List<Stargazers> star = connect.repo("xiaowei_zxw", "JSDX-JwSystem");
+        List<Stargazers> star = connect.repo("xiaowei_zxw", "JSDX-JwSystem","");
         star.forEach(e -> {
             log.info("获取到gitee项目star情况:{}", e);
         });
