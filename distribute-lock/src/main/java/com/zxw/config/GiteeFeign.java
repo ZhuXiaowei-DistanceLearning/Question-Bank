@@ -21,6 +21,9 @@ public class GiteeFeign {
         @RequestLine("GET /api/v5/repos/{owner}/{repo}/stargazers?access_token=80998f907bbd005a61e1be10e4a51cb5&page=1&per_page=20")
         List<Stargazers> repo(@Param("owner") String owner, @Param("repo") String repo);
 
+        @RequestLine("GET /api/v5/repos/{owner}/{repo}/stargazers?access_token=80998f907bbd005a61e1be10e4a51cb5&page=1&per_page=20")
+        List<Stargazers> repo2(@Param("owner") String owner, @Param("repo") String repo);
+
         default List<Stargazers> stargazers(String owner, String repo) {
             return repo(owner, repo);
         }
@@ -35,8 +38,6 @@ public class GiteeFeign {
                     .logLevel(Logger.Level.BASIC)
                     .requestInterceptor(template -> {
 //                        template.header(
-//                                // not available when building PRs...
-//                                // https://docs.travis-ci.com/user/environment-variables/#defining-encrypted-variables-in-travisyml
 //                                "Authorization",
 //                                "token 383f1c1b474d8f05a21e7964976ab0d403fee071");
                     })
