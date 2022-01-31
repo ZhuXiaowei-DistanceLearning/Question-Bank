@@ -46,6 +46,25 @@ spring:
         prefetch: 250
   messages:
     basename: i18n/app
+storage:
+  ribbon:
+    #建立连接超时时间
+    ConnectTimeout: 6000
+    #建立连接之后，读取响应资源超时时间
+    ReadTimeout: 6000
+    MaxAutoRetries: 3
+    MaxAutoRetriesNextServer: 3
+
+feign:
+  httpclient:
+    enabled: true
+  client:
+    config:
+      storage:
+        connect-timeout: 5000
+        ReadTimeout: 5000
+        MaxAutoRetries: 2
+        MaxAutoRetriesNextServer: 2
 
 #logging:
 #  config: classpath:logback-spring.xml
