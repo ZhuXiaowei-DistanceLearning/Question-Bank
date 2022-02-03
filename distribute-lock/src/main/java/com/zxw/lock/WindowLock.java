@@ -1,5 +1,9 @@
 package com.zxw.lock;
 
+import com.alibaba.csp.sentinel.slots.statistic.base.LeapArray;
+import com.alibaba.csp.sentinel.slots.statistic.base.WindowWrap;
+import com.alibaba.csp.sentinel.slots.statistic.data.MetricBucket;
+import com.alibaba.csp.sentinel.slots.statistic.metric.occupy.OccupiableBucketLeapArray;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -23,16 +27,21 @@ public class WindowLock {
     private volatile int count = 0;
     private volatile int slotNum = 0;
     private volatile long lastSlotTime = 0L;
+    private volatile long success = 0L;
     private ReentrantLock lock = new ReentrantLock();
+    LeapArray<MetricBucket> data = new OccupiableBucketLeapArray(6, 60 * 1000);
 
     public static void main(String[] args) {
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
         WindowLock windowLock = new WindowLock();
         executorService.execute(() -> {
-            while (true){
+            while (true) {
                 windowLock.lock.lock();
                 for (WindowSlot windowSlot : windowLock.window) {
-                    log.info("当前{},开始时间:{},数量:{},总请求数量:{}", windowSlot.getName(), new Date(windowSlot.getStartTime()), windowSlot.getCount(), windowLock.count);
+                    log.info("当前{},开始时间:{},数量:{},总请求数量:{},成功数量:{}", windowSlot.getName(), new Date(windowSlot.getStartTime()), windowSlot.getCount(), windowLock.count, windowLock.success);
+                }
+                for (WindowWrap<MetricBucket> value : windowLock.data.list()) {
+                    log.info("{},请求总数:{},时间:{}", value, value.value().success(), new Date(value.windowStart()));
                 }
                 windowLock.lock.unlock();
                 log.info("------------");
@@ -72,6 +81,8 @@ public class WindowLock {
         } else {
             last.count++;
             count++;
+            WindowWrap<MetricBucket> windowWrap = data.currentWindow(System.currentTimeMillis());
+            windowWrap.value().addSuccess(1);
         }
         if (window.size() > capacity) {
             lock.lock();
