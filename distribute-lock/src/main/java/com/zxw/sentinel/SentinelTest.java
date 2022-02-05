@@ -1,6 +1,4 @@
 package com.zxw.sentinel;
-import com.google.common.collect.Lists;
-import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowClusterConfig;
 
 import com.alibaba.csp.sentinel.Entry;
 import com.alibaba.csp.sentinel.SphU;
@@ -8,10 +6,14 @@ import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRuleManager;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
+import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowClusterConfig;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRuleManager;
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class SentinelTest {
     public static void main(String[] args) {
         initFlowRules();
         initParamFlowRule();
+        initCircuitBreakerRule();
         while (true) {
             Entry entry = null;
             try {
@@ -72,7 +75,7 @@ public class SentinelTest {
         FlowRuleManager.loadRules(rules);
     }
 
-    public static void initAuthorityRule(){
+    public static void initAuthorityRule() {
         List<AuthorityRule> rules = new ArrayList<>();
         AuthorityRule rule = new AuthorityRule();
         rule.setStrategy(RuleConstant.AUTHORITY_WHITE);
@@ -80,7 +83,21 @@ public class SentinelTest {
         rule.setLimitApp("hello");
         AuthorityRuleManager.loadRules(rules);
     }
-    public static void initParamFlowRule(){
+
+    public static void initCircuitBreakerRule() {
+        List<DegradeRule> rules = new ArrayList<>();
+        DegradeRule rule = new DegradeRule();
+        rule.setResource("HelloWorld");
+        rule.setLimitApp("default");
+        rule.setCount(1);
+        rule.setTimeWindow(100);
+        rule.setSlowRatioThreshold(2.0);
+        rule.setStatIntervalMs(1000);
+        rule.setMinRequestAmount(100);
+        DegradeRuleManager.loadRules(rules);
+    }
+
+    public static void initParamFlowRule() {
         List<ParamFlowRule> rules = new ArrayList<>();
         ParamFlowRule rule = new ParamFlowRule();
         rule.setControlBehavior(1000);
