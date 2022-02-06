@@ -8,6 +8,7 @@ import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRuleManager;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
+import com.alibaba.csp.sentinel.slots.block.degrade.circuitbreaker.CircuitBreakerStrategy;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowClusterConfig;
@@ -26,7 +27,7 @@ public class SentinelTest {
     public static void main(String[] args) {
         initFlowRules();
         initParamFlowRule();
-        initCircuitBreakerRule();
+        initDegradeRule();
         while (true) {
             Entry entry = null;
             try {
@@ -70,7 +71,7 @@ public class SentinelTest {
         rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
         // Set limit QPS to 20.
         // 限流阔值
-        rule.setCount(1);
+        rule.setCount(100);
         rules.add(rule);
         FlowRuleManager.loadRules(rules);
     }
@@ -84,16 +85,20 @@ public class SentinelTest {
         AuthorityRuleManager.loadRules(rules);
     }
 
-    public static void initCircuitBreakerRule() {
+    private static void initDegradeRule() {
         List<DegradeRule> rules = new ArrayList<>();
-        DegradeRule rule = new DegradeRule();
-        rule.setResource("HelloWorld");
-        rule.setLimitApp("default");
-        rule.setCount(1);
-        rule.setTimeWindow(100);
-        rule.setSlowRatioThreshold(2.0);
-        rule.setStatIntervalMs(1000);
-        rule.setMinRequestAmount(100);
+        DegradeRule rule = new DegradeRule("HelloWorld")
+                .setGrade(CircuitBreakerStrategy.SLOW_REQUEST_RATIO.getType())
+                // Max allowed response time
+                .setCount(50)
+                // Retry timeout (in second)
+                .setTimeWindow(1000)
+                // Circuit breaker opens when slow request ratio > 60%
+                .setSlowRatioThreshold(0.2)
+                .setMinRequestAmount(1)
+                .setStatIntervalMs(1000);
+        rules.add(rule);
+
         DegradeRuleManager.loadRules(rules);
     }
 
