@@ -50,6 +50,7 @@ services:
       ZK_HOSTS: zookeeper:2181                 ## 修改:宿主机IP
     ports:
       - "9001:9000"
+  ## rabbitmq-plugins enable rabbitmq_management
   rabbitmq:
     hostname: rabbitmq
     environment:
