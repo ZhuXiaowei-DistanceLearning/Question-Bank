@@ -27,6 +27,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
+      TZ: Asia/Shanghai
   zookeeper:
     image: wurstmeister/zookeeper
     container_name: zookeeper
@@ -48,6 +49,7 @@ services:
     image: sheepkiller/kafka-manager
     environment:
       ZK_HOSTS: zookeeper:2181                 ## 修改:宿主机IP
+      TZ: Asia/Shanghai
     ports:
       - "9001:9000"
   rabbitmq:
@@ -160,3 +162,33 @@ services:
       LANG: en_US.UTF-8
     ports:
       - "9000:9000"
+  rocketmqnamesrv:
+    image: foxiswho/rocketmq:4.8.0
+    container_name: rocketmqnamesrv
+    ports:
+      - 9876:9876
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_OPT: -server -Xms256m -Xmx256m
+    command: sh mqnamesrv
+  rocketmqbroker:
+    image: foxiswho/rocketmq:4.8.0
+    container_name: rocketmqbroker
+    ports:
+      - 10911:10911
+    volumes:
+      - ./rocket/broker:/home/rocketmq
+      - ./conf/broker.conf:/usr/local/dockerCompose/rocketmq/conf/broker.conf
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_OPT_EXT: -server -Xms256m -Xmx256m -Xmn128m
+      NAMESRV_ADDR: rocketmqnamesrv:9876
+    command: sh mqbroker -n rocketmqnamesrv:9876 -c /usr/local/dockerCompose/rocketmq/conf/broker.conf
+  rocketmqconsole:
+    image: styletang/rocketmq-console-ng
+    container_name: rocketmqconsole
+    ports:
+      - 8180:8080
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_OPTS: -Drocketmq.namesrv.addr=rocketmqnamesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false

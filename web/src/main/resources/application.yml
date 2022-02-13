@@ -37,7 +37,7 @@ spring:
   rabbitmq:
     host: zxw.middleware.com
     port: 5672
-    username: zhuxw
+    username: root
     password: 123456
     virtual-host: /apec
     listener:
@@ -46,6 +46,10 @@ spring:
         prefetch: 250
   messages:
     basename: i18n/app
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: my-producer-group
 storage:
   ribbon:
     #建立连接超时时间

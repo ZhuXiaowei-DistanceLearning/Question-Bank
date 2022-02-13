@@ -64,7 +64,7 @@ public class StringController {
 
     @GetMapping("/webClient2")
     public void webClient2() {
-        WebClient webClient = WebClient.builder().baseUrl("http://localhost:8080").build(); // 1
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:8081").build(); // 1
         webClient
                 .get().uri("/user")
                 .accept(MediaType.APPLICATION_STREAM_JSON) // 2
@@ -76,7 +76,7 @@ public class StringController {
 
     @GetMapping("/webClient3")
     public void webClient3() {
-        WebClient webClient = WebClient.create("http://localhost:8080");
+        WebClient webClient = WebClient.create("http://localhost:8081");
         webClient
                 .get().uri("/times")
                 .accept(MediaType.TEXT_EVENT_STREAM)    // 1

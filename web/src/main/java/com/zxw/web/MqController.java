@@ -5,12 +5,12 @@ import com.zxw.base.ProducerHandler;
 import com.zxw.factory.ProducerFactory;
 import com.zxw.service.DelayJobService;
 import com.zxw.vo.base.Result;
+import io.netty.channel.DefaultEventLoopGroup;
+import io.netty.channel.EventLoopGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author zxw
@@ -24,15 +24,15 @@ public class MqController {
     private ProducerFactory producerFactory;
 
     @Autowired
-            private DelayJobService delayJobService;
+    private DelayJobService delayJobService;
 
-    ExecutorService executorService = Executors.newFixedThreadPool(16);
 
     @GetMapping("/sendMessage")
     public Result<String> sendMessage(String handlerName) {
+        EventLoopGroup loopGroup = new DefaultEventLoopGroup(2);
         ProducerHandler handler = producerFactory.getHandler(handlerName);
         while (true) {
-            executorService.execute(() -> {
+            loopGroup.execute(() -> {
                 JSONObject msg = new JSONObject();
                 msg.put("timestamp", System.currentTimeMillis());
                 msg.put("guid", UUID.randomUUID().toString());
