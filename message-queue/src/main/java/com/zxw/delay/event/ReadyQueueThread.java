@@ -3,7 +3,6 @@ package com.zxw.delay.event;
 import com.zxw.constants.RedisKeyConsts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.concurrent.ExecutorService;
@@ -14,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * @author zxw
  * @date 2021/10/26 11:43
  */
-@Component
+//@Component
 public class ReadyQueueThread {
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     @Autowired

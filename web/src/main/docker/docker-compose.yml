@@ -177,8 +177,8 @@ services:
     ports:
       - 10911:10911
     volumes:
-      - ./rocket/broker:/home/rocketmq
-      - ./conf/broker.conf:/usr/local/dockerCompose/rocketmq/conf/broker.conf
+      - ./rocket/broker/logs:/home/rocketmq/logs
+      - ./rocket/broker.conf:/usr/local/dockerCompose/rocketmq/conf/broker.conf
     environment:
       TZ: Asia/Shanghai
       JAVA_OPT_EXT: -server -Xms256m -Xmx256m -Xmn128m
