@@ -96,11 +96,49 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181,zoo2:2181,zoo3:2181"
     volumes:
       - "./kafka/kafka1/data/:/kafka"
-
+  kafka2:
+    image: wurstmeister/kafka
+    restart: always
+    container_name: kafka2
+    ports:
+      - "9092:9092"
+    external_links:
+      - zoo1
+      - zoo2
+      - zoo3
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_LISTENERS: PLAINTEXT://127.0.0.1:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9093    ## 宿主机IP
+      KAFKA_ADVERTISED_HOST_NAME: kafka2
+      KAFKA_ADVERTISED_PORT: 9093
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181,zoo2:2181,zoo3:2181"
+    volumes:
+      - "./kafka/kafka2/data/:/kafka"
+  kafka3:
+    image: wurstmeister/kafka
+    restart: always
+    container_name: kafka3
+    ports:
+      - "9092:9092"
+    external_links:
+      - zoo1
+      - zoo2
+      - zoo3
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_LISTENERS: PLAINTEXT://127.0.0.1:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9094    ## 宿主机IP
+      KAFKA_ADVERTISED_HOST_NAME: kafka3
+      KAFKA_ADVERTISED_PORT: 9094
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181,zoo2:2181,zoo3:2181"
+    volumes:
+      - "./kafka/kafka3/data/:/kafka"
   kafka-manager:
     image: sheepkiller/kafka-manager
     environment:
-      ZK_HOSTS: zookeeper:2181                 ## 修改:宿主机IP
+      ZK_HOSTS: zoo1:2181,zoo2:2181,zoo3:2181 ## 修改:宿主机IP
+      KAFKA_BROKERS: kafka1:9092,kafka2:9093,kafka3:9094
       TZ: Asia/Shanghai
     ports:
       - "9001:9000"
