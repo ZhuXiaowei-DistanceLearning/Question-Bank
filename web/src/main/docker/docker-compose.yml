@@ -28,13 +28,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
       TZ: Asia/Shanghai
-  zookeeper:
-    image: wurstmeister/zookeeper
-    container_name: zookeeper
-    restart: always
-    hostname: zookeeper
-    ports:
-      - "2181:2181"
   kafka:
     image: wurstmeister/kafka
     container_name: kafka
@@ -45,6 +38,65 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+  zoo1:
+    image: wurstmeister/zookeeper
+    restart: always
+    container_name: zoo1
+    hostname: zoo1
+    ports:
+      - 2181:2181
+    volumes:
+      - "./zk/zoo1/data:/data"
+      - "./zk/zoo1/datalog:/datalog"
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+  zoo2:
+    image: wurstmeister/zookeeper
+    restart: always
+    container_name: zoo2
+    hostname: zoo2
+    ports:
+      - 2182:2181
+    volumes:
+      - "./zk/zoo2/data:/data"
+      - "./zk/zoo2/datalog:/datalog"
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+  zoo3:
+    image: wurstmeister/zookeeper
+    restart: always
+    container_name: zoo3
+    hostname: zoo3
+    ports:
+      - 2183:2181
+    volumes:
+      - "./zk/zoo3/data:/data"
+      - "./zk/zoo3/datalog:/datalog"
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+  kafka1:
+    image: wurstmeister/kafka
+    restart: always
+    container_name: kafka1
+    ports:
+      - "9092:9092"
+    external_links:
+      - zoo1
+      - zoo2
+      - zoo3
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_LISTENERS: PLAINTEXT://127.0.0.1:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092    ## 宿主机IP
+      KAFKA_ADVERTISED_HOST_NAME: kafka1
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181,zoo2:2181,zoo3:2181"
+    volumes:
+      - "./kafka/kafka1/data/:/kafka"
+
   kafka-manager:
     image: sheepkiller/kafka-manager
     environment:
