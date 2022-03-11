@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        generate("192.168.200.108:3306", "dynamic_data");
+        generate("192.168.200.108", "magpie_test");
     }
 
     /**
@@ -152,6 +152,7 @@ public class CodeGenerator {
         dsc.setUrl("jdbc:mysql://" + host + "/" + schema + "?useUnicode=true&useSSL=false&characterEncoding=utf8");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
+//        dsc.setUsername("dba");
         dsc.setUsername("root");
         dsc.setPassword("123456");
         return dsc;
