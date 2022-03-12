@@ -16,7 +16,7 @@ import java.util.Map;
 @Slf4j
 public class GitlabOauth {
 
-    public String oath() {
+    public Map<String, String> oauth() {
         String url = "http://jenkins.local.ap-ec.cn/securityRealm/finishLogin?state=%2FgitlabLogout%2F";
         String accessToken = getToken();
         url = url + "&code=" + accessToken;
@@ -24,14 +24,22 @@ public class GitlabOauth {
                 .execute();
         HttpResponse location = HttpUtil.createGet(response.header("Location"))
                 .execute();
-        return location.header("Set-Cookie");
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Cookie", "jenkins-timestamper-offset=-28800000; jenkins-timestamper=system; jenkins-timestamper-local=true; screenResolution=1920x1080; " + location.header("Set-Cookie"));
+        headers.put("X-Instance-Identity", location.header("X-Instance-Identity"));
+        headers.put("X-Jenkins-Session", location.header("X-Instance-Identity"));
+        headers.put("Host", "jenkins.local.ap-ec.cn");
+        headers.put("Connection", "Keep-Alive");
+        headers.put("User-Agent", "Apache-HttpClient/4.5.13 (Java/1.8.0_144)");
+        headers.put("Accept-Encoding", "gzip,deflate");
+        return headers;
     }
 
     public String getToken() {
         Map<String, Object> form = new HashMap<>();
         form.put("grant_type", "password");
-        form.put("username", "zhuxw@ap-ec.cn");
-        form.put("password", "a520201314");
+        form.put("username", "develop");
+        form.put("password", "Admin!@123");
         String url = "https://git.ap-ec.cn/oauth/token";
         HttpResponse response = HttpUtil.createPost(url)
                 .form(form)
@@ -42,6 +50,6 @@ public class GitlabOauth {
 
     public static void main(String[] args) {
         GitlabOauth gitlab = new GitlabOauth();
-        gitlab.oath();
+        gitlab.oauth();
     }
 }
