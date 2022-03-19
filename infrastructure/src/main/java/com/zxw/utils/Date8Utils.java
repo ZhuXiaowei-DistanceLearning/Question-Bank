@@ -17,7 +17,7 @@ public class Date8Utils {
         LocalDateTime parse = LocalDateTime.parse("2022-03-09 15:00:00", dateTimeFormatter);
         LocalDateTime localDateTime = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
         System.out.println(parse);
-        System.out.println(localDateTime);
+        System.out.println(localDateTime.format(dateTimeFormatter));
 //        ZonedDateTime of = ZonedDateTime.of(LocalDateTime.parse("", dateTimeFormatter), zoneSH);
 //        ZoneOffset.ofHours(8);
     }
