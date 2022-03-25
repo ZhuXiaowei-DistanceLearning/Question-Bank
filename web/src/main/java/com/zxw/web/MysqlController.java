@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
@@ -31,7 +30,7 @@ public class MysqlController {
     private AtomicInteger atomicInteger = new AtomicInteger();
     private BloomFilter<Integer> bloomFilter;
 
-    @PostConstruct
+//    @PostConstruct
     public void wrongInit() {
         IntStream.rangeClosed(1, 1000).forEach(i -> stringRedisTemplate.opsForValue().set("city" + i, getCityFromDb(i), 30, TimeUnit.SECONDS));
         log.info("Cache init finished");
