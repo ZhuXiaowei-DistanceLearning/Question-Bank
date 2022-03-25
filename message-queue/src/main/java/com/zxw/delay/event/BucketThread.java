@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,7 +22,7 @@ public class BucketThread {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         executorService.execute(() -> {
             while (true) {
