@@ -11,10 +11,10 @@ import java.util.Optional;
  */
 @AllArgsConstructor
 public enum DelayJobEnums {
-    READY("0", "可执行状态，等待消费"),
-    DELAY("1", "不可执行状态，等待时钟周期。"),
-    RESERVED("1", "已被消费者读取，但还未得到消费者的响应（delete、finish）。"),
-    DELETED("1", "已被消费完成或者已被删除。"),
+    DELAY("0", "不可执行状态，等待时钟周期。"),
+    READY("1", "可执行状态，等待消费"),
+    RESERVED("2", "已被消费者读取，但还未得到消费者的响应（delete、finish）。"),
+    DELETED("3", "已被消费完成或者已被删除。"),
     ;
 
     public static String getLabelByValue(String value) {

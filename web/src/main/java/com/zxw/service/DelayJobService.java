@@ -1,6 +1,6 @@
 package com.zxw.service;
 
-import com.zxw.delay.entity.DelayJob;
+import com.zxw.delay.entity.Job;
 
 /**
  * @author zxw
@@ -12,28 +12,28 @@ public interface DelayJobService {
      *
      * @param job 任务
      */
-    void put(DelayJob job);
+    void put(Job job);
 
     /**
      * 获取消息
      *
      * @param job 任务
      */
-    void pop(DelayJob job);
+    void pop(Job job);
 
     /**
      * 完成
      *
      * @param job 任务
      */
-    void finish(DelayJob job);
+    void finish(Job job);
 
     /**
      * 删除
      *
      * @param job 任务
      */
-    void delete(DelayJob job);
+    void delete(Job job);
 
     /**
      * 处理消息

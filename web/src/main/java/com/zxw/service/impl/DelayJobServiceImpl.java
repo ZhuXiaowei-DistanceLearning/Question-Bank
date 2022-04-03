@@ -4,9 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zxw.constants.RedisKeyConsts;
 import com.zxw.delay.entity.DelayJob;
+import com.zxw.delay.entity.Job;
+import com.zxw.delay.entity.JobPool;
+import com.zxw.delay.event.DelayBucket;
 import com.zxw.exception.BusinessException;
 import com.zxw.exception.ExpMsgConsts;
 import com.zxw.service.DelayJobService;
+import com.zxw.vo.JobSaveVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,12 @@ import java.util.UUID;
 public class DelayJobServiceImpl implements DelayJobService {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    private JobPool jobPool;
+
+    @Autowired
+    private DelayBucket delayBucket;
 
     /**
      * 其核心设计思路：
@@ -44,7 +54,7 @@ public class DelayJobServiceImpl implements DelayJobService {
      * @param job 任务
      */
     @Override
-    public void put(DelayJob job) {
+    public void put(Job job) {
         String jobId = UUID.randomUUID().toString();
         job.setId(jobId);
 //        DefaultRedisScript redisScript =new DefaultRedisScript<>();
@@ -55,38 +65,49 @@ public class DelayJobServiceImpl implements DelayJobService {
     }
 
     @Override
-    public void pop(DelayJob job) {
+    public void pop(Job job) {
 
     }
 
     @Override
-    public void finish(DelayJob job) {
+    public void finish(Job job) {
 
     }
 
     @Override
-    public void delete(DelayJob job) {
+    public void delete(Job job) {
 
     }
 
     @Override
     public void delayHandler(String message) {
-        DelayJob delayJob = JSON.parseObject(message, DelayJob.class);
+        String id = UUID.randomUUID().toString();
+        JobSaveVo jobVo = JSON.parseObject(message, JobSaveVo.class);
         JSONObject body = JSON.parseObject(message);
+        Job job = new Job();
+        job.setBody(jobVo.getBody());
+        job.setTtrTime(jobVo.getTtrTime());
+        job.setRetryCount(3);
+        job.setTopic(jobVo.getTopic());
+        job.setDelayTime(job.getDelayTime());
+        job.setId(id);
+        job.setCurrentTime(System.currentTimeMillis());
         String command = body.getString("command");
         switch (command) {
             case "put":
-                this.put(delayJob);
+                jobPool.addDelayJob(job);
+                DelayJob delayJob = new DelayJob(job);
+                delayBucket.addDelayJob(delayJob);
                 break;
             case "pop":
-                this.pop(delayJob);
+                jobPool.removeDelayDelayJob(job.getId());
                 break;
-            case "finish":
-                this.finish(delayJob);
-                break;
-            case "delete":
-                this.delete(delayJob);
-                break;
+//            case "finish":
+//                jobPool.finish(job);
+//                break;
+//            case "delete":
+//                jobPool.delete(job);
+//                break;
             default:
                 throw new BusinessException(ExpMsgConsts.COMMON_ERROR, "无效操作类型" + command);
         }
