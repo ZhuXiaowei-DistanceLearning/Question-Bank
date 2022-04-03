@@ -9,6 +9,7 @@ import io.netty.channel.DefaultEventLoopGroup;
 import io.netty.channel.EventLoopGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.UUID;
 
@@ -28,18 +29,23 @@ public class MqController {
 
 
     @GetMapping("/sendMessage")
-    public Result<String> sendMessage(String handlerName) {
+    public Result<String> sendMessage(String handlerName, String type) {
         EventLoopGroup loopGroup = new DefaultEventLoopGroup(2);
         ProducerHandler handler = producerFactory.getHandler(handlerName);
-        while (true) {
+        send(handler);
+        while (StringUtils.equals("loop", type)) {
             loopGroup.execute(() -> {
-                JSONObject msg = new JSONObject();
-                msg.put("timestamp", System.currentTimeMillis());
-                msg.put("guid", UUID.randomUUID().toString());
-                handler.sendMessage(msg.toJSONString());
+                send(handler);
             });
         }
-//        return Result.success("消息发送成功");
+        return Result.success("消息发送成功");
+    }
+
+    private void send(ProducerHandler handler) {
+        JSONObject msg = new JSONObject();
+        msg.put("timestamp", System.currentTimeMillis());
+        msg.put("guid", UUID.randomUUID().toString());
+        handler.sendMessage(msg.toJSONString());
     }
 
     @PostMapping("/delayHandler")
