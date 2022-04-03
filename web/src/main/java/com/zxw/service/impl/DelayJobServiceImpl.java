@@ -89,7 +89,7 @@ public class DelayJobServiceImpl implements DelayJobService {
         job.setTtrTime(jobVo.getTtrTime());
         job.setRetryCount(3);
         job.setTopic(jobVo.getTopic());
-        job.setDelayTime(job.getDelayTime());
+        job.setDelayTime(jobVo.getDelayTime());
         job.setId(id);
         job.setCurrentTime(System.currentTimeMillis());
         String command = body.getString("command");

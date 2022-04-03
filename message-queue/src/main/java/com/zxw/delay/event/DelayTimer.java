@@ -59,6 +59,7 @@ public class DelayTimer {
                             if (StringUtils.equals(job.getStatus(), DelayJobEnums.DELAY.getValue())) {
                                 job.setStatus(DelayJobEnums.READY.getValue());
                                 readyQueue.pushJob(job);
+                                redisTemplate.opsForZSet().remove(this.name, k);
                             }
                         });
                     }

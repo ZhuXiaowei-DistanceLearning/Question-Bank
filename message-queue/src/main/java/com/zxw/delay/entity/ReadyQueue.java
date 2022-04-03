@@ -40,7 +40,12 @@ public class ReadyQueue {
      * @return
      */
     public Job getJob(String topic) {
-        return queue.poll();
+        try {
+            return queue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
