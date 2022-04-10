@@ -14,7 +14,7 @@ public class RabbitProducer implements ProducerHandler {
 
     @Autowired
     private AmqpTemplate amqpTemplate;
-
+ 
     @Override
     public String getHandlerName() {
         return "rabbit";
@@ -22,6 +22,14 @@ public class RabbitProducer implements ProducerHandler {
 
     @Override
     public void sendMessage(String message) {
-        amqpTemplate.convertAndSend("delay.queue", message);
+        amqpTemplate.convertAndSend("delay.queue", message, msg -> {
+            msg.getMessageProperties().setExpiration(String.valueOf(10000));
+            return msg; 
+        });
+
+        amqpTemplate.convertAndSend("delay.queue", message, msg -> {
+            msg.getMessageProperties().setExpiration(String.valueOf(2000));
+            return msg;
+        });
     }
 }
