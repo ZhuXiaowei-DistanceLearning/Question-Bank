@@ -14,21 +14,34 @@ public class TestRobot {
     static Double shiyongX = null;
     static Double shiyongY = null;
 
+    static class Shut extends Thread {
+        Robot robot;
+
+        public Shut(Robot robot) {
+            this.robot = robot;
+        }
+
+        @Override
+        public void run() {
+            clearAll(robot);
+        }
+    }
+
     public static void main(String[] args) throws AWTException, InterruptedException {
 //        start();
 //        PointerInfo pinfo = MouseInfo.getPointerInfo();
 //        Point p = pinfo.getLocation();
-        Robot robot = null;
-        robot = new Robot();
+        Robot robot = new Robot();
         Random random = new Random();
-
+        Shut shut = new Shut(robot);
+        shut.setDaemon(true);
+        Runtime.getRuntime().addShutdownHook(shut);
 
 //        Scanner sc = new Scanner(System.in);
 
 //        System.out.println("请输入应用程序个数:");
         int i = 2;
         clearAll(robot);
-        System.out.println("释放所有按键");
 
         Thread.sleep(2000);
         while (true) {
@@ -135,20 +148,21 @@ public class TestRobot {
     }
 
     public static void altTab(Robot robot) {
-        robot.keyPress(KeyEvent.VK_ALT);
+        robot.keyPress(KeyEvent.VK_CONTROL);
         robot.keyPress(KeyEvent.VK_TAB);
         robot.delay(50);
-        robot.keyRelease(KeyEvent.VK_ALT);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
         robot.keyRelease(KeyEvent.VK_TAB);
         robot.delay(2000);
     }
 
     public static void clearAll(Robot robot) {
-        robot.keyRelease(KeyEvent.VK_ALT);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
         robot.keyRelease(KeyEvent.VK_TAB);
         robot.keyRelease(KeyEvent.VK_CONTROL);
         robot.keyRelease(KeyEvent.VK_A);
         robot.mouseRelease(InputEvent.BUTTON1_MASK);
         robot.delay(2000);
+        System.out.println("释放所有按键");
     }
 }
