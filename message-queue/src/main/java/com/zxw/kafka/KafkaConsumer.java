@@ -26,7 +26,7 @@ public class KafkaConsumer implements ConsumerHandler<ConsumerRecord<?, ?>> {
      * @param record
      */
     @Override
-    @KafkaListener(topics = {"test"})
+    @KafkaListener(topics = {"app-log"})
     public void receiveMessage(ConsumerRecord<?, ?> record) {
         String body = (String) record.value();
         ConsumerBody parse = JSONObject.parseObject(body, ConsumerBody.class);
