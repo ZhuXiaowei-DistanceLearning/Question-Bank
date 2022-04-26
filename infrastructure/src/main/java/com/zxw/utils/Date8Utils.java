@@ -3,6 +3,7 @@ package com.zxw.utils;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
@@ -33,6 +34,11 @@ public class Date8Utils {
 //                        ex.printStackTrace();
 //                    }
 //                })));
+        // 使用TemporalAdjusters.firstDayOfMonth得到当前月的第一天；
+        // 使用TemporalAdjusters.firstDayOfYear()得到当前年的第一天；
+        // 使用TemporalAdjusters.previous(DayOfWeek.SATURDAY)得到上一个周六；
+        // 使用TemporalAdjusters.lastInMonth(DayOfWeek.FRIDAY)得到本月最后一个周五。
+        System.out.println(LocalDate.now().minus(Period.ofDays(1)).plus(1, ChronoUnit.DAYS).minusMonths(1).plus(Period.ofMonths(1)));
         System.out.println(ZonedDateTime.now());
         System.out.println(LocalDateTime.now().with(TemporalAdjusters.firstDayOfMonth()));
         Duration duration = Duration.ofDays(1);
@@ -41,5 +47,7 @@ public class Date8Utils {
         System.out.println(now.toEpochMilli());
         Period period = Period.ofDays(1);
         System.out.println(period.getYears());
+        Period between = Period.between(LocalDate.now(), LocalDate.now());
+        System.out.println(between.getDays());
     }
 }
