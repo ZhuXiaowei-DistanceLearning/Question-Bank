@@ -3,11 +3,13 @@ package com.zxw.web;
 import com.alibaba.fastjson.JSONObject;
 import com.zxw.base.ProducerHandler;
 import com.zxw.factory.ProducerFactory;
+import com.zxw.web.consts.AiotRedisConstants;
 import com.zxw.web.service.DelayJobService;
 import com.zxw.vo.base.Result;
 import io.netty.channel.DefaultEventLoopGroup;
 import io.netty.channel.EventLoopGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
@@ -27,6 +29,9 @@ public class MqController {
 //    @Autowired
     private DelayJobService delayJobService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
 
     @GetMapping("/sendMessage")
     public Result<String> sendMessage(String handlerName, String type) {
@@ -42,6 +47,7 @@ public class MqController {
     }
 
     private void send(ProducerHandler handler) {
+        redisTemplate.opsForSet().randomMember(AiotRedisConstants.DEVICE);
         JSONObject msg = new JSONObject();
         msg.put("time", System.currentTimeMillis());
         msg.put("prodId", UUID.randomUUID().toString());

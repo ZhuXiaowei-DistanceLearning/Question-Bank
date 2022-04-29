@@ -9,7 +9,7 @@ import com.zxw.delay.entity.JobPool;
 import com.zxw.delay.event.DelayBucket;
 import com.zxw.exception.BusinessException;
 import com.zxw.exception.ExpMsgConsts;
-import com.zxw.vo.JobSaveVo;
+import com.zxw.web.vo.JobSaveVo;
 import com.zxw.web.service.DelayJobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

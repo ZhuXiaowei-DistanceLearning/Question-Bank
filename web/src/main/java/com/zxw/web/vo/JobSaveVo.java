@@ -1,4 +1,4 @@
-package com.zxw.vo;
+package com.zxw.web.vo;
 
 import lombok.Data;
 

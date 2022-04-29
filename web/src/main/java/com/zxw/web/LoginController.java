@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zxw.consts.Constants;
 import com.zxw.exception.BusinessException;
 import com.zxw.exception.ExpMsgConsts;
-import com.zxw.vo.LoginReqVo;
+import com.zxw.web.vo.LoginReqVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

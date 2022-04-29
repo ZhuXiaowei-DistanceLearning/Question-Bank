@@ -1,6 +1,5 @@
-package com.zxw.handlerMap;
+package com.zxw.apiversion;
 
-import com.zxw.annoataion.APIVersion;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
