@@ -2,6 +2,7 @@ package com.zxw;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -17,6 +18,7 @@ import java.util.Arrays;
  * @date 2020/6/28 10:19
  */
 @SpringBootApplication
+@MapperScan(basePackages = "com.zxw.web.mapper ")
 @Slf4j
 public class QuestionBankApplication {
     public static void main(String[] args) {

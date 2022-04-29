@@ -1,4 +1,4 @@
-package com.zxw.service.impl;
+package com.zxw.web.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -9,11 +9,10 @@ import com.zxw.delay.entity.JobPool;
 import com.zxw.delay.event.DelayBucket;
 import com.zxw.exception.BusinessException;
 import com.zxw.exception.ExpMsgConsts;
-import com.zxw.service.DelayJobService;
 import com.zxw.vo.JobSaveVo;
+import com.zxw.web.service.DelayJobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
@@ -21,7 +20,7 @@ import java.util.UUID;
  * @author zxw
  * @date 2021/10/25 15:45
  */
-@Service
+//@Service
 public class DelayJobServiceImpl implements DelayJobService {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;

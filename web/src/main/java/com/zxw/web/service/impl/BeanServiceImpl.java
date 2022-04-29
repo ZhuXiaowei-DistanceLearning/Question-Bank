@@ -1,6 +1,6 @@
-package com.zxw.service.impl;
+package com.zxw.web.service.impl;
 
-import com.zxw.service.BeanService;
+import com.zxw.web.service.BeanService;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -11,5 +11,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Bean2ServiceImpl implements BeanService {
+//@Primary
+//@Priority(value = 1)
+//@Order(value = 1)
+public class BeanServiceImpl implements BeanService{
 }

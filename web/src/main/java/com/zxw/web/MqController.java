@@ -3,7 +3,7 @@ package com.zxw.web;
 import com.alibaba.fastjson.JSONObject;
 import com.zxw.base.ProducerHandler;
 import com.zxw.factory.ProducerFactory;
-import com.zxw.service.DelayJobService;
+import com.zxw.web.service.DelayJobService;
 import com.zxw.vo.base.Result;
 import io.netty.channel.DefaultEventLoopGroup;
 import io.netty.channel.EventLoopGroup;
@@ -24,7 +24,7 @@ public class MqController {
     @Autowired
     private ProducerFactory producerFactory;
 
-    @Autowired
+//    @Autowired
     private DelayJobService delayJobService;
 
 
@@ -43,8 +43,11 @@ public class MqController {
 
     private void send(ProducerHandler handler) {
         JSONObject msg = new JSONObject();
-        msg.put("timestamp", System.currentTimeMillis());
+        msg.put("time", System.currentTimeMillis());
+        msg.put("prodId", UUID.randomUUID().toString());
         msg.put("guid", UUID.randomUUID().toString());
+        msg.put("status", UUID.randomUUID().toString());
+        msg.put("server", "192.168");
         handler.sendMessage(msg.toJSONString());
     }
 

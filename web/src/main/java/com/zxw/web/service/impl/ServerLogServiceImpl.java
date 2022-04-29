@@ -1,6 +1,6 @@
-package com.zxw.service.impl;
+package com.zxw.web.service.impl;
 
-import com.zxw.service.ServerLogService;
+import com.zxw.web.service.ServerLogService;
 import lombok.Data;
 
 /**

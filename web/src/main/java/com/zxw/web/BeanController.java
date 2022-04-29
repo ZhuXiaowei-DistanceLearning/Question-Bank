@@ -1,7 +1,7 @@
 package com.zxw.web;
 
 import com.zxw.config.BeanProperties;
-import com.zxw.service.BeanService;
+import com.zxw.web.service.BeanService;
 import com.zxw.vo.base.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.framework.AopContext;
