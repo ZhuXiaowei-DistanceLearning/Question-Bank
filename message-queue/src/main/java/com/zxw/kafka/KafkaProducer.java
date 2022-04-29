@@ -19,7 +19,7 @@ public class KafkaProducer implements ProducerHandler {
 
     @Override
     public void sendMessage(String message) {
-        kafkaTemplate.send("test", message);
+        kafkaTemplate.send("device-status-queue", message);
         log.info("消息发送成功");
     }
 
