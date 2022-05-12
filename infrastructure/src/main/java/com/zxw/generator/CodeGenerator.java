@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        generate("192.168.200.108", "magpie_test");
+        generate("192.168.200.108", "crm");
     }
 
     /**
@@ -70,13 +70,14 @@ public class CodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-//        strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
+        strategy.setSuperEntityClass("com.apec.infrastructure.mybatis.BaseModel");
+        strategy.setSuperEntityColumns("id","status","enableFlag","createBy","createDate","lastUpdateBy","lastUpdateDate");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         // 公共父类
 //        strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
         // 写于父类中的公共字段
-        strategy.setSuperEntityColumns("id");
+//        strategy.setSuperEntityColumns("id");
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
@@ -168,6 +169,7 @@ public class CodeGenerator {
         gc.setBaseResultMap(true);
         gc.setBaseColumnList(true);
         gc.setOpen(false);
+        gc.setServiceName("%sService");
         return gc;
     }
 
