@@ -14,6 +14,13 @@ public class JvmInfo {
      * -Xss1M：每个线程的栈内存大小
      * -XX:SurvivorRatio=8
      * -XX:NewRatio=2
+     * -XX:InitialHeapSize：初始堆大小
+     * -XX:MaxHeapSize：最大堆大小
+     * -XX:NewSize：初始新生代大小
+     * -XX:MaxNewSize：最大新生代大小
+     * -XX:+PrintGCDetils：打印详细的gc日志
+     * -XX:+PrintGCTimeStamps：这个参数可以打印出来每次GC发生的时间
+     * -Xloggc:gc.log：这个参数可以设置将gc日志写入一个磁盘文件
      *
      */
     public void param(){
@@ -82,6 +89,16 @@ public class JvmInfo {
      * 3.老年代内存使用率超过了92%，也要直接触发Old GC，当然这个比例是可以通过参数调整的
      */
     public void fullGC(){
+
+    }
+
+    /**
+     * jmap -histo PID：对象内存占用情况
+     * jmap -heap PID：堆内存情况
+     * jmap -dump:live,format=b,file=dump.hprof PID
+     * jhat dump.hprof -port 7000
+     */
+    public void jmap(){
 
     }
 }

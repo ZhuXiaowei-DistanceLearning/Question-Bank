@@ -2,9 +2,6 @@ package com.zxw.jvm;
 
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 /**
  * @author zxw
@@ -16,21 +13,27 @@ public class Test {
     public static WeakReference<Test> weakReference = new WeakReference<>(new Test());
 
     public static void main(String[] args) {
-        System.out.println(softReference.get());
-        System.out.println(weakReference.get());
-        System.gc();
-        System.out.println(softReference.get());
-        System.out.println(weakReference.get());
+//        System.out.println(softReference.get());
+//        System.out.println(weakReference.get());
+//        System.gc();
+//        System.out.println(softReference.get());
+//        System.out.println(weakReference.get());
+        test1();
 //        testCollection();
 //        testTenuringThreshold();
-        int a = 1;
-        int b = 2;
-        int c = 100;
-        int d = 200;
-        int f = a + b;
-        int g = c + d;
-        System.out.println(a + b);
-        System.out.println(c + d);
+    }
+
+    public static void test1() {
+        byte[] b = new byte[1024 * 1024];
+        b = new byte[1024 * 1024];
+        b = new byte[1024 * 1024];
+        b = new byte[1024 * 1024];
+        b = new byte[1024 * 1024];
+        b = new byte[1024 * 1024];
+        b = new byte[1024 * 1024];
+        b = null;
+        byte[] b1 = new byte[1024 * 1024 * 2];
+        System.out.println("结束");
     }
 
     public static synchronized void test2() {
