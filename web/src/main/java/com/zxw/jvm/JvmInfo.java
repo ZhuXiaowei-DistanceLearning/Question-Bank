@@ -32,15 +32,23 @@ public class JvmInfo {
      * 每台机器需要多大的内存空间？
      * 每台机器上启动的JVM需要分配多大的堆内存空间？
      * 给JVM多大的内存空间才能保证可以支撑这么多的支付订单在内存里的创建，而不会导致内存不够直接崩溃？
+     * Eden区的对象增长速率多快？
+     * Young GC频率多高
+     * 一次 Young GC多长耗时
+     * Young GC过后多少对象存货
+     * 老年代的对象增长速率多高
+     * FULL GC频率多高
+     * 一次FULL GC耗时
      */
     public void question(){
 
     }
 
     /**
-     * 躲过15次GC之后进入老年代
-     * 动态对象年龄判断:假如说当前放对象的Survivor区域里，一批对象的总大小大于了这块Survivor区域的内存大小的50%，那么此时大于等于这批对象年龄的对象，就可以直接进入老年代了。
-     * 大对象直接进入老年代
+     * 1.躲过15次GC之后进入老年代
+     * 2.大对象直接进入老年代
+     * 3.一次Young GC过后存货对象太多，Survivor区放不了
+     * 4.动态对象年龄判断:假如说当前放对象的Survivor区域里，一批对象的总大小大于了这块Survivor区域的内存大小的50%，那么此时大于等于这批对象年龄的对象，就可以直接进入老年代了。
      * -XX:PretenureSizeThreshold=1M 比如“1048576”字节，就是1MB。
      * -XX:MaxTenuringThreshold=5
      * -XX:-HandlePromotionFailure
@@ -77,7 +85,7 @@ public class JvmInfo {
      * 意味着最后一个阶段，先停止系统运行，混合回收一些Region，再恢复系统运行，接着再次禁止系统运行，混合回收一些Region，反复8次
      * XX:G1HeapWastePercent：在混合回收的时候，对Region回收都是基于复制算法进行的，都是把要回收的Region里的存活对象放入其他
      * Region，然后这个Region中的垃圾对象全部清理掉 默认值是5%
-     * -XX:G1MixedGCLiveThresholdPercen；默认值是85%，意思就是确定要回收的Region的时候，必须是存活对象低于85%的Region才可以进行回收
+     * -XX:G1MixedGCLiveThresholdPercen：默认值是85%，意思就是确定要回收的Region的时候，必须是存活对象低于85%的Region才可以进行回收
      */
     public void G1(){
 
@@ -87,6 +95,11 @@ public class JvmInfo {
      * 1.发生Young GC之前进行检查，如果“老年代可用的连续内存空间” < “新生代历次Young GC后升入老年代的对象总和的平均大小”，说明本次Young GC后可能升入老年代的对象大小，可能超过了老年代当前可用内存空间
      * 2.执行Young GC之后有一批对象需要放入老年代，此时老年代就是没有足够的内存空间存放这些对象了，此时必须立即触发一次Old GC
      * 3.老年代内存使用率超过了92%，也要直接触发Old GC，当然这个比例是可以通过参数调整的
+     *
+     * 1.系统高并发请求或者数据量过大，导致Young GC过后存活对象太多，内存分配不合理
+     * 2.系统一次性加载过多数据进内存
+     * 3.永久代因为加载类过多触发FULL GC
+     *
      */
     public void fullGC(){
 
