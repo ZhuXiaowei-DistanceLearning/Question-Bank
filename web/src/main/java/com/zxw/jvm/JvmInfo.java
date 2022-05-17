@@ -21,7 +21,9 @@ public class JvmInfo {
      * -XX:+PrintGCDetils：打印详细的gc日志
      * -XX:+PrintGCTimeStamps：这个参数可以打印出来每次GC发生的时间
      * -Xloggc:gc.log：这个参数可以设置将gc日志写入一个磁盘文件
-     *
+     * -XX:+HeapDumpOnOutOfMemoryError
+     * -XX:+HeapDumpPath=/log
+     * -XX:+DisableExplicitGC：禁止GC
      */
     public void param(){
 
