@@ -8,13 +8,15 @@ spring:
     host: zxw.middleware.com
     port: 16379
     password: znw@123
-    database: 0
+    database: 7
+#    cluster:
+#      nodes: redis.dev.magpie.com:7001,redis.dev.magpie.com:7002,redis.dev.magpie.com:7003
   datasource:
     primary:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://zxw.middleware.com:3306/e_seal?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+      url: jdbc:mysql://zxw.middleware.com:3306/dd_text?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
       username: root
-      password: 123456
+      password: Admin!@123
   data:
     mongodb:
       uri: mongodb://zxw.middleware.com:27017/magpie_test?maxIdleTimeMS=3000
@@ -37,7 +39,7 @@ spring:
   rabbitmq:
     host: zxw.middleware.com
     port: 5672
-    username: root
+    username: zhuxw
     password: 123456
     virtual-host: /apec
     listener:
@@ -47,9 +49,12 @@ spring:
   messages:
     basename: i18n/app
 rocketmq:
-  name-server: 127.0.0.1:9876
+  name-server: zxw.middleware.com:9876
   producer:
     group: my-producer-group
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 storage:
   ribbon:
     #建立连接超时时间
@@ -83,7 +88,10 @@ server:
   port: 8081
 logging:
   config: classpath:logback-spring.xml
-
+bean:
+  key: 123
+  map:
+    key: 123
 springdoc:
   swagger-ui:
     path: /swagger-ui-custom.html
