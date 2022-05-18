@@ -81,13 +81,13 @@ public class JvmInfo {
      * -XX:G1HeapRegionSize：指定region大小
      * -XX:G1NewSizePercent：设置新生代初始占比的 默认5%
      * -XX:G1MaxNewSizePercent：新生代最大内存占用比例
-     * -XX:MaxGCPauseMills：指定系统停顿时长
+     * -XX:MaxGCPauseMillis：指定系统停顿时长
      * -XX:InitiatingHeapOccupancyPercent：默认45% 新生代+老年代一起回收的混合回收阶段
      * -XX:G1MixedGCCountTarget：就是在一次混合回收的过程中，最后一个阶段执行几次混合回收，默认值是8次
      * 意味着最后一个阶段，先停止系统运行，混合回收一些Region，再恢复系统运行，接着再次禁止系统运行，混合回收一些Region，反复8次
      * XX:G1HeapWastePercent：在混合回收的时候，对Region回收都是基于复制算法进行的，都是把要回收的Region里的存活对象放入其他
      * Region，然后这个Region中的垃圾对象全部清理掉 默认值是5%
-     * -XX:G1MixedGCLiveThresholdPercen：默认值是85%，意思就是确定要回收的Region的时候，必须是存活对象低于85%的Region才可以进行回收
+     * -XX:G1MixedGCLiveThresholdPercent：默认值是85%，意思就是确定要回收的Region的时候，必须是存活对象低于85%的Region才可以进行回收
      */
     public void G1(){
 
