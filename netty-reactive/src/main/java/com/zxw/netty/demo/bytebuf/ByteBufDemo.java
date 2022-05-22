@@ -2,19 +2,33 @@ package com.zxw.netty.demo.bytebuf;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.CompositeByteBuf;
 import io.netty.buffer.Unpooled;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
+ * 网络数据的基本单位总是字节,Java NIO 提供了 ByteBuffer 作为它的字节容器，但是这个类使用起来过于复杂，而且也有些繁琐。
+ * Netty 的数据处理 API 通过两个组件暴露——abstract class ByteBuf 和 interface
+ * ByteBufHolder。
+ * 下面是一些 ByteBuf API 的优点：
+ * 1.它可以被用户自定义的缓冲区类型扩展；
+ * 2.通过内置的复合缓冲区类型实现了透明的零拷贝；
+ * 3.容量可以按需增长（类似于 JDK 的 StringBuilder）；
+ * 4.在读和写这两种模式之间切换不需要调用 ByteBuffer 的 flip()方法；
+ * 5.读和写使用了不同的索引；
+ * 6.支持方法的链式调用；
+ * 7.支持引用计数；
+ * 8.支持池化。
+ *
  * @author zxw
  * @date 2021/12/23 13:37
  */
 public class ByteBufDemo {
     public static void main(String[] args) {
-//        test();
-        test2();
+        test();
+//        test2();
     }
 
     /**
@@ -26,6 +40,9 @@ public class ByteBufDemo {
         Charset charset = Charset.forName("utf-8");
         ByteBuf stringByteBuf = Unpooled.copiedBuffer("hello world", charset);
         if (stringByteBuf.hasArray()) {
+            for (int i = 0; i < stringByteBuf.capacity(); i++) {
+                System.out.println(stringByteBuf.getChar(i));
+            }
             byte[] array = stringByteBuf.array();
             // as this, arrayOffset === 0
             int startIndex = stringByteBuf.arrayOffset() + stringByteBuf.readerIndex();
@@ -129,6 +146,22 @@ public class ByteBufDemo {
         System.out.println("getByte(1): " + buffer.getByte(1));
         printByteBufInfo("AfterGetAndSet", buffer);
 
+    }
+
+    public void test6() {
+        CompositeByteBuf messageBuf = Unpooled.compositeBuffer();
+        ByteBuf headerBuf = ByteBufAllocator.DEFAULT.buffer(6, 10);
+        ByteBuf bodyBuf = ByteBufAllocator.DEFAULT.buffer(6, 10);
+        messageBuf.addComponents(headerBuf, bodyBuf);
+        messageBuf.removeComponent(0); // remove the header
+        for (ByteBuf buf : messageBuf) {
+            System.out.println(buf.toString());
+        }
+        // ----
+        CompositeByteBuf compBuf = Unpooled.compositeBuffer();
+        int length = compBuf.readableBytes();
+        byte[] array = new byte[length];
+        compBuf.getBytes(compBuf.readerIndex(), array);
     }
 
     private static void printByteBufInfo(String step, ByteBuf buffer) {

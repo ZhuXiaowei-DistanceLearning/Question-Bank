@@ -15,7 +15,7 @@
  */
 package com.zxw.netty.demo;
 
-import com.zxw.netty.demo.handler.http.HttpPipelineInitializer;
+import com.zxw.netty.demo.handler.client.StringInboundHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -57,14 +57,13 @@ public final class EchoClient {
                     .channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY, true)
 //                    .handler(new ClientCoderChannelInitializer());
-                    .handler(new HttpPipelineInitializer(false));
-            // Start the client.
+                    .handler(new StringInboundHandler());
+            // 连接到远程节点，阻塞等待直到连接完成
             ChannelFuture f = b.connect(HOST, PORT).sync();
-
-            // Wait until the connection is closed.
+            //阻塞，直到Channel 关闭
             f.channel().closeFuture().sync();
         } finally {
-            // Shut down the event loop to terminate all threads.
+            // 关闭线程池并且释放所有的资源
             group.shutdownGracefully();
         }
     }
