@@ -2,7 +2,6 @@ package com.zxw.netty.nio.buffers;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 
 
 public class BufferAccess {

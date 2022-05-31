@@ -16,7 +16,7 @@ public class FileUtils {
     static long fileLength;
 
     public static void main(String[] args) {
-        File file = new File("D:\\code");
+        File file = new File("D:\\BaiduNetdiskDownload");
         clearLog(file);
         System.out.println(fileLength / 1024 / 1024);
 //        Pattern url = Pattern.compile(".*((http.*)])");
@@ -50,8 +50,10 @@ public class FileUtils {
                 }
             }
         } else {
-            if (file.getAbsolutePath().endsWith(".log")) {
+            if (file.getAbsolutePath().endsWith(".mp3")) {
+                System.out.println("文件名:" + file.getName());
                 fileLength += file.length();
+                file.deleteOnExit();
             }
         }
     }
