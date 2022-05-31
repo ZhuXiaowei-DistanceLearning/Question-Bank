@@ -10,6 +10,11 @@ import java.util.concurrent.Executors;
  */
 public class CountDownLatchTest {
 
+    /**
+     * CountDownLatch主要用来解决一个线程等待多个线程的场景
+     * @param args
+     * @throws InterruptedException
+     */
     public static void main(String[] args) throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(2);
         new Thread(() -> {
