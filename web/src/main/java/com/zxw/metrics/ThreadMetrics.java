@@ -6,6 +6,8 @@ import java.util.concurrent.locks.LockSupport;
 /**
  * 为什么要使用多线程？: 提升性能，从度量的角度，主要是降低延迟，提高吞吐量
  * 多线程的应用场景: 提升性能本质上就是提升硬件的利用率，再具体点来说，就是提升I/O的利用率和CPU的利用率
+ * CPU密集型：CPU核数
+ * IO密集型：最佳线程数=CPU核数 * [ 1 +（I/O耗时 / CPU耗时）]
  * @author zxw
  * @date 2022/5/30 15:21
  */
