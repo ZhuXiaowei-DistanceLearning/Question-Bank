@@ -6,6 +6,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
+ * 支持多个线程同时操作，比如获取线程池的连接对象
  * @author zxw
  * @date 2022/5/31 15:47
  */
