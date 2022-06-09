@@ -1,5 +1,7 @@
 package com.zxw.utils;
 
+import com.github.jsonzou.jmockdata.JMockData;
+import lombok.Data;
 import org.springframework.expression.Expression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
@@ -11,6 +13,7 @@ import java.util.List;
 
 /**
  * Spring Expression Language
+ *
  * @author zxw
  * @date 2022/6/9 10:18
  */
@@ -31,9 +34,9 @@ public class SpELUtils {
 //        test5();
 //        test6();
 //        test7();
-        test8();
+//        test8();
 //        test9();
-//        test10();
+        test10();
         // list?.length
         // 算数表达式（“1+2-3*4/2″）
         //比较表达式（“1>2”）
@@ -114,5 +117,28 @@ public class SpELUtils {
     public static void test9() {
         // //从readList的list下筛选出favorite为true的子集合，再将他们的name字段投为新的list
         //	@Value("#{list.?[favorite eq true].![name]}")
+    }
+
+    public static void test10() {
+        Book book = JMockData.mock(Book.class);
+        System.out.println(parser.parseExpression("#root.test()").getValue(book));
+        System.out.println(parser.parseExpression("#root.test1('qwe')").getValue(book));
+    }
+
+    @Data
+    public static class Book {
+        public String name;         //书名
+        public String author;       //做者
+        public String publisher;    //出版社
+        public double price;        //售价
+        public boolean favorite;    //是否喜欢
+
+        public void test() {
+            System.out.println("111");
+        }
+
+        public void test1(String asd) {
+            System.out.println(asd);
+        }
     }
 }
