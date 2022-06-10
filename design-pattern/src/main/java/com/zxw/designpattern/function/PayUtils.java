@@ -41,6 +41,9 @@ public class PayUtils {
      * @param args
      */
     public static void main(String[] args) {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+        deque.push(1);
+        deque.add(2);
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MONTH, new Date().getMonth() - 1);
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));//获取月份的最后一天
