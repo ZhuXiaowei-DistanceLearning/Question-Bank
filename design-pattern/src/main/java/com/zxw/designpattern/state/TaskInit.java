@@ -1,5 +1,8 @@
 package com.zxw.designpattern.state;
 
+import com.zxw.designpattern.state.subject.ActivityObserver;
+import com.zxw.designpattern.state.subject.TaskManageObserver;
+
 // 任务初始状态
 class TaskInit implements State {
     @Override
