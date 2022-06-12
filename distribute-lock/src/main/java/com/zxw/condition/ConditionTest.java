@@ -15,16 +15,27 @@ public class ConditionTest {
         new Thread(() -> {
             lock.lock();
             try {
-                Thread.sleep(1000);
-                System.out.println("准备休眠");
+                System.out.println("准备休眠" + Thread.currentThread().getName());
                 condition.await();
-                System.out.println("释放condition");
+                System.out.println("释放condition" + Thread.currentThread().getName());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             System.out.println(Thread.currentThread().getName());
             lock.unlock();
         }, "T1").start();
+        new Thread(() -> {
+            lock.lock();
+            try {
+                System.out.println("准备休眠" + Thread.currentThread().getName());
+                condition.await();
+                System.out.println("释放condition" + Thread.currentThread().getName());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName());
+            lock.unlock();
+        }, "T3").start();
         new Thread(() -> {
             lock.lock();
             System.out.println("唤醒condition");

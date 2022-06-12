@@ -4,6 +4,7 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 /**
+ * CyclicBarrier是一组线程之间互相等待
  * @author zxw
  * @date 2022/5/31 17:37
  */

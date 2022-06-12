@@ -23,21 +23,21 @@ public class CountDownLatchTest {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            System.out.println("t1");
             countDownLatch.countDown();
+            System.out.println("t1");
         }, "t1").start();
         new Thread(() -> {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            System.out.println("t2");
             countDownLatch.countDown();
+            System.out.println("t2");
         }, "t2").start();
-//        countDownLatch.await();
+        countDownLatch.await();
         System.out.println("等待");
-        run();
+//        run();
     }
 
     static void run() throws InterruptedException {
