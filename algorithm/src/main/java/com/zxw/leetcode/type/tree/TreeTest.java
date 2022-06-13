@@ -29,7 +29,9 @@ public class TreeTest {
     StringBuilder res = new StringBuilder();
 
     public static void main(String[] args) {
+        TreeNode tree = TreeOperation.createTree(new Integer[]{3,9,20,null,null,15,7});
         TreeTest treeTest = new TreeTest();
+        treeTest.minDepth(tree);
         TreeNode treeNode = new TreeNode(1);
         TreeNode t1 = new TreeNode(1);
         TreeNode t2 = new TreeNode(3);
@@ -45,7 +47,7 @@ public class TreeTest {
         treeNode.left = t4;
         treeNode.right = t7;
         boolean balanced = treeTest.isBalanced(treeNode);
-        TreeNode tree = TreeOperation.createTree(new Integer[]{4, -7, -3, null, null, -9, -3, 9, -7, -4, null, 6, null, -6, -6, null, null, 0, 6, 5, null, 9, null, null, -1, -4, null, null, null, -2});
+        tree = TreeOperation.createTree(new Integer[]{4, -7, -3, null, null, -9, -3, 9, -7, -4, null, 6, null, -6, -6, null, null, 0, 6, 5, null, 9, null, null, -1, -4, null, null, null, -2});
         show = tree;
         TreeOperation.show(treeNode);
         treeTest.flatten(tree);
@@ -689,6 +691,28 @@ public class TreeTest {
         int m1 = minDepth(root.left);
         int m2 = minDepth(root.right);
         return root.left == null || root.right == null ? m1 + m2 + 1 : Math.min(m1, m2) + 1;
+    }
+
+    public int minDepth2(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        int res = 1;
+        Queue<TreeNode> queue = new LinkedBlockingQueue();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode t = queue.poll();
+                if (t.left == null && t.right == null) {
+                    return res;
+                }
+                if (t.left != null) queue.add(t.left);
+                if (t.right != null) queue.add(t.right);
+            }
+            res++;
+        }
+        return res;
     }
 
     /**
