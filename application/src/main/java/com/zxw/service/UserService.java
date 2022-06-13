@@ -16,4 +16,6 @@ public interface UserService {
     Mono<User> findByUsername(String username);
 
     Flux<User> findAll();
+
+    User register();
 }

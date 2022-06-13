@@ -48,4 +48,9 @@ public class UserServiceImpl implements UserService {
     public Flux<User> findAll() {
         return userRepository.findAll();
     }
+
+    @Override
+    public User register() {
+        return null;
+    }
 }
