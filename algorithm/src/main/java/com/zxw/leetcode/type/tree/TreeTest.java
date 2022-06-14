@@ -7,6 +7,7 @@ import org.apache.commons.math3.util.Pair;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 /**
  * 二叉树刷题总结：
@@ -29,7 +30,14 @@ public class TreeTest {
     StringBuilder res = new StringBuilder();
 
     public static void main(String[] args) {
-        TreeNode tree = TreeOperation.createTree(new Integer[]{3,9,20,null,null,15,7});
+        IntStream.range(1, 10)
+                .forEach(e -> {
+                    if (e == 5) {
+                        return;
+                    }
+                    System.out.println(e);
+                });
+        TreeNode tree = TreeOperation.createTree(new Integer[]{3, 9, 20, null, null, 15, 7});
         TreeTest treeTest = new TreeTest();
         treeTest.minDepth(tree);
         TreeNode treeNode = new TreeNode(1);
@@ -58,6 +66,7 @@ public class TreeTest {
 
     /**
      * 17.12 BiNode
+     *
      * @param root
      * @return
      */
@@ -694,7 +703,7 @@ public class TreeTest {
     }
 
     public int minDepth2(TreeNode root) {
-        if(root == null){
+        if (root == null) {
             return 0;
         }
         int res = 1;

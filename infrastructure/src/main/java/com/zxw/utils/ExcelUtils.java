@@ -8,8 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -21,9 +23,15 @@ public class ExcelUtils {
 
     public static void getOneColumnList(String filePath, String colName) {
         try {
+            AtomicInteger size = new AtomicInteger();
+            HashSet<String> set = new HashSet<>();
             List<Map> list = importMapExcel(filePath);
-            String res = list.stream().map(e -> "\"" + String.valueOf(e.get(colName)) + "\"").collect(Collectors.joining(",","[","]"));
+            String res = list.stream().filter(e -> set.add(String.valueOf(e.get(colName)))).map(e -> {
+                size.getAndIncrement();
+                return "\"" + String.valueOf(e.get(colName)).replaceAll("'", "") + "\"";
+            }).collect(Collectors.joining(",", "[", "]"));
             log.info(res);
+            log.info("数量:{}", size.get());
         } catch (IOException e) {
             e.printStackTrace();
         }
