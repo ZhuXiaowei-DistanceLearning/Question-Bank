@@ -1,4 +1,4 @@
-package com.zxw.netty.demo.encode;
+package com.zxw.netty.demo.coder;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

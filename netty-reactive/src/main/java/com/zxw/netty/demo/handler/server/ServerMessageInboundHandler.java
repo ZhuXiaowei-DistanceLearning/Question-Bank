@@ -1,6 +1,6 @@
 package com.zxw.netty.demo.handler.server;
 
-import com.zxw.netty.demo.encode.MessageProtocol;
+import com.zxw.netty.demo.coder.define.MessageProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;

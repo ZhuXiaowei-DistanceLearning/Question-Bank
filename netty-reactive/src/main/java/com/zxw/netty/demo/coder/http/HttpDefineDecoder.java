@@ -1,4 +1,4 @@
-package com.zxw.netty.demo.encode;
+package com.zxw.netty.demo.coder.http;
 
 import io.netty.handler.codec.http.HttpMessage;
 import io.netty.handler.codec.http.HttpObjectDecoder;

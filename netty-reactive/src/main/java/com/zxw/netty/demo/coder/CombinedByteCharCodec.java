@@ -1,5 +1,7 @@
-package com.zxw.netty.demo.encode;
+package com.zxw.netty.demo.coder;
 
+import com.zxw.netty.demo.coder.charc.ByteToCharDecoder;
+import com.zxw.netty.demo.coder.charc.CharToByteEncoder;
 import io.netty.channel.CombinedChannelDuplexHandler;
 
 /**

@@ -1,4 +1,4 @@
-package com.zxw.netty.demo.encode.line;
+package com.zxw.netty.demo.coder.line;
 
 import io.netty.buffer.ByteBuf;
 import lombok.Data;

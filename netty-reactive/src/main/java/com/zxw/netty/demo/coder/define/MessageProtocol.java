@@ -1,4 +1,4 @@
-package com.zxw.netty.demo.encode;
+package com.zxw.netty.demo.coder.define;
 
 import lombok.Data;
 

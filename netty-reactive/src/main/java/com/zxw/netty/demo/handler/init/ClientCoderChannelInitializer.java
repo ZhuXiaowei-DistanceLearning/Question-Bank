@@ -1,9 +1,9 @@
 package com.zxw.netty.demo.handler.init;
 
-import com.zxw.netty.demo.encode.MessageDecoder;
-import com.zxw.netty.demo.encode.MessageEncoder;
-import com.zxw.netty.demo.encode.longtype.ByteToLongDecoder;
-import com.zxw.netty.demo.encode.longtype.LongToByteEncoder;
+import com.zxw.netty.demo.coder.define.MessageDecoder;
+import com.zxw.netty.demo.coder.define.MessageEncoder;
+import com.zxw.netty.demo.coder.longtype.ByteToLongDecoder;
+import com.zxw.netty.demo.coder.longtype.LongToByteEncoder;
 import com.zxw.netty.demo.handler.client.LongInBoundHandler;
 import com.zxw.netty.demo.handler.client.ClientMessageInboundHandler;
 import com.zxw.netty.demo.handler.http.HttpPipelineInitializer;
@@ -32,8 +32,8 @@ public class ClientCoderChannelInitializer extends ChannelInitializer<SocketChan
 
     private void addLong(ChannelPipeline pipeline) {
         pipeline
-                .addLast(new ByteToLongDecoder())
                 .addLast(new LongToByteEncoder())
+                .addLast(new ByteToLongDecoder())
                 .addLast(new LongInBoundHandler());
     }
 

@@ -1,4 +1,4 @@
-package com.zxw.netty.demo.encode.line;
+package com.zxw.netty.demo.coder.line;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

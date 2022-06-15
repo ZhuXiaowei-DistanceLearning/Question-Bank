@@ -1,4 +1,4 @@
-package com.zxw.netty.demo.encode.length;
+package com.zxw.netty.demo.coder.length;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

@@ -1,6 +1,6 @@
 package com.zxw.netty.demo.handler.client;
 
-import com.zxw.netty.demo.encode.MessageProtocol;
+import com.zxw.netty.demo.coder.define.MessageProtocol;
 import com.zxw.utils.StringRandom;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
