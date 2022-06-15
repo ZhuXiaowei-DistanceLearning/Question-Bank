@@ -10,35 +10,40 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2021/12/24 11:00
  */
 @Slf4j
-public class LongInBoundHandler extends SimpleChannelInboundHandler<Long> {
+public class LongServerInBoundHandler extends SimpleChannelInboundHandler<Long> {
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        log.info("channelRegistered");
         super.channelRegistered(ctx);
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        log.info("channelUnregistered");
         super.channelUnregistered(ctx);
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        log.info("channelActive");
         super.channelActive(ctx);
-        for (int i = 0; i < 10; i++) {
-            log.info("写入数据:{}", i);
-            ctx.writeAndFlush(Unpooled.copyLong(i));
-        }
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        log.info("channelActive");
         super.channelInactive(ctx);
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        log.info("channelReadComplete");
         super.channelReadComplete(ctx);
+        for (int i = 0; i < 10; i++) {
+            log.info("写入数据:{}", i);
+            ctx.writeAndFlush(Unpooled.copyLong(i));
+        }
     }
 
     @Override

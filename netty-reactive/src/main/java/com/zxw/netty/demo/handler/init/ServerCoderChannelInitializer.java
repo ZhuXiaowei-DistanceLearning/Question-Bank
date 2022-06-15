@@ -8,10 +8,10 @@ import com.zxw.netty.demo.coder.line.LineDefineDecoder;
 import com.zxw.netty.demo.coder.line.LineServerHandler;
 import com.zxw.netty.demo.coder.longtype.ByteToLongDecoder;
 import com.zxw.netty.demo.coder.longtype.LongToByteEncoder;
+import com.zxw.netty.demo.handler.client.LongInBoundHandler;
+import com.zxw.netty.demo.handler.client.LongServerInBoundHandler;
 import com.zxw.netty.demo.handler.http.HttpPipelineInitializer;
 import com.zxw.netty.demo.handler.server.ServerStringInboundHandler;
-import com.zxw.netty.demo.handler.server.ServerLongInboundHandler;
-import com.zxw.netty.demo.handler.server.ServerMessageInboundHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -45,7 +45,7 @@ public class ServerCoderChannelInitializer extends ChannelInitializer<SocketChan
         pipeline
                 .addLast(new MessageDecoder())
                 .addLast(new MessageEncoder())
-                .addLast(new ServerMessageInboundHandler());
+                .addLast(new LongInBoundHandler());
     }
 
     private void addString(ChannelPipeline pipeline) {
@@ -55,9 +55,9 @@ public class ServerCoderChannelInitializer extends ChannelInitializer<SocketChan
 
     private void addLong(ChannelPipeline pipeline) {
         pipeline
-                .addLast(new LongToByteEncoder())
-                .addLast(new ByteToLongDecoder())
-                .addLast(new ServerLongInboundHandler());
+                .addLast("encoder", new LongToByteEncoder())
+                .addLast("decoder", new ByteToLongDecoder())
+                .addLast("handler", new LongServerInBoundHandler());
     }
 
     private void addHttp(ChannelPipeline pipeline) {

@@ -32,9 +32,9 @@ public class ClientCoderChannelInitializer extends ChannelInitializer<SocketChan
 
     private void addLong(ChannelPipeline pipeline) {
         pipeline
-                .addLast(new LongToByteEncoder())
-                .addLast(new ByteToLongDecoder())
-                .addLast(new LongInBoundHandler());
+                .addLast("encoder", new LongToByteEncoder())
+                .addLast("decoder", new ByteToLongDecoder())
+                .addLast("handler", new LongInBoundHandler());
     }
 
     public void addHttp(ChannelPipeline pipeline) {
