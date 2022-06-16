@@ -27,17 +27,9 @@ public class RpcServerConnector {
                     .option(ChannelOption.SO_BACKLOG, 1)
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ServerCoderChannelInitializer());
-//                    .childHandler(new ChannelInitializer<>() {
-//                        @Override
-//                        protected void initChannel(Channel ch) throws Exception {
-//                            ChannelPipeline pipeline = ch.pipeline();
-//                            pipeline.addLast(new RpcServerHandler());
-//                            pipeline.addLast(new ByteToLongDecoder());
-//                        }
-//                    });
             ChannelFuture channelFuture = bootstrap.bind(2077).sync();
             channelFuture.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             // Shut down all event loops to terminate all threads.
