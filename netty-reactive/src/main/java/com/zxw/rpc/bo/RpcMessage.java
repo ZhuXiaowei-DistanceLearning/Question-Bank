@@ -8,4 +8,7 @@ import lombok.Data;
  */
 @Data
 public class RpcMessage {
+    private String id;
+    private String interfaceName;
+    private String refName;
 }
