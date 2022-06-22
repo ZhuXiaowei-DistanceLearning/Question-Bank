@@ -1,5 +1,6 @@
 package com.zxw.interview;
 
+import com.zxw.datastruct.ListNode;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
@@ -26,8 +27,59 @@ public class TestMap {
     private static Map<Object, Object> map = new HashMap();
     private static ConcurrentHashMap<Object, Object> conMap = new ConcurrentHashMap();
 
+    static ListNode res = new ListNode();
+    static boolean add = false;
+
+    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        if(l1 == null){
+            return l2;
+        }
+        if(l2 == null){
+            return l1;
+        }
+        ListNode res = new ListNode();
+        ListNode cur = res;
+        boolean add = false;
+        while(l1!=null || l2 !=null){
+            int n = l1 == null ? 0 : l1.val;
+            int m = l2 == null ? 0 : l2.val;
+            int addNum = add ? n + m + 1 : n + m;
+            if(addNum >= 10){
+                add = true;
+                addNum = addNum%10;
+            }else{
+                add = false;
+            }
+            if(l1 != null){
+                l1 = l1.next;
+            }
+            if(l2 != null){
+                l2 = l2.next;
+            }
+            cur.next = new ListNode(addNum);
+            cur = cur.next;
+        }
+        if(add){
+            cur.next = new ListNode(1);
+        }
+        return res.next;
+    }
+
     @SneakyThrows
     public static void main(String[] args) {
+        ListNode l1 = new ListNode(2);
+        ListNode l2 = new ListNode(4);
+        ListNode l3 = new ListNode(3);
+        ListNode l4 = new ListNode(5);
+        ListNode l5 = new ListNode(6);
+        ListNode l6 = new ListNode(4);
+        l1.next = l2;
+        l2.next = l3;
+        l4.next = l5;
+        l5.next = l6;
+        ListNode node = l1;
+        l1 = l1.next;
+        addTwoNumbers(l1, l4);
         StopWatch stopWatch = new StopWatch();
         stopWatch.start("normaluse");
         Map<String, Long> normaluse = normaluse();
