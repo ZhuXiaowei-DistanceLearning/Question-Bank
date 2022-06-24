@@ -6,11 +6,11 @@ import com.zxw.datastruct.TreeNode;
 import java.util.LinkedList;
 import java.util.Queue;
 
-class Wrapper {
+class LeetCodeWrapper {
 
     public static void main(String[] args) {
-        TreeNode root = Wrapper.stringToTreeNode("[1,3,2,5,3,null,9]");
-        Wrapper.prettyPrintTree(root);
+        TreeNode root = LeetCodeWrapper.stringToTreeNode("[1,3,2,5,3,null,9]");
+        LeetCodeWrapper.prettyPrintTree(root);
     }
 
     public static int[] stringToIntegerArray(String input) {
