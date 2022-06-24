@@ -65,21 +65,28 @@ public class TestMap {
         return res.next;
     }
 
+    public static int lengthOfLongestSubstring(String s) {
+        if(s.length() == 0){
+            return 0;
+        }
+        int res = 0;
+        int l = 0;
+        int r = 0;
+        Map<Character, Integer> map  = new HashMap();
+        char[] c = s.toCharArray();
+        while(r < c.length){
+            if(map.containsKey(c[r])){
+                l = Math.max(l ,map.get(c[r]) + 1);
+            }
+            res = Math.max(res, r - l + 1);
+            map.put(c[r], r);
+            r++;
+        }
+        return res;
+    }
+
     @SneakyThrows
     public static void main(String[] args) {
-        ListNode l1 = new ListNode(2);
-        ListNode l2 = new ListNode(4);
-        ListNode l3 = new ListNode(3);
-        ListNode l4 = new ListNode(5);
-        ListNode l5 = new ListNode(6);
-        ListNode l6 = new ListNode(4);
-        l1.next = l2;
-        l2.next = l3;
-        l4.next = l5;
-        l5.next = l6;
-        ListNode node = l1;
-        l1 = l1.next;
-        addTwoNumbers(l1, l4);
         StopWatch stopWatch = new StopWatch();
         stopWatch.start("normaluse");
         Map<String, Long> normaluse = normaluse();
