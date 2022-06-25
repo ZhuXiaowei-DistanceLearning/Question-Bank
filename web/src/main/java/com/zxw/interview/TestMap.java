@@ -85,8 +85,55 @@ public class TestMap {
         return res;
     }
 
+    public String longestPalindrome(String s) {
+        String res = "";
+        for(int i =0; i< s.length(); i++){
+            String s1 = palindrome(s, i, i);
+            String s2 = palindrome(s, i, i + 1);
+            res = res.length() > s1.length() ? res : s1;
+            res = res.length() > s2.length() ? res : s2;
+        }
+        return res;
+    }
+
+    /**
+     * 本地的核心在于找到左边最高的位置与右边最高的位置，减去自身的位置就能得到当前位置所能装的雨水
+     * @param s
+     * @param l
+     * @param r
+     * @return
+     */
+    public String palindrome(String s, int l, int r){
+        while(l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)){
+            l--;
+            r++;
+        }
+        return s.substring(l + 1, r);
+    }
+
+    int trap(int[] height) {
+        int n = height.length;
+        int res = 0;
+        for (int i = 1; i < n - 1; i++) {
+            int l_max = 0, r_max = 0;
+            // 找右边最高的柱子
+            for (int j = i; j < n; j++)
+                r_max = Math.max(r_max, height[j]);
+            // 找左边最高的柱子
+            for (int j = i; j >= 0; j--)
+                l_max = Math.max(l_max, height[j]);
+            // 如果自己就是最高的话，
+            // l_max == r_max == height[i]
+            res += Math.min(l_max, r_max) - height[i];
+        }
+        return res;
+    }
+
     @SneakyThrows
     public static void main(String[] args) {
+        TestMap testMap = new TestMap();
+        testMap.trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1});
+        testMap.longestPalindrome("babad");
         StopWatch stopWatch = new StopWatch();
         stopWatch.start("normaluse");
         Map<String, Long> normaluse = normaluse();
