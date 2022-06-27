@@ -6,7 +6,7 @@ import com.zxw.datastruct.TreeNode;
 import java.util.LinkedList;
 import java.util.Queue;
 
-class LeetCodeWrapper {
+public class LeetCodeWrapper {
 
     public static void main(String[] args) {
         TreeNode root = LeetCodeWrapper.stringToTreeNode("[1,3,2,5,3,null,9]");
