@@ -18,6 +18,7 @@
         <module>application</module>
         <module>domain</module>
         <module>crawler</module>
+        <module>auth</module>
     </modules>
 <!--    <parent>-->
 <!--        <groupId>org.springframework.boot</groupId>-->
@@ -35,6 +36,7 @@
         <java.version>11</java.version>
         <powermock.version>2.0.9</powermock.version>
         <spring-boot.version>2.6.7</spring-boot.version>
+        <spring.cloud-version>2021.0.3</spring.cloud-version>
     </properties>
 
     <dependencies>
@@ -42,6 +44,13 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>${spring.cloud-version}</version>
+            <type>pom</type>
+            <scope>import</scope>
         </dependency>
 
         <!--        <dependency>-->
@@ -63,7 +72,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2020.0.0</version>
+                <version>${spring.cloud-version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
