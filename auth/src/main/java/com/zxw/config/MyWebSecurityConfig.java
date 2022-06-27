@@ -23,7 +23,10 @@ public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailService);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String password = encoder.encode("123456");
+        auth.inMemoryAuthentication().withUser("test").password(password).roles("admin");
+////        auth.userDetailsService(myUserDetailService);
     }
 
     @Bean
@@ -42,7 +45,7 @@ public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin().permitAll()
                 .and().authorizeRequests()
-                .antMatchers("/oauth/**").permitAll()
+//                .antMatchers("/oauth/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().logout().permitAll()

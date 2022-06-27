@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Configuration
 @EnableAuthorizationServer
-public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+public class MyAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
@@ -52,10 +52,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //使用密码模式需要配置
         endpoints.authenticationManager(authenticationManager)
                 .reuseRefreshTokens(false)  //refresh_token是否重复使用
-                .userDetailsService(myUserDetailService) //刷新令牌授权包含对用户信息的检查
+//                .userDetailsService(myUserDetailService) //刷新令牌授权包含对用户信息的检查
 //                .tokenStore(tokenStore)  //指定token存储策略是jwt
 //                .accessTokenConverter(jwtAccessTokenConverter)
-                .tokenEnhancer(enhancerChain) //配置tokenEnhancer
+//                .tokenEnhancer(enhancerChain) //配置tokenEnhancer
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST); //支持GET,POST请求
     }
 
@@ -76,7 +76,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     @Bean
-    public ClientDetailsService clientDetailsService() {
+    public ClientDetailsService myClientDetailsService() {
         return new JdbcClientDetailsService(dataSource);
     }
 
@@ -85,12 +85,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory()
                 //配置client_id
                 .withClient("client")
-                //配置client‐secret 19
-                .secret(passwordEncoder.encode("123123"))
-                // 20 //配置访问token的有效期 21
-                .accessTokenValiditySeconds(3600)  //配置刷新token的有效期 23
-                .refreshTokenValiditySeconds(864000)  //配置redirect_uri，用于授权成功后跳转 25
-                .redirectUris("http://www.baidu.com") //配置申请的权限范围 27
+                //配置client‐secret
+//                .secret(passwordEncoder.encode("123123"))
+                .secret("123123")
+                //配置访问token的有效期
+                .accessTokenValiditySeconds(3600)  //配置刷新token的有效期
+                .refreshTokenValiditySeconds(864000)  //配置redirect_uri，用于授权成功后跳转
+                .redirectUris("http://www.baidu.com") //配置申请的权限范围
                 .scopes("all")
                 // 配置grant_type，表示授权类型
                 // authorization_code: 授权码
