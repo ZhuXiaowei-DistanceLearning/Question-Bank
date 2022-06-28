@@ -1,8 +1,4 @@
 spring:
-  security:
-    user:
-      name: root
-      password: 123456
   application:
     name: oauth-server
   redis:
@@ -51,6 +47,9 @@ spring:
         prefetch: 250
   messages:
     basename: i18n/app
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
 rocketmq:
   name-server: zxw.middleware.com:9876
   producer:
@@ -101,6 +100,12 @@ springdoc:
     operations-sorter: method
     #custom path for api docs
     url: /doc/openapi.json
+cf:
+  jwt:
+    keyPairName: jwt.jks
+    keyPairAlias: jwt
+    keyPairSecret: 123123
+    keyPairStoreSecret: 123123
 #--spring:
 #  profiles:
 #    active=chaos-monkey:

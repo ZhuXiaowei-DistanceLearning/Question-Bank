@@ -13,6 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @Slf4j
 public class OauthApplication {
 
+    /**
+     * keytool ‐list ‐rfc ‐‐keystore jwt.jks | openssl x509 ‐inform pem ‐pubkey
+     * @param args
+     */
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(OauthApplication.class);
 //        app.setWebApplicationType(WebApplicationType.REACTIVE);

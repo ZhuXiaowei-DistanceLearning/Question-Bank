@@ -23,10 +23,10 @@ public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String password = encoder.encode("123456");
-        auth.inMemoryAuthentication().withUser("test").password(password).roles("admin");
-////        auth.userDetailsService(myUserDetailService);
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        String password = encoder.encode("123456");
+//        auth.inMemoryAuthentication().withUser("test").password(password).roles("admin");
+        auth.userDetailsService(myUserDetailService);
     }
 
     @Bean
