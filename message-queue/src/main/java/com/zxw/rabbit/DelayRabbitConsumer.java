@@ -3,7 +3,6 @@ package com.zxw.rabbit;
 import com.zxw.base.ConsumerHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.*;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
  * @author zxw
  * @date 2021-10-28 21:39
  */
-@Component
+//@Component
 @Slf4j
 public class DelayRabbitConsumer implements ConsumerHandler {
     @Override

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
@@ -32,7 +31,7 @@ public class RedisController {
     private AtomicInteger atomicInteger = new AtomicInteger();
 
     @SneakyThrows
-    @PostConstruct
+//    @PostConstruct
     public void wrongInit() {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         //每隔30秒全量更新一次缓存

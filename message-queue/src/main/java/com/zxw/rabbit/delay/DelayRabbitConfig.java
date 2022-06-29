@@ -2,13 +2,12 @@ package com.zxw.rabbit.delay;
 
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author zxw
  * @date 2022/4/3 18:41
  */
-@Configuration
+//@Configuration
 public class DelayRabbitConfig {
     /**
      * 延时队列

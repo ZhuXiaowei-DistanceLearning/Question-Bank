@@ -18,17 +18,17 @@
         <powermock.version>2.0.9</powermock.version>
         <fastjson.version>1.2.74</fastjson.version>
         <springdoc-openapi-ui.version>1.5.0</springdoc-openapi-ui.version>
-        <asciidoctorj.version>1.6.0</asciidoctorj.version>
-        <smart-doc.version>2.1.0</smart-doc.version>
-        <xxl-job-core.version>2.1.1</xxl-job-core.version>
-        <hibernate-validator.version>6.1.6.Final</hibernate-validator.version>
-        <netty.version>4.1.49.Final</netty.version>
+        <asciidoctorj.version>2.5.4</asciidoctorj.version>
+        <smart-doc.version>2.4.7</smart-doc.version>
+        <xxl-job-core.version>2.3.1</xxl-job-core.version>
+        <hibernate-validator.version>7.0.4.Final</hibernate-validator.version>
+        <netty.version>4.1.77.Final</netty.version>
         <librec-core.version>2.0.0</librec-core.version>
-        <commons-csv.version>1.8</commons-csv.version>
+        <commons-csv.version>1.9.0</commons-csv.version>
         <cglib.version>3.3.0</cglib.version>
         <lombok.version>1.18.12</lombok.version>
-        <vavr.version>0.9.0</vavr.version>
-        <reactive-streams.version>1.0.3</reactive-streams.version>
+        <vavr.version>0.10.4</vavr.version>
+        <reactive-streams.version>1.0.4</reactive-streams.version>
     </properties>
 
     <dependencies>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>org.springframework.statemachine</groupId>
             <artifactId>spring-statemachine-core</artifactId>
-            <version>1.2.0.RELEASE</version>
+            <version>3.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -80,12 +80,10 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.47</version>
         </dependency>
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <version>LATEST</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -100,12 +98,12 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
-            <version>3.16.3</version>
+            <version>3.17.3</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.7.11</version>
+            <version>5.8.3</version>
         </dependency>
         <dependency>
             <groupId>io.github.dddplus</groupId>
@@ -123,17 +121,17 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>22.0</version>
+            <version>23.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>5.0.0</version>
+            <version>5.2.2</version>
         </dependency>
         <dependency>
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-base</artifactId>
-            <version>4.1.0</version>
+            <version>4.4.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>guava</artifactId>
@@ -144,17 +142,17 @@
         <dependency>
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-web</artifactId>
-            <version>4.1.0</version>
+            <version>4.4.0</version>
         </dependency>
         <dependency>
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-annotation</artifactId>
-            <version>4.1.0</version>
+            <version>4.4.0</version>
         </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itextpdf</artifactId>
-            <version>5.5.11</version>
+            <version>5.5.13.3</version>
         </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
@@ -164,22 +162,24 @@
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>chaos-monkey-spring-boot</artifactId>
-            <version>2.3.1</version>
+            <version>2.6.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.vertx/vertx-core -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
-            <version>4.0.3</version>
+            <version>4.3.1</version>
         </dependency>
 
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-core</artifactId>
+            <version>3.4.18</version>
         </dependency>
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-test</artifactId>
+            <version>3.4.18</version>
             <scope>test</scope>
         </dependency>
         <dependency>
