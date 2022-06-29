@@ -2,7 +2,8 @@ package com.zxw.reactive.vert;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
-import org.beetl.android.util.Log;
+import lombok.extern.slf4j.Slf4j;
+import org.beetl.core.util.Log;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -11,6 +12,7 @@ import org.reactivestreams.Subscription;
  * @author zxw
  * @date 2021/5/28 15:53
  */
+@Slf4j
 public class demo {
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
