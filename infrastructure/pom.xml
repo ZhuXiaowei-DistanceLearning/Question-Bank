@@ -44,6 +44,11 @@
 <!--            <version>LATEST</version>-->
 <!--        </dependency>-->
         <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.9</version>
+        </dependency>
+        <dependency>
             <groupId>com.github.jsonzou</groupId>
             <artifactId>jmockdata</artifactId>
             <version>4.3.0</version>
