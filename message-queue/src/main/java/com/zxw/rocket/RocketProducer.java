@@ -8,6 +8,7 @@ import org.apache.rocketmq.remoting.common.RemotingHelper;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
@@ -29,6 +30,8 @@ public class RocketProducer implements ProducerHandler {
     @Override
     public void sendMessage(String message) {
         rocketMQTemplate.convertAndSend("test", message);
+        // 发送事务消息
+        rocketMQTemplate.sendMessageInTransaction("test", MessageBuilder.withPayload(message).build(), null);
     }
 
     private void send() {
