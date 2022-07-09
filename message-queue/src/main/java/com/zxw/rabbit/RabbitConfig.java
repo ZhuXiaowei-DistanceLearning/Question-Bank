@@ -1,4 +1,4 @@
-package com.zxw.config;
+package com.zxw.rabbit;
 
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
@@ -18,13 +18,14 @@ import org.springframework.stereotype.Component;
 @Component
 @EnableRabbit
 public class RabbitConfig {
-    @Bean
+//    @Bean
     public ConnectionFactory connectionFactory(RabbitProperties rabbitProperties) {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(rabbitProperties.getHost());
         connectionFactory.setUsername(rabbitProperties.getUsername());
         connectionFactory.setPassword(rabbitProperties.getPassword());
         connectionFactory.setPort(rabbitProperties.getPort());
         connectionFactory.setVirtualHost(rabbitProperties.getVirtualHost());
+        connectionFactory.setPublisherConfirmType(rabbitProperties.getPublisherConfirmType());
         return connectionFactory;
     }
 

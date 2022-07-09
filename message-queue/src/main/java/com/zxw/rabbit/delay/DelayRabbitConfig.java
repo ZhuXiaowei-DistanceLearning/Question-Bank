@@ -58,10 +58,10 @@ public class DelayRabbitConfig {
      * @return
      */
     @Bean
-    Binding queueTTLBinding() {
+    Binding queueTTLBinding(DirectExchange delayExchange, Queue delayQueue) {
         return BindingBuilder
-                .bind(delayQueue())
-                .to(delayExchange())
+                .bind(delayQueue)
+                .to(delayExchange)
                 .with(DELAY_QUEUE);
     }
 
@@ -94,8 +94,8 @@ public class DelayRabbitConfig {
      * @return
      */
     @Bean
-    DirectExchange processExchange() {
-        return new DirectExchange(PROCESS_EXCHANGE);
+    TopicExchange processExchange() {
+        return new TopicExchange(PROCESS_EXCHANGE);
     }
 
     /**
@@ -104,10 +104,10 @@ public class DelayRabbitConfig {
      * @return
      */
     @Bean
-    Binding processBinding() {
+    Binding processBinding(TopicExchange topicExchange, Queue delayProcess) {
         return BindingBuilder
-                .bind(delayProcess())
-                .to(processExchange())
+                .bind(delayProcess)
+                .to(topicExchange)
                 .with(PROCESS_QUEUE);
     }
 

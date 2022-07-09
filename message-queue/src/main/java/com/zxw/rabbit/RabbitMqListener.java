@@ -12,7 +12,17 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @Slf4j
-public class RabbitListener implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnsCallback {
+public class RabbitMqListener implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnsCallback {
+
+    private RabbitMqListener(){
+
+    }
+
+    public RabbitMqListener(RabbitTemplate rabbitTemplate){
+        rabbitTemplate.setConfirmCallback(this);
+        rabbitTemplate.setReturnsCallback(this);
+    }
+
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         log.info("发送者发送成功:{}", ack);

@@ -46,8 +46,9 @@ spring:
       simple:
         acknowledge-mode: MANUAL
         prefetch: 250
-    publisher-confirm-type: none
-    publisher-returns: false
+#        default-requeue-rejected: true
+    publisher-confirm-type: correlated
+    publisher-returns: true
   cloud:
     stream:
       binders: # 在此处配置要绑定的rabbitmq的服务信息；

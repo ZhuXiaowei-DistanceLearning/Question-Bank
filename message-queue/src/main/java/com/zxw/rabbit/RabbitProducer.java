@@ -27,15 +27,19 @@ public class RabbitProducer implements ProducerHandler {
 
     @Override
     public void sendMessage(String message) {
-        amqpTemplate.convertAndSend(QueueConsts.EXCHANGE_DIRECT_NAME,"direct-1", message, msg -> {
+        rabbitTemplate.convertAndSend(QueueConsts.EXCHANGE_DIRECT_NAME,"direct-1", message, msg -> {
             msg.getMessageProperties().setExpiration(String.valueOf(10000));
             return msg;
         });
-        amqpTemplate.convertAndSend(QueueConsts.EXCHANGE_TOPIC_NAME,"topic-1", message, msg -> {
+        rabbitTemplate.convertAndSend(QueueConsts.EXCHANGE_TOPIC_NAME,"topic-1", message, msg -> {
             msg.getMessageProperties().setExpiration(String.valueOf(10000));
             return msg;
         });
-        amqpTemplate.convertAndSend(QueueConsts.EXCHANGE_FANOUT_NAME,"test", message, msg -> {
+        rabbitTemplate.convertAndSend(QueueConsts.EXCHANGE_FANOUT_NAME,"test", message, msg -> {
+            msg.getMessageProperties().setExpiration(String.valueOf(10000));
+            return msg;
+        });
+        rabbitTemplate.convertAndSend("test1231231231", message, msg -> {
             msg.getMessageProperties().setExpiration(String.valueOf(10000));
             return msg;
         });

@@ -2,7 +2,11 @@ package com.zxw.rabbit;
 
 import com.zxw.base.ConsumerHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.*;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +14,7 @@ import java.time.LocalDateTime;
  * @author zxw
  * @date 2021-10-28 21:39
  */
-//@Component
+@Component
 @Slf4j
 public class DelayRabbitConsumer implements ConsumerHandler {
     @Override
@@ -28,7 +32,6 @@ public class DelayRabbitConsumer implements ConsumerHandler {
             key = "springboot.*"
     )
     )
-    @RabbitHandler
     public void receiveMessage(Object o) {
         log.info("当前时间:{}", LocalDateTime.now());
         log.info("消费到数据:{}", o);

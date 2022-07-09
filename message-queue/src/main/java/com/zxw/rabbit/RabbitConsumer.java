@@ -1,9 +1,12 @@
 package com.zxw.rabbit;
 
+import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 /**
  * @author zxw
@@ -34,9 +37,26 @@ public class RabbitConsumer {
     }
 
     @RabbitListener(queues = {"#{fanoutQueue.name}"})
-    public void receiveFanout(Message message) {
+    public void receiveFanout(Message message, Channel channel) throws IOException {
         String body = String.valueOf(message.getBody());
         log.info("接收到fanout消息:{}", body);
+        try {
+//            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            throw new RuntimeException();
+        }  catch (Exception e) {
+
+            if (message.getMessageProperties().getRedelivered()) {
+
+                log.error("消息已重复处理失败,拒绝再次接收...");
+
+                channel.basicReject(message.getMessageProperties().getDeliveryTag(), false); // 拒绝消息
+            } else {
+
+                log.error("消息即将再次返回队列处理...");
+
+                channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+            }
+        }
     }
 
     @RabbitListener(queues = {"#{directQueue.name}"})

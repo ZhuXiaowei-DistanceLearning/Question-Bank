@@ -59,6 +59,7 @@ public class RabbitMqConfig {
     }
 
     /**
+     * 广播模式，发送给所有队列
      * @return
      */
     @Bean
