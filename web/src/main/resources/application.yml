@@ -44,8 +44,10 @@ spring:
     virtual-host: /apec
     listener:
       simple:
-        acknowledge-mode: manual
+        acknowledge-mode: MANUAL
         prefetch: 250
+    publisher-confirm-type: none
+    publisher-returns: false
   cloud:
     stream:
       binders: # 在此处配置要绑定的rabbitmq的服务信息；
