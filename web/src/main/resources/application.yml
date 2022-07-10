@@ -46,7 +46,7 @@ spring:
       simple:
         acknowledge-mode: MANUAL
         prefetch: 250
-#        default-requeue-rejected: true
+    #        default-requeue-rejected: true
     publisher-confirm-type: correlated
     publisher-returns: true
   cloud:

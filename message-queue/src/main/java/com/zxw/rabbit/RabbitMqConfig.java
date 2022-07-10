@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -60,11 +61,25 @@ public class RabbitMqConfig {
 
     /**
      * 广播模式，发送给所有队列
+     *
      * @return
      */
     @Bean
     FanoutExchange fanoutExchange() {
         return new FanoutExchange("zxw.test.fanout");
+    }
+
+    @Bean
+    public CustomExchange customExchange() {
+        Map<String, Object> args = new HashMap<>(1);
+        // 自定义交换机的类型
+        args.put("x-delayed-type", "direct");
+        return new CustomExchange("zxw.test.custom.exchange", "x-delayed-message", true, false, args);
+    }
+
+    @Bean
+    public Binding customBinding(Queue customQueue, CustomExchange customExchange) {
+        return BindingBuilder.bind(customQueue).to(customExchange).with("delay").noargs();
     }
 
     /**
@@ -90,6 +105,11 @@ public class RabbitMqConfig {
     }
 
     @Bean
+    Queue customQueue() {
+        return new Queue("zxw.test.custom.queue", true, false, false);
+    }
+
+    @Bean
     Binding directBinding(DirectExchange directExchange, Queue directQueue) {
         return BindingBuilder.bind(directQueue).to(directExchange).with("direct-1");
     }
@@ -103,5 +123,6 @@ public class RabbitMqConfig {
     Binding fanoutBinding(FanoutExchange fanoutExchange, Queue fanoutQueue) {
         return BindingBuilder.bind(fanoutQueue).to(fanoutExchange);
     }
+
 
 }

@@ -47,6 +47,10 @@ public class RabbitProducer implements ProducerHandler {
             msg.getMessageProperties().setExpiration(String.valueOf(10000));
             return msg;
         });
+        rabbitTemplate.convertAndSend("zxw.test.custom.exchange", "delay", message, msg -> {
+            msg.getMessageProperties().setDelay(10000);
+            return msg;
+        });
         amqpTemplate.convertAndSend(DelayRabbitConfig.DELAY_EXCHANGE, DelayRabbitConfig.DELAY_QUEUE, message, msg -> {
             msg.getMessageProperties().setExpiration(String.valueOf(10000));
             return msg;

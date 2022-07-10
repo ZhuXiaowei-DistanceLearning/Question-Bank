@@ -30,6 +30,12 @@ public class RabbitConsumer {
 //
 //    }
 
+    @RabbitListener(queues = {"zxw.test.custom.queue"})
+    public void receiveCustom(Message message) {
+        String body = String.valueOf(message.getBody());
+        log.info("接收到custom消息:{}", body);
+    }
+
     @RabbitListener(queues = {"#{topicQueue.name}"})
     public void receiveTopic(Message message) {
         String body = String.valueOf(message.getBody());
