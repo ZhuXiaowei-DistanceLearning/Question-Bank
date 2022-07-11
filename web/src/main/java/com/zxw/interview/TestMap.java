@@ -87,18 +87,18 @@ public class TestMap {
             return Collections.EMPTY_LIST;
         }
         char c = digits.charAt(start);
-        List<String> strings = map.get((int)c);
+        List<String> strings = map.get((int) c);
         if (digits.length() == 1) {
             return strings;
         }
         List<String> res = new ArrayList<>();
         for (int i = 0; i < strings.size(); i++) {
-            List<String> list = letterCombinationsDFS(digits, start +1, map);
+            List<String> list = letterCombinationsDFS(digits, start + 1, map);
             for (String s : list) {
                 res.add(strings.get(i) + s);
             }
         }
-        if(res.isEmpty()){
+        if (res.isEmpty()) {
             res.addAll(strings);
         }
         return res;
@@ -113,19 +113,19 @@ public class TestMap {
         }
         ListNode slow = head;
         ListNode quickly = head;
-        while (n > 0){
-            if(quickly == null){
+        while (n > 0) {
+            if (quickly == null) {
                 return head;
             }
             quickly = quickly.next;
             n--;
         }
-        if(quickly == null){
+        if (quickly == null) {
             head = head.next;
-           return head;
+            return head;
         }
         while (slow != null) {
-            if(quickly.next == null){
+            if (quickly.next == null) {
                 slow.next = slow.next.next;
                 break;
             }
@@ -138,7 +138,7 @@ public class TestMap {
     @SneakyThrows
     public static void main(String[] args) {
         TestMap testMap = new TestMap();
-        testMap.removeNthFromEnd(LeetCodeWrapper.stringToListNode("[1,2]"),2);
+        testMap.removeNthFromEnd(LeetCodeWrapper.stringToListNode("[1,2]"), 2);
         testMap.letterCombinations("23");
         StopWatch stopWatch = new StopWatch();
         stopWatch.start("normaluse");
