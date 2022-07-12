@@ -183,6 +183,7 @@ public class LeetCodeWrapper {
                 nodeQueue.add(node.right);
             }
         }
+        prettyPrintTree(root);
         return root;
     }
 
