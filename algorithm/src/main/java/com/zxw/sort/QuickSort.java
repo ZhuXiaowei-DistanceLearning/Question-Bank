@@ -15,9 +15,11 @@ public class QuickSort {
         System.out.println(Arrays.toString(arr));
         int[] nums = LeetCodeWrapper.stringToIntegerArray("[2,0,2,1,1,0]");
 //        quickSort3(nums, 0, nums.length - 1);
+        quickSort(arr, 0, arr.length - 1);
+        quickSort(nums, 0, nums.length - 1);
+        System.out.println(Arrays.toString(arr));
         System.out.println(Arrays.toString(nums));
-        quickSort2(arr, 0, arr.length - 1);
-        quickSort2(nums, 0, nums.length - 1);
+//        quickSort2(nums, 0, nums.length - 1);
     }
 
     public static void quickSort2(int[] arr, int l, int r) {
@@ -71,25 +73,27 @@ public class QuickSort {
             return;
         }
         int num = arr[left];
-        int l = left;
+        int l = left + 1;
         int r = right;
         while (l < r) {
-            // 如果大于基准点则左侧
-            while (l < r && arr[r] > num) {
-                r--;
-            }
-            // 如果小于基准点则右移
-            while (l < r && arr[l] <= num) {
+            while (l <= r && arr[l] < num) {
                 l++;
             }
+            while (r <= right && arr[r] > num) {
+                r--;
+            }
             if (l < r) {
-                swap(arr, l, r);
+                int temp = arr[l];
+                arr[l] = arr[r];
+                arr[r] = temp;
             }
         }
-        arr[left] = arr[l];
-        arr[l] = num;
-        quickSort(arr, left, l - 1);
-        quickSort(arr, l + 1, right);
+        if (arr[r] < num) {
+            arr[left] = arr[r];
+            arr[r] = num;
+        }
+        quickSort(arr, left, r - 1);
+        quickSort(arr, r + 1, right);
     }
 
     public static void quickSort3(int[] nums, int l, int r) {
