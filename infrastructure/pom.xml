@@ -29,6 +29,7 @@
         <lombok.version>1.18.12</lombok.version>
         <vavr.version>0.10.4</vavr.version>
         <reactive-streams.version>1.0.4</reactive-streams.version>
+        <disruptor.version>3.4.4</disruptor.version>
     </properties>
 
     <dependencies>
@@ -43,6 +44,11 @@
 <!--            <artifactId>micrometer-registry-influx</artifactId>-->
 <!--            <version>LATEST</version>-->
 <!--        </dependency>-->
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>${disruptor.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.openjdk.jol</groupId>
             <artifactId>jol-core</artifactId>
