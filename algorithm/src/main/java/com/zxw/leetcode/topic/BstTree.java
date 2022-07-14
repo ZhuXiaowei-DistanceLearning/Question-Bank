@@ -1,7 +1,7 @@
 package com.zxw.leetcode.topic;
 
+import cn.hutool.core.lang.Assert;
 import com.zxw.datastruct.TreeNode;
-import com.zxw.leetcode.type.tree.LeetCodeWrapper;
 
 /**
  * @author zxw
@@ -10,7 +10,9 @@ import com.zxw.leetcode.type.tree.LeetCodeWrapper;
 public class BstTree {
     public static void main(String[] args) {
         BstTree bstTree = new BstTree();
-        bstTree.insertIntoBST(LeetCodeWrapper.stringToTreeNode("[6,4,7,1,3]"), 5);
+        Assert.isTrue(bstTree.numTrees(3) == 5);
+//        bstTree.deleteNode(LeetCodeWrapper.stringToTreeNode("[5,3,6,2,4,null,7]"), 5);
+//        bstTree.insertIntoBST(LeetCodeWrapper.stringToTreeNode("[6,4,7,1,3]"), 5);
 //        bstTree.searchBST(LeetCodeWrapper.stringToTreeNode("[4,2,7,1,3]"), 2);
 //        bstTree.isValidBST(LeetCodeWrapper.stringToTreeNode("[5,1,9,null,null,10,6]"));
 //        bstTree.bstToGst(LeetCodeWrapper.stringToTreeNode("[4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]"));
@@ -18,6 +20,79 @@ public class BstTree {
     }
 
     int sum = 0;
+
+    /**
+     * 96. 不同的二叉搜索树
+     *
+     * @param n
+     * @return
+     */
+    public int numTrees(int n) {
+        int[][] dp = new int[n + 1][n + 1];
+        return getNumTreeCount(1, n, dp);
+    }
+
+    int getNumTreeCount(int lo, int hi, int[][] dp) {
+
+        int res = 0;
+        if (lo > hi) {
+            return 1;
+        }
+        if (dp[lo][hi] != 0) {
+            return dp[lo][hi];
+        }
+        for (int i = lo; i <= hi; i++) {
+            int left = getNumTreeCount(lo, i - 1, dp);
+            int right = getNumTreeCount(i + 1, hi, dp);
+            res += left * right;
+        }
+        dp[lo][hi] = res;
+        return res;
+    }
+
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) {
+
+        }
+        // 这里要进行情况分析
+        if (root.val == key) {
+            // 两个都为空
+            if (root.right == null && root.left == null) {
+                return null;
+            }
+            // 左右子树一个为空
+            if (root.right == null) {
+                return root.left;
+            }
+            if (root.left == null) {
+                return root.right;
+            }
+            // 两个都不为空，找到左子树的最大或者右子树的最小
+            // 处理情况 3
+            // 获得右子树最小的节点
+            TreeNode minNode = getMin(root.right);
+            // 删除右子树最小的节点
+            root.right = deleteNode(root.right, minNode.val);
+            // 用右子树最小的节点替换 root 节点
+            minNode.left = root.left;
+            minNode.right = root.right;
+            root = minNode;
+
+        }
+        if (root.val > key) {
+            root.left = deleteNode(root.left, key);
+        }
+        if (root.val < key) {
+            root.right = deleteNode(root.right, key);
+        }
+        return root;
+    }
+
+    private TreeNode getMin(TreeNode node) {
+        // BST 最左边的就是最小的
+        while (node.left != null) node = node.left;
+        return node;
+    }
 
     public TreeNode insertIntoBST(TreeNode root, int val) {
         // 找到空位置插入新节点
