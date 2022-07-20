@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 /**
  * @author zxw
@@ -21,5 +22,9 @@ public class SayHelloInvoke implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         log.info("代理方法执行：{}", proxy);
         return method.invoke(obj, args);
+    }
+
+    public Object getProxy() {
+        return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), obj.getClass().getInterfaces(), this);
     }
 }
