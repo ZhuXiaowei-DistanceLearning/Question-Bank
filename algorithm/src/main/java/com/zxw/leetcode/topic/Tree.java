@@ -1,5 +1,6 @@
 package com.zxw.leetcode.topic;
 
+import com.zxw.datastruct.Node;
 import com.zxw.datastruct.TreeNode;
 import com.zxw.leetcode.type.tree.LeetCodeWrapper;
 
@@ -22,6 +23,54 @@ public class Tree {
 //        Assert.isTrue(tree.isSymmetric(LeetCodeWrapper.stringToTreeNode("[1,2,2,3,4,4,3]")));
 //        Assert.isTrue(!tree.isSymmetric(LeetCodeWrapper.stringToTreeNode("[1,2,2,null,3,null,3]")));
 
+    }
+
+    /**
+     * 114. 二叉树展开为链表
+     * @param root
+     */
+    public void flatten(TreeNode root) {
+        if(root == null){
+            return;
+        }
+        flatten(root.left);
+        flatten(root.right);
+        TreeNode left = root.left;
+        TreeNode right = root.right;
+        root.right = left;
+        root.left = null;
+        TreeNode p = root;
+        while(p.right != null){
+            p = p.right;
+        }
+        p.right = right;
+    }
+
+    /**
+     * 1、是否可以通过遍历一遍二叉树得到答案？如果可以，用一个 traverse 函数配合外部变量来实现，这叫「遍历」的思维模式。
+     * 2、是否可以定义一个递归函数，通过子问题（子树）的答案推导出原问题的答案？如果可以，写出这个递归函数的定义，并充分利用这个函数的返回值，这叫「分解问题」的思维模式。
+     * 无论使用哪种思维模式，你都需要思考：
+     *
+     * 如果单独抽出一个二叉树节点，它需要做什么事情？需要在什么时候（前/中/后序位置）做？其他的节点不用你操心，递归函数会帮你在所有节点上执行相同的操作。
+     * @param root
+     * @return
+     */
+    public Node connect(Node root) {
+        if(root == null){
+            return null;
+        }
+        dfs(root.left, root.right);
+        return root;
+    }
+
+    public void dfs(Node left,Node right) {
+        if(left == null || right == null){
+            return;
+        }
+        left.next = right;
+        dfs(left.left,left.right);
+        dfs(left.right,right.left);
+        dfs(right.left,right.right);
     }
 
     /**
