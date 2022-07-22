@@ -13,13 +13,139 @@ public class DP {
         Assert.isTrue(5 == dp.maxProfit(LeetCodeWrapper.stringToIntegerArray("[7,1,5,3,6,4]")));
     }
 
-    public int maxProfit(int[] prices) {
+    /**
+     * 714. 买卖股票的最佳时机含手续费
+     *
+     * @param prices
+     * @param fee
+     * @return
+     */
+    public int maxProfit(int[] prices, int fee) {
         int n = prices.length;
         int[][] dp = new int[n][2];
         for (int i = 0; i < n; i++) {
-            if (i - 1 < 0) {
+            if (i - 1 == -1) {
                 dp[i][0] = 0;
-                dp[i][1] = Integer.MIN_VALUE;
+                dp[i][1] = -prices[i];
+                continue;
+            }
+            // 针对当天无股票持有的情况
+            // 1.昨天无持有
+            // 2.昨天有持有，今天卖出
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i] - fee);
+            // 针对当天有股票持有的情况
+            // 1.昨天持有
+            // 2.昨天无持有
+            dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
+        }
+        return dp[n - 1][0];
+    }
+
+    /**
+     * 309. 最佳买卖股票时机含冷冻期
+     *
+     * @param prices
+     * @return
+     */
+    public int maxProfit5(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            if (i - 1 == -1) {
+                dp[i][0] = 0;
+                dp[i][1] = -prices[i];
+                continue;
+            }
+            if (i - 2 == -1) {
+                dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+                dp[i][1] = Math.max(dp[i - 1][1], -prices[i]);
+            }
+            // 针对当天无股票持有的情况
+            // 1.昨天无持有
+            // 2.昨天有持有，今天卖出
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+            // 针对当天有股票持有的情况
+            // 1.昨天持有
+            // 2.昨天无持有
+            dp[i][1] = Math.max(dp[i - 1][1], dp[i - 2][0] - prices[i]);
+        }
+        return dp[n - 1][0];
+    }
+
+    /**
+     * 188. 买卖股票的最佳时机 IV
+     * @param k
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int k, int[] prices) {
+        if(prices.length == 0){
+            return 0;
+        }
+        int n = prices.length;
+        int[][][] dp = new int[n][k + 1][2];
+        for (int i = 0; i < n; i++) {
+            for (int j = k; j > 0; j--) {
+                if (i - 1 == -1) {
+                    dp[i][j][0] = 0;
+                    dp[i][j][1] = -prices[i];
+                    continue;
+                }
+                // 针对当天无股票持有的情况
+                // 1.昨天无持有，截止昨天最大交易次数限制为k，今天选择rest，最大交易次数依然为k
+                // 2.昨天有持有，今天卖出
+                dp[i][j][0] = Math.max(dp[i - 1][j][0], dp[i - 1][j][1] + prices[i]);
+                // 针对当天有股票持有的情况
+                // 1.昨天持有
+                // 2.昨天无持有
+                dp[i][j][1] = Math.max(dp[i - 1][j][1], dp[i - 1][j - 1][0] - prices[i]);
+            }
+        }
+        return dp[n - 1][k][0];
+    }
+
+    /**
+     * 123. 买卖股票的最佳时机 III
+     *
+     * @param prices
+     * @return
+     */
+    public int maxProfit3(int[] prices) {
+        int n = prices.length;
+        int[][][] dp = new int[n][3][2];
+        for (int i = 0; i < n; i++) {
+            for (int k = 2; k > 0; k--) {
+                if (i - 1 == -1) {
+                    dp[i][k][0] = 0;
+                    dp[i][k][1] = -prices[i];
+                    continue;
+                }
+                // 针对当天无股票持有的情况
+                // 1.昨天无持有，截止昨天最大交易次数限制为k，今天选择rest，最大交易次数依然为k
+                // 2.昨天有持有，今天卖出
+                dp[i][k][0] = Math.max(dp[i - 1][k][0], dp[i - 1][k][1] + prices[i]);
+                // 针对当天有股票持有的情况
+                // 1.昨天持有
+                // 2.昨天无持有
+                dp[i][k][1] = Math.max(dp[i - 1][k][1], dp[i - 1][k - 1][0] - prices[i]);
+            }
+        }
+        return dp[n - 1][2][0];
+    }
+
+    /**
+     * 122. 买卖股票的最佳时机 II
+     *
+     * @param prices
+     * @return
+     */
+    public int maxProfit2(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            if (i - 1 == -1) {
+                dp[i][0] = 0;
+                dp[i][1] = -prices[i];
                 continue;
             }
             // 针对当天无股票持有的情况
@@ -30,6 +156,27 @@ public class DP {
             // 1.昨天持有
             // 2.昨天无持有
             dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
+        }
+        return dp[n - 1][0];
+    }
+
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            if (i - 1 < 0) {
+                dp[i][0] = 0;
+                dp[i][1] = -prices[i];
+                continue;
+            }
+            // 针对当天无股票持有的情况
+            // 1.昨天无持有
+            // 2.昨天有持有，今天卖出
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+            // 针对当天有股票持有的情况
+            // 1.昨天持有
+            // 2.昨天无持有
+            dp[i][1] = Math.max(dp[i - 1][1], -prices[i]);
         }
         return dp[n - 1][0];
     }
