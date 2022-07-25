@@ -4,15 +4,37 @@ import com.eclipsesource.json.JsonArray;
 import com.zxw.datastruct.ListNode;
 import com.zxw.datastruct.TreeNode;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class LeetCodeWrapper {
 
     public static void main(String[] args) {
         TreeNode root = LeetCodeWrapper.stringToTreeNode("[1,3,2,5,3,null,9]");
         LeetCodeWrapper.prettyPrintTree(root);
+    }
+
+    public static List<String> stringToStringArrayList(String input) {
+        input = input.trim();
+        input = input.substring(1, input.length() - 1);
+        String[] parts = input.split(",");
+        List<String> output = new ArrayList<>();
+        for(int index = 0; index < parts.length; index++) {
+            String part = parts[index].trim();
+            output.add(part);
+        }
+        return output;
+    }
+
+    public static List<Integer> stringToIntegerArrayList(String input) {
+        input = input.trim();
+        input = input.substring(1, input.length() - 1);
+        String[] parts = input.split(",");
+        List<Integer> output = new ArrayList<Integer>();
+        for(int index = 0; index < parts.length; index++) {
+            String part = parts[index].trim();
+            output.add(Integer.parseInt(part));
+        }
+        return output;
     }
 
     public static String int2dArrayToString(int[][] array) {

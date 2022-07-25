@@ -1,5 +1,7 @@
 package com.zxw.leetcode.topic;
 
+import com.zxw.leetcode.type.tree.LeetCodeWrapper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -24,47 +26,91 @@ public class BackTrace {
 
     public static void main(String[] args) {
         BackTrace backTrace = new BackTrace();
-        backTrace.permute(new int[]{1, 2, 3});
+        backTrace.wordBreak("catsandog", LeetCodeWrapper.stringToStringArrayList("[cats,dog,sand,and,cat]"));
+//        backTrace.wordBreak("leetcode", LeetCodeWrapper.stringToStringArrayList("[leet,code]"));
+//        backTrace.permute(new int[]{1, 2, 3});
     }
 
     List<List<Integer>> res = new ArrayList();
     LinkedList<Integer> list = new LinkedList();
 
+    boolean bres = false;
+
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int[] dp = new int[s.length()];
+        Arrays.fill(dp, -1);
+        return backtrack(s, wordDict, dp, 0);
+    }
+
+    public boolean backtrack(String s, List<String> wordDict, int[] dp, int start) {
+        if (start == s.length()) {
+            return true;
+        }
+        if (dp[start] != -1) {
+            return dp[start] == 0 ? false : true;
+        }
+        for (int i = 1; i + start <= s.length(); i++) {
+            String sub = s.substring(start, i + start);
+            if (wordDict.contains(sub)) {
+                if (backtrack(s, wordDict, dp, start + i)) {
+                    dp[start] = 1;
+                    return true;
+                }
+            }
+        }
+        dp[start] = 0;
+        return false;
+    }
+
+    public void backtrack(String s, List<String> wordDict, int start) {
+        if (start == s.length()) {
+            bres = true;
+            return;
+        }
+        for (String word : wordDict) {
+            if (start + word.length() <= s.length() && s.substring(start, start + word.length()).equals(word)) {
+                backtrack(s, wordDict, start + word.length());
+            }
+        }
+    }
+
 
     /**
      * 39. 组合总和
+     *
      * @param candidates
      * @param target
      * @return
      */
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        backtrace2(candidates, target,0, 0);
+        backtrace2(candidates, target, 0, 0);
         return res;
     }
 
-    public void backtrace2(int[] candidates, int target, int start, int sum){
-        if(target == sum){
+    public void backtrace2(int[] candidates, int target, int start, int sum) {
+        if (target == sum) {
             res.add(new LinkedList(list));
             return;
         }
-        if(sum > target){
+        if (sum > target) {
             return;
         }
-        for(int i=start;i<candidates.length;i++){
+        for (int i = start; i < candidates.length; i++) {
             list.addLast(candidates[i]);
             int s = sum + candidates[i];
-            backtrace2(candidates, target, i,s);
+            backtrace2(candidates, target, i, s);
             list.removeLast();
         }
     }
 
     /**
      * 47. 全排列 II
+     *
      * @param nums
      * @return
      */
     public List<List<Integer>> permuteUnique(int[] nums) {
-        if(nums.length == 1){
+        if (nums.length == 1) {
             res.add(List.of(nums[0]));
             return res;
         }
@@ -74,16 +120,16 @@ public class BackTrace {
         return res;
     }
 
-    public void backtrace(int[] nums, boolean[] used){
-        if(list.size() == nums.length){
+    public void backtrace(int[] nums, boolean[] used) {
+        if (list.size() == nums.length) {
             res.add(new LinkedList(list));
             return;
         }
-        for(int i = 0; i<nums.length;i++){
-            if(used[i]){
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i]) {
                 continue;
             }
-            if(i > 0 && nums[i] == nums[i-1] && !used[i - 1]){
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
                 continue;
             }
             list.addLast(nums[i]);
@@ -115,11 +161,11 @@ public class BackTrace {
             res.add(new LinkedList<>(list));
             return;
         }
-        if(sum > target){
+        if (sum > target) {
             return;
         }
         for (int i = start; i < candidates.length; i++) {
-            if(i > start && candidates[i] == candidates[i-1]){
+            if (i > start && candidates[i] == candidates[i - 1]) {
                 continue;
             }
             list.addLast(candidates[i]);
