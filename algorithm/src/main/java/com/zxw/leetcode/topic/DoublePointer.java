@@ -2,6 +2,10 @@ package com.zxw.leetcode.topic;
 
 import com.zxw.datastruct.ListNode;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * 双指针专题训练
  *
@@ -11,6 +15,28 @@ import com.zxw.datastruct.ListNode;
 public class DoublePointer {
     public static void main(String[] args) {
 
+    }
+
+    /**
+     * 148. 排序链表
+     *
+     * @param head
+     * @return
+     */
+    public ListNode sortList(ListNode head) {
+        ListNode res = new ListNode(-1);
+        ListNode node = res;
+        List<Integer> list = new ArrayList<>();
+        while (head != null) {
+            list.add(head.val);
+            head = head.next;
+        }
+        Collections.sort(list);
+        for (Integer i : list) {
+            node.next = new ListNode(i);
+            node = node.next;
+        }
+        return res.next;
     }
 
     /**
