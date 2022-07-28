@@ -10,8 +10,32 @@ import com.zxw.leetcode.type.tree.LeetCodeWrapper;
 public class DP {
     public static void main(String[] args) {
         DP dp = new DP();
-        Assert.isTrue(5 == dp.maxProfit(LeetCodeWrapper.stringToIntegerArray("[7,1,5,3,6,4]")));
+        Assert.isTrue(4 == dp.rob(LeetCodeWrapper.stringToIntegerArray("[1,2,3,1]")));
+//        Assert.isTrue(5 == dp.maxProfit(LeetCodeWrapper.stringToIntegerArray("[7,1,5,3,6,4]")));
     }
+
+    /**
+     * 198. 打家劫舍
+     * 关键点在于第二天的值，如果第二天小于第一天，那就没必要购买了
+     * @param nums
+     * @return
+     */
+    public int rob(int[] nums) {
+        if(nums.length <=1){
+            return nums[0];
+        }
+        if(nums.length  == 2){
+            return Math.max(nums[0], nums[1]);
+        }
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[1], dp[0]);
+        for (int i = 2; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
+        }
+        return dp[nums.length - 1];
+    }
+
 
     /**
      * 714. 买卖股票的最佳时机含手续费
@@ -74,12 +98,13 @@ public class DP {
 
     /**
      * 188. 买卖股票的最佳时机 IV
+     *
      * @param k
      * @param prices
      * @return
      */
     public int maxProfit(int k, int[] prices) {
-        if(prices.length == 0){
+        if (prices.length == 0) {
             return 0;
         }
         int n = prices.length;
