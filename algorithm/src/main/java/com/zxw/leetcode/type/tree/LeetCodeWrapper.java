@@ -18,7 +18,7 @@ public class LeetCodeWrapper {
         input = input.substring(1, input.length() - 1);
         String[] parts = input.split(",");
         List<String> output = new ArrayList<>();
-        for(int index = 0; index < parts.length; index++) {
+        for (int index = 0; index < parts.length; index++) {
             String part = parts[index].trim();
             output.add(part);
         }
@@ -30,7 +30,7 @@ public class LeetCodeWrapper {
         input = input.substring(1, input.length() - 1);
         String[] parts = input.split(",");
         List<Integer> output = new ArrayList<Integer>();
-        for(int index = 0; index < parts.length; index++) {
+        for (int index = 0; index < parts.length; index++) {
             String part = parts[index].trim();
             output.add(Integer.parseInt(part));
         }
