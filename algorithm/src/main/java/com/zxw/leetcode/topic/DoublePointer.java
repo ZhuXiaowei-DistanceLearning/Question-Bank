@@ -17,6 +17,22 @@ public class DoublePointer {
 
     }
 
+    /**
+     * 206.反转链表
+     * @param head
+     * @return
+     */
+    public ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        // 获取反转后的头节点
+        ListNode last =  reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return last;
+    }
+
 
     /**
      * 160.相交链表
