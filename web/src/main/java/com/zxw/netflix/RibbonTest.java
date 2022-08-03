@@ -29,13 +29,13 @@ public class RibbonTest {
         HttpRequestTemplate<ByteBuf> recommendationsByUserIdTemplate = httpResourceGroup.newTemplateBuilder("recommendationsByUserId", ByteBuf.class)
                 .withMethod("GET")
                 .withUriTemplate("/users/{userId}/recommendations")
-                .withFallbackProvider(new RecommendationServiceFallbackHandler())
+//                .withFallbackProvider(new RecommendationServiceFallbackHandler())
 //                .withResponseValidator(new RecommendationServiceResponseValidator())
                 .build();
-        Observable<ByteBuf> result = recommendationsByUserIdTemplate.requestBuilder()
-                .withRequestProperty("userId", "user1")
-                .build()
-                .observe();
+//        Observable<ByteBuf> result = recommendationsByUserIdTemplate.requestBuilder()
+//                .withRequestProperty("userId", "user1")
+//                .build()
+//                .observe();
     }
 
     public interface MovieService {
