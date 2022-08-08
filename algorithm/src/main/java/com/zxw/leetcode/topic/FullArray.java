@@ -1,9 +1,12 @@
 package com.zxw.leetcode.topic;
 
+import com.zxw.leetcode.type.tree.LeetCodeWrapper;
+
 import java.util.Arrays;
 
 /**
  * https://labuladong.github.io/algo/4/29/105/
+ *
  * @author zxw
  * @date 2022/6/28 16:08
  */
@@ -12,9 +15,30 @@ public class FullArray {
         FullArray fullArray = new FullArray();
         // 5,5,2,3,4,7
         // 5,5,4,3,2,7
-        int[] nums = {1,2,3};
+        fullArray.productExceptSelf(LeetCodeWrapper.stringToIntegerArray("[1,2,3,4]"));
+        int[] nums = {1, 2, 3};
         fullArray.nextPermutation(nums);
         Arrays.stream(nums).forEach(System.out::println);
+    }
+
+    /**
+     * 238.除自身以外数组的乘积
+     *
+     * @param nums
+     * @return
+     */
+    public int[] productExceptSelf(int[] nums) {
+        int[] res = new int[nums.length];
+        int l = 1, r = 1;
+        for (int i = 0; i < nums.length; i++) {
+            res[i] = l;
+            l *= nums[i];
+        }
+        for (int i = nums.length - 1; i >= 0; i--) {
+            res[i] *= r;
+            r *= nums[i];
+        }
+        return res;
     }
 
     /**
