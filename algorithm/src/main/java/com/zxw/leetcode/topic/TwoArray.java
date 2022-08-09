@@ -16,8 +16,33 @@ public class TwoArray {
 
     public static void main(String[] args) {
         TwoArray twoArray = new TwoArray();
-        Assert.isTrue(twoArray.minPathSum(LeetCodeWrapper.stringToInt2dArray("[[1,3,1],[1,5,1],[4,2,1]]")) == 7);
-        twoArray.groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"});
+        Assert.isTrue(twoArray.searchMatrix(LeetCodeWrapper.stringToInt2dArray("[[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]]"), 5));
+//        Assert.isTrue(twoArray.minPathSum(LeetCodeWrapper.stringToInt2dArray("[[1,3,1],[1,5,1],[4,2,1]]")) == 7);
+//        twoArray.groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"});
+    }
+
+    /**
+     * 240.搜索二维矩阵II
+     *
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int n = matrix.length - 1;
+        int m = 0;
+        while (n >= 0 && m < matrix[0].length) {
+            int num = matrix[n][m];
+            if (num == target) {
+                return true;
+            }
+            if(target < num){
+                n--;
+            }else{
+                m++;
+            }
+        }
+        return false;
     }
 
     /**
