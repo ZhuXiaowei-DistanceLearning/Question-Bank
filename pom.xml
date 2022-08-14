@@ -19,6 +19,7 @@
         <module>domain</module>
         <module>crawler</module>
         <module>auth</module>
+        <module>netflix</module>
     </modules>
 <!--    <parent>-->
 <!--        <groupId>org.springframework.boot</groupId>-->

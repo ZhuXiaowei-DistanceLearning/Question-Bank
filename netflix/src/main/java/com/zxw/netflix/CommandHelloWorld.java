@@ -4,9 +4,6 @@ import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandProperties;
 import com.netflix.hystrix.HystrixThreadPoolProperties;
-import com.netflix.hystrix.exception.HystrixRuntimeException;
-import io.netty.channel.DefaultEventLoopGroup;
-import io.netty.channel.EventLoopGroup;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,18 +48,18 @@ public class CommandHelloWorld extends HystrixCommand<String> {
 //        Observable<String> s2 = new CommandHelloWorld("Bob").observe();
 //        log.info("{}", s2.first());
         CommandHelloWorld commandHelloWorld = new CommandHelloWorld("Bob");
-        EventLoopGroup group = new DefaultEventLoopGroup(2);
-        while (true) {
-            group.execute(() -> {
-                try {
-                    String s = new CommandHelloWorld("Bob").execute();
-                    log.info("{}", s);
-                } catch (HystrixRuntimeException e) {
-                    log.error("服务熔断");
-                }
-            });
-            Thread.sleep(ThreadLocalRandom.current().nextInt(1000));
-        }
+//        EventLoopGroup group = new DefaultEventLoopGroup(2);
+//        while (true) {
+//            group.execute(() -> {
+//                try {
+//                    String s = new CommandHelloWorld("Bob").execute();
+//                    log.info("{}", s);
+//                } catch (HystrixRuntimeException e) {
+//                    log.error("服务熔断");
+//                }
+//            });
+//            Thread.sleep(ThreadLocalRandom.current().nextInt(1000));
+//        }
     }
 }
 

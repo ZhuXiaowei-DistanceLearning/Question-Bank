@@ -135,8 +135,21 @@ public class TestMap {
         return head;
     }
 
+    public static void testMethod() {
+        Map<Integer, Integer> map = new HashMap<>();
+        Integer integer = map.putIfAbsent(1, 1);
+        System.out.println(integer);
+        Integer integer1 = map.putIfAbsent(1, 2);
+        System.out.println(integer1);
+        Integer integer2 = map.computeIfAbsent(2, e -> 2);
+        System.out.println(integer2);
+        Integer integer3 = map.computeIfAbsent(2, e -> 3);
+        System.out.println(integer3);
+    }
+
     @SneakyThrows
     public static void main(String[] args) {
+        testMethod();
         TestMap testMap = new TestMap();
         testMap.removeNthFromEnd(LeetCodeWrapper.stringToListNode("[1,2]"), 2);
         testMap.letterCombinations("23");

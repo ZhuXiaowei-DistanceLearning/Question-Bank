@@ -9,14 +9,18 @@ spring:
     port: 16379
     password: znw@123
     database: 7
-#    cluster:
-#      nodes: redis.dev.magpie.com:7001,redis.dev.magpie.com:7002,redis.dev.magpie.com:7003
+  #    cluster:
+  #      nodes: redis.dev.magpie.com:7001,redis.dev.magpie.com:7002,redis.dev.magpie.com:7003
   datasource:
     primary:
-      driver-class-name: com.mysql.jdbc.Driver
       url: jdbc:mysql://zxw.middleware.com:3306/dd_text?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
       username: root
       password: Admin!@123
+      driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      register-mbeans: true
+      #    primary:
   data:
     mongodb:
       uri: mongodb://zxw.middleware.com:27017/magpie_test?maxIdleTimeMS=3000
