@@ -79,6 +79,18 @@ spring:
           contentType: application/json
   messages:
     basename: i18n/app
+  zipkin:
+    sender:
+      type: rabbit
+    rabbitmq:
+      addresses: zxw.middleware.com
+      queue: zipkin
+  sleuth:
+    sampler:
+      # 采样率
+      probability: 1.0
+      # 每秒采样数字最高为100
+      rate: 100
 rocketmq:
   name-server: zxw.middleware.com:9876
   producer:
