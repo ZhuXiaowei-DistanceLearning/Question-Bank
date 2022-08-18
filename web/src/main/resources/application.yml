@@ -95,6 +95,7 @@ rocketmq:
   name-server: zxw.middleware.com:9876
   producer:
     group: my-producer-group
+
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -137,10 +138,10 @@ bean:
     key: 123
 springdoc:
   swagger-ui:
-    path: /swagger-ui-custom.html
-    operations-sorter: method
+    path: /swagger-ui.html
+#    operations-sorter: method
     #custom path for api docs
-    url: /doc/openapi.json
+#    url: /doc/openapi.json
 #--spring:
 #  profiles:
 #    active=chaos-monkey:
