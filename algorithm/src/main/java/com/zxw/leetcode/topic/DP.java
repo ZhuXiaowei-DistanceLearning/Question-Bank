@@ -10,21 +10,57 @@ import com.zxw.leetcode.type.tree.LeetCodeWrapper;
 public class DP {
     public static void main(String[] args) {
         DP dp = new DP();
-        Assert.isTrue(4 == dp.rob(LeetCodeWrapper.stringToIntegerArray("[1,2,3,1]")));
+        Assert.isTrue(4 == dp.rob2(LeetCodeWrapper.stringToIntegerArray("[1,2,3,1]")));
+//        Assert.isTrue(4 == dp.rob(LeetCodeWrapper.stringToIntegerArray("[1,2,3,1]")));
 //        Assert.isTrue(5 == dp.maxProfit(LeetCodeWrapper.stringToIntegerArray("[7,1,5,3,6,4]")));
+    }
+
+    /**
+     * 213. 打家劫舍 II
+     * 关键点在于第二天的值，如果第二天小于第一天，那就没必要购买了
+     *
+     * @param nums
+     * @return
+     */
+    public int rob2(int[] nums) {
+        if (nums.length <= 1) {
+            return nums[0];
+        }
+        if (nums.length == 2) {
+            return Math.max(nums[0], nums[1]);
+        }
+        return Math.max(rob2(nums, 0, nums.length - 1), rob2(nums, 1, nums.length));
+    }
+
+    public int rob2(int[] nums, int start, int end) {
+        if (end <= 1) {
+            return nums[start];
+        }
+        if (end == 2) {
+            return Math.max(nums[start], nums[start + 1]);
+        }
+        int legnth = end - start;
+        int[] dp = new int[legnth];
+        dp[0] = nums[start];
+        dp[1] = Math.max(nums[start + 1], dp[0]);
+        for (int i = 2; i < legnth; i++) {
+            dp[i] = Math.max(dp[i - 2] + nums[i + start], dp[i - 1]);
+        }
+        return dp[legnth - 1];
     }
 
     /**
      * 198. 打家劫舍
      * 关键点在于第二天的值，如果第二天小于第一天，那就没必要购买了
+     *
      * @param nums
      * @return
      */
     public int rob(int[] nums) {
-        if(nums.length <=1){
+        if (nums.length <= 1) {
             return nums[0];
         }
-        if(nums.length  == 2){
+        if (nums.length == 2) {
             return Math.max(nums[0], nums[1]);
         }
         int[] dp = new int[nums.length];
