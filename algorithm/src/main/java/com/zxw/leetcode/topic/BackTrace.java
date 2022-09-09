@@ -2,10 +2,7 @@ package com.zxw.leetcode.topic;
 
 import com.zxw.leetcode.type.tree.LeetCodeWrapper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * https://labuladong.github.io/algo/4/29/105/
@@ -281,6 +278,47 @@ public class BackTrace {
             list.removeLast();
         }
     }
+
+    public int findTargetSumWays(int[] nums, int target) {
+//        findTargetSumWaysBacktrack(nums, target, 0, 0);
+//        return 0;
+        if (nums.length == 0) return 0;
+        return dp(nums, 0, target);
+    }
+
+    public int findTargetSumWaysBacktrack(int[] nums, int target, int start, int sum) {
+        if(start == nums.length){
+            if(sum == target){
+                return 1;
+            }else {
+                return 0;
+            }
+        }
+        return findTargetSumWaysBacktrack(nums, target, start + 1, nums[start] + sum) + findTargetSumWaysBacktrack(nums, target, start + 1, (-nums[start]) + sum);
+    }
+
+    // 备忘录
+    HashMap<String, Integer> memo = new HashMap<>();
+
+    int dp(int[] nums, int i, int remain) {
+        // base case
+        if (i == nums.length) {
+            if (remain == 0) return 1;
+            return 0;
+        }
+        // 把它俩转成字符串才能作为哈希表的键
+        String key = i + "," + remain;
+        // 避免重复计算
+        if (memo.containsKey(key)) {
+            return memo.get(key);
+        }
+        // 还是穷举
+        int result = dp(nums, i + 1, remain - nums[i]) + dp(nums, i + 1, remain + nums[i]);
+        // 记入备忘录
+        memo.put(key, result);
+        return result;
+    }
+
 
 
 }
