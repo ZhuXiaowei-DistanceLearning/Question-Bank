@@ -1,11 +1,16 @@
 package com.zxw.utils;
 
+import cn.hutool.core.util.PhoneUtil;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Scanner;
 
+@Slf4j
 public class PhoneUtils {
     static Scanner sc = new Scanner(System.in);
 
     public static <lenPhone> void main(String[] args) {
+        check("18379878669");
         //询问需要多少个随机号码
         boolean boo = true;
         int num = 0;
@@ -58,5 +63,9 @@ public class PhoneUtils {
         //最终将号段和尾数连接起来
         String phoneNum = phoneFirstNum + phoneLastNum;
         return phoneNum;
+    }
+
+    public static void check(String phone) {
+        log.info("手机号格式：{}", PhoneUtil.isPhone(phone));
     }
 }
