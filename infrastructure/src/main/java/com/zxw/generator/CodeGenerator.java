@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        generate("192.168.200.108", "e_seal");
+        generate("192.168.200.108", "crm");
     }
 
     /**

@@ -13,10 +13,24 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class All {
     public static void main(String[] args) {
         All all = new All();
+        Assert.isTrue(-1 == all.arraySign(LeetCodeWrapper.stringToIntegerArray("[1,65,14,80,20,10,55,58,24,56,28,86,96,10,3,84,4,41,13,32,42,43,83,78,82,70,15,-41]")));
         Assert.isTrue(5 == all.leastInterval(LeetCodeWrapper.stringToCharArray("[\"A\",\"A\",\"A\"]"), 1));
         Assert.isTrue(16 == all.leastInterval(LeetCodeWrapper.stringToCharArray("[\"A\",\"A\",\"A\",\"A\",\"A\",\"A\",\"B\",\"C\",\"D\",\"E\",\"F\",\"G\"]"), 2));
         Assert.isTrue(8 == all.leastInterval(LeetCodeWrapper.stringToCharArray("\n" +
                 "[\"A\",\"A\",\"A\",\"B\",\"B\",\"B\"]"), 2));
+    }
+
+    public int arraySign(int[] nums) {
+        int sum = 1;
+        for (int i = 0; i < nums.length; i++) {
+            if(nums[i] == 0){
+                return 0;
+            }
+            if(nums[i] < 0){
+                sum*=-1;
+            }
+        }
+        return sum;
     }
 
     /**
