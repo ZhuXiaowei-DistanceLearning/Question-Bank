@@ -11,6 +11,8 @@ public class TwoPoint {
     public static void main(String[] args) {
         TwoPoint twoPoint = new TwoPoint();
         twoPoint.trap(new int[]{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1});
+        List<List<Integer>> lists = twoPoint.nSum(0, 3, new int[]{-1, 0, 1, 2, -1, -4}, 0);
+        twoPoint.nSum(0, 3, new int[]{1000000000, 1000000000, 1000000000, 1000000000}, 0);
         twoPoint.fourSum(new int[]{1000000000, 1000000000, 1000000000, 1000000000}, -294967296);
         twoPoint.longestPalindrome("babad");
     }
@@ -151,6 +153,46 @@ public class TwoPoint {
                 list.add(left);
                 list.add(right);
                 res.add(list);
+            }
+        }
+        return res;
+    }
+
+    public List<List<Integer>> nSum(int target, int n, int[] nums, int start) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if (n == 2) {
+            int l = start;
+            int r = nums.length - 1;
+            while (l < r) {
+                int left = nums[l];
+                int right = nums[r];
+                int sum = left + right;
+                if (sum < target) {
+                    l++;
+                } else if (sum > target) {
+                    r--;
+                } else {
+                    List<Integer> sub = new ArrayList<Integer>();
+                    sub.add(nums[l]);
+                    sub.add(nums[r]);
+                    res.add(sub);
+                    while (l < r && nums[l] == left) {
+                        l++;
+                    }
+                    while (l < r && nums[r] == right) {
+                        r--;
+                    }
+                }
+            }
+        } else {
+            for (int i = start; i < nums.length; i++) {
+                List<List<Integer>> sub = nSum(-nums[i] + target, n - 1, nums, i + 1);
+                for (int j = 0; j < sub.size(); j++) {
+                    sub.get(j).add(nums[i]);
+                }
+                res.addAll(sub);
+                while(i < nums.length - 1 && nums[i] == nums[i+1]) i++;
             }
         }
         return res;
