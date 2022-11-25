@@ -1,8 +1,7 @@
 package com.zxw.utils;
 
-import com.mysql.cj.jdbc.JdbcConnection;
-import com.mysql.cj.jdbc.MysqlXAConnection;
-import com.mysql.cj.jdbc.MysqlXid;
+import com.mysql.jdbc.jdbc2.optional.MysqlXAConnection;
+import com.mysql.jdbc.jdbc2.optional.MysqlXid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -103,7 +102,7 @@ public class MysqlUtils {
     public static MysqlXAConnection getXAConnect(Connection connection) {
         MysqlXAConnection xaConnection = null;
         boolean logXA = true;
-        xaConnection = new MysqlXAConnection((JdbcConnection) connection, logXA);
+//        xaConnection = new MysqlXAConnection((JdbcConnection) connection, logXA);
         return xaConnection;
     }
 

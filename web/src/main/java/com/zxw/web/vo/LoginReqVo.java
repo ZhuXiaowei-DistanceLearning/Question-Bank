@@ -1,8 +1,8 @@
 package com.zxw.web.vo;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
 
 /**
  * @author zxw

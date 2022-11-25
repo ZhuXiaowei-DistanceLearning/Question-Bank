@@ -1,11 +1,9 @@
 package com.zxw.learn.web;
 
 import com.zxw.learn.annotation.Limit;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author zxw

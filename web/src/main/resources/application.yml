@@ -1,16 +1,9 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
   application:
     name: question-bank
-  redis:
-    lettuce:
-      pool:
-        max-active: 8
-    host: zxw.middleware.com
-    port: 16379
-    password: znw@123
-    database: 7
-  #    cluster:
-  #      nodes: redis.dev.magpie.com:7001,redis.dev.magpie.com:7002,redis.dev.magpie.com:7003
   datasource:
     primary:
       url: jdbc:mysql://zxw.middleware.com:3306/dd_text?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
@@ -24,6 +17,16 @@ spring:
   data:
     mongodb:
       uri: mongodb://zxw.middleware.com:27017/magpie_test?maxIdleTimeMS=3000
+    redis:
+      host: zxw.middleware.com
+      port: 16379
+      password: znw@123
+      database: 7
+      lettuce:
+        pool:
+          max-active: 8
+      #    cluster:
+      #      nodes: redis.dev.magpie.com:7001,redis.dev.magpie.com:7002,redis.dev.magpie.com:7003
   kafka:
     bootstrap-servers: zxw.middleware.com:9092
     producer:
@@ -48,7 +51,7 @@ spring:
     virtual-host: /apec
     listener:
       simple:
-        acknowledge-mode: MANUAL
+        acknowledge-mode: AUTO
         prefetch: 250
     #        default-requeue-rejected: true
     publisher-confirm-type: correlated

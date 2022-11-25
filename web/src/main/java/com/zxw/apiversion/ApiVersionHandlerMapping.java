@@ -2,7 +2,6 @@ package com.zxw.apiversion;
 
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -14,7 +13,7 @@ import java.lang.reflect.Method;
  * @author zxw
  * @date 2022/3/24 17:04
  */
-@Component
+//@Component
 public class ApiVersionHandlerMapping extends RequestMappingHandlerMapping {
     @Override
     protected boolean isHandler(Class<?> beanType) {

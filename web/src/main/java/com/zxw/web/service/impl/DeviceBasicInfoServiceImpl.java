@@ -5,7 +5,6 @@ import com.zxw.web.mapper.DeviceBasicInfoMapper;
 import com.zxw.web.po.DeviceBasicInfo;
 import com.zxw.web.service.DeviceBasicInfoService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @author zxw
  * @since 2022-04-28
  */
-@Service
+//@Service
 @Slf4j
 public class DeviceBasicInfoServiceImpl extends ServiceImpl<DeviceBasicInfoMapper, DeviceBasicInfo> implements DeviceBasicInfoService {
 

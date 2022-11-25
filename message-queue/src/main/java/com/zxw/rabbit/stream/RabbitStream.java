@@ -3,9 +3,7 @@ package com.zxw.rabbit.stream;
 import com.zxw.base.ProducerHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 
@@ -15,7 +13,7 @@ import javax.annotation.Resource;
  * @author zxw
  * @date 2022/7/5 22:18
  */
-@EnableBinding(Source.class)
+//@EnableBinding(Source.class)
 @Slf4j
 public class RabbitStream implements ProducerHandler {
 

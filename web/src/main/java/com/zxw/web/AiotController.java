@@ -9,9 +9,11 @@ import com.zxw.web.po.ProductBasicInfo;
 import com.zxw.web.service.DeviceBasicInfoService;
 import com.zxw.web.service.ProductBasicInfoService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author zxw
@@ -22,13 +24,13 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class AiotController {
 
-    @Autowired
+//    @Autowired
     private ProductBasicInfoService productBasicInfoService;
 
-    @Autowired
+//    @Autowired
     private DeviceBasicInfoService deviceBasicInfoService;
 
-    @Autowired
+//    @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
     @PostMapping("/init")

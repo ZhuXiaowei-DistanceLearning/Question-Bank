@@ -9,7 +9,6 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 
@@ -17,7 +16,7 @@ import java.io.UnsupportedEncodingException;
  * @author zxw
  * @date 2022/2/12 22:40
  */
-@Component
+//@Component
 public class RocketProducer implements ProducerHandler {
     @Autowired
     private RocketMQTemplate rocketMQTemplate;

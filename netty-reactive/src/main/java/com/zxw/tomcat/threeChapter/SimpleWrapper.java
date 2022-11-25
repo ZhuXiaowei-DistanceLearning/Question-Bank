@@ -1,15 +1,14 @@
 package com.zxw.tomcat.threeChapter;
 
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletException;
 import org.apache.catalina.*;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
 import org.apache.juli.logging.Log;
 
 import javax.management.ObjectName;
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-import javax.servlet.UnavailableException;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 
@@ -154,7 +153,7 @@ public class SimpleWrapper implements Wrapper {
     }
 
     @Override
-    public void unavailable(UnavailableException unavailable) {
+    public void unavailable(jakarta.servlet.UnavailableException e) {
 
     }
 
@@ -169,7 +168,7 @@ public class SimpleWrapper implements Wrapper {
     }
 
     @Override
-    public void setMultipartConfigElement(MultipartConfigElement multipartConfig) {
+    public void setMultipartConfigElement(jakarta.servlet.MultipartConfigElement multipartConfigElement) {
 
     }
 

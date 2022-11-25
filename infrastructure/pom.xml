@@ -30,6 +30,8 @@
         <vavr.version>0.10.4</vavr.version>
         <reactive-streams.version>1.0.4</reactive-streams.version>
         <disruptor.version>3.4.4</disruptor.version>
+        <mysql.version>5.1.49</mysql.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
     </properties>
 
     <dependencyManagement>
@@ -113,11 +115,12 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.4.1</version>
+            <version>${mybatis-plus.version}</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
         </dependency>
         <dependency>
             <groupId>org.freemarker</groupId>
