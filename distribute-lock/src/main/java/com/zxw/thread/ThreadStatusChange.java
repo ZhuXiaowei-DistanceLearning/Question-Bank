@@ -3,6 +3,7 @@ package com.zxw.thread;
 import cn.hutool.core.util.StrUtil;
 
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -33,6 +34,9 @@ public class ThreadStatusChange {
                     throw new RuntimeException(e);
                 }
             }
+            System.out.println("t1线程进入LockSupport锁方法，状态变更为WAITING");
+            LockSupport.parkUntil(System.currentTimeMillis() + 1000);
+
         }, "1");
         Thread t2 = new Thread(() -> {
             lock.lock();
@@ -44,11 +48,7 @@ public class ThreadStatusChange {
                 lock.unlock();
             }
             synchronized (o) {
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                System.out.println("获取到锁");
             }
         }, "1");
         t2.start();
