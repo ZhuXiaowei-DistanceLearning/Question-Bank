@@ -18,6 +18,7 @@ public class ConditionTest {
                 System.out.println("准备休眠" + Thread.currentThread().getName());
                 condition.await();
                 System.out.println("释放condition" + Thread.currentThread().getName());
+                condition.signal();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -30,6 +31,7 @@ public class ConditionTest {
                 System.out.println("准备休眠" + Thread.currentThread().getName());
                 condition.await();
                 System.out.println("释放condition" + Thread.currentThread().getName());
+                condition.signal();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -42,10 +44,11 @@ public class ConditionTest {
             condition.signal();
             System.out.println(Thread.currentThread().getName());
             try {
-                Thread.sleep(1000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            System.out.println("执行了signal");
             lock.unlock();
         }, "T2").start();
     }
