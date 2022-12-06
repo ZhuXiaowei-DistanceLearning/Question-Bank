@@ -1,6 +1,6 @@
 package com.zxw.condition;
 
-import org.bouncycastle.asn1.dvcs.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,16 +9,20 @@ import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+@Slf4j
 class RWDictionary {
-    private final Map<String, Data> m = new TreeMap<>();
+    private final Map<String, String> m = new TreeMap<>();
     private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
     private final Lock r = rwl.readLock();
     private final Lock w = rwl.writeLock();
 
-    public Data get(String key) {
+    public String get(String key) {
         r.lock();
         try {
+            Thread.sleep(5000);
             return m.get(key);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         } finally {
             r.unlock();
         }
@@ -33,13 +37,17 @@ class RWDictionary {
         }
     }
 
-    public Data put(String key, Data value) {
+    public String put(String key, String value) {
         w.lock();
+        String val = "";
         try {
-            return m.put(key, value);
+            log.info("获取到写锁");
+            val = m.put(key, value);
         } finally {
             w.unlock();
         }
+        log.info("结束");
+        return val;
     }
 
     public void clear() {
