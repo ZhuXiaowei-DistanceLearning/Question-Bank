@@ -2,6 +2,8 @@ package com.zxw.thread;
 
 import cn.hutool.core.util.StrUtil;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
@@ -12,7 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class ThreadStatusChange {
     public static void main(String[] args) throws InterruptedException {
-
+        BlockingQueue<String> queue = new LinkedBlockingQueue<>();
         Lock lock = new ReentrantLock();
         Object o = new Object();
         Thread t1 = new Thread(() -> {
@@ -37,7 +39,7 @@ public class ThreadStatusChange {
             System.out.println("t1线程进入LockSupport锁方法，状态变更为WAITING");
             LockSupport.parkUntil(System.currentTimeMillis() + 1000);
 
-        }, "1");
+        }, "t1");
         Thread t2 = new Thread(() -> {
             lock.lock();
             try {
@@ -50,10 +52,21 @@ public class ThreadStatusChange {
             synchronized (o) {
                 System.out.println("获取到锁");
             }
-        }, "1");
+        }, "t2");
+        Thread t3 = new Thread(() -> {
+          while (true){
+              try {
+                  String take = queue.take();
+              } catch (InterruptedException e) {
+                  throw new RuntimeException(e);
+              }
+          }
+        }, "t3");
         t2.start();
         printThread(t1);
         t1.start();
+        t3.start();
+        printThread(t3);
         printThread(t1);
         new Thread(() -> {
             while (true) {
@@ -63,6 +76,7 @@ public class ThreadStatusChange {
                     throw new RuntimeException(e);
                 }
                 printThread(t1);
+                printThread(t3);
             }
         }, "monitor").start();
         Thread.currentThread().join();
