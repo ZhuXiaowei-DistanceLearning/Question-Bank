@@ -1,20 +1,17 @@
 package com.zxw.web;
 
 import com.zxw.apiversion.APIVersion;
+import com.zxw.cache.redis.LockUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
@@ -29,11 +26,37 @@ import java.util.stream.IntStream;
 public class RedisController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private LockUtils lockUtils;
+
     private AtomicInteger atomicInteger = new AtomicInteger();
 
+    ExecutorService executorService = Executors.newCachedThreadPool();
+
     @GetMapping("/test")
-    @Cacheable({"hot"})
-    public String test(){
+//    @Cacheable({"hot"})
+    public String test() {
+        executorService.execute(() -> {
+            lockUtils.lock("test", () -> {
+                log.info("线程1");
+                try {
+                    Thread.sleep(15000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        executorService.execute(() -> {
+            lockUtils.lock("test", () -> {
+                log.info("线程2");
+            });
+        });
         return "123";
     }
 
@@ -48,7 +71,8 @@ public class RedisController {
                 //模拟更新缓存需要一定的时间
                 try {
                     TimeUnit.MILLISECONDS.sleep(20);
-                } catch (InterruptedException e) { }
+                } catch (InterruptedException e) {
+                }
                 if (!StringUtils.isEmpty(data)) {
                     //缓存永不过期，被动更新
                     stringRedisTemplate.opsForValue().set("city" + i, data);

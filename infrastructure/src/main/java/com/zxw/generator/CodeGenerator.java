@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        generate("192.168.200.108", "third_party");
+        generate("192.168.200.108", "magpie_test");
     }
 
     /**

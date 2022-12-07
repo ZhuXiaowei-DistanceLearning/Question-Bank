@@ -48,7 +48,9 @@ public class RedisConfiguration {
         Config config = new Config();
         List<String> cluster = redisProperties.getCluster().getNodes()
                 .stream().map(node -> "redis://" + node).collect(Collectors.toList());
-        config.useClusterServers()
+        config
+                .setLockWatchdogTimeout(10000)
+                .useClusterServers()
 //                .setPassword("foobared")
                 .setNodeAddresses(cluster);
 //        String redisUrl = String.format("redis://%s:%s",redisProperties.getHost()+"",redisProperties.getPort()+"");
