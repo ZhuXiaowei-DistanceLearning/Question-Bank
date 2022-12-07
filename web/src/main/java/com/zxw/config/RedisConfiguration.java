@@ -43,16 +43,16 @@ public class RedisConfiguration {
         return redisTemplate;
     }
 
-//    @Bean
+    @Bean
     public RedissonClient redissonClient(RedisProperties redisProperties){
         Config config = new Config();
         List<String> cluster = redisProperties.getCluster().getNodes()
                 .stream().map(node -> "redis://" + node).collect(Collectors.toList());
         config.useClusterServers()
-                .setPassword("foobared")
+//                .setPassword("foobared")
                 .setNodeAddresses(cluster);
-        String redisUrl = String.format("redis://%s:%s",redisProperties.getHost()+"",redisProperties.getPort()+"");
-        config.useSingleServer().setAddress(redisUrl).setPassword(redisProperties.getPassword());
+//        String redisUrl = String.format("redis://%s:%s",redisProperties.getHost()+"",redisProperties.getPort()+"");
+//        config.useSingleServer().setAddress(redisUrl).setPassword(redisProperties.getPassword());
         return Redisson.create(config);
     }
 }

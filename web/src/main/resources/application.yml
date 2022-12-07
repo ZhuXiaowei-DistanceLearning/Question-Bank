@@ -4,6 +4,8 @@ spring:
     allow-circular-references: true
   application:
     name: question-bank
+  cache:
+    type: REDIS
   datasource:
     primary:
       url: jdbc:mysql://zxw.middleware.com:3306/dd_text?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
@@ -18,10 +20,15 @@ spring:
     mongodb:
       uri: mongodb://zxw.middleware.com:27017/magpie_test?maxIdleTimeMS=3000
     redis:
-      host: zxw.middleware.com
-      port: 16379
-      password: znw@123
-      database: 7
+#      host: zxw.middleware.com
+#      port: 16379
+#      password: znw@123
+#      database: 7
+      cluster:
+        nodes:
+          - zxw.middleware.com:7001
+          - zxw.middleware.com:7002
+          - zxw.middleware.com:7003
       lettuce:
         pool:
           max-active: 8

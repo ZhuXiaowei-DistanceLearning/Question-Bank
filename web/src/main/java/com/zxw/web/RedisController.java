@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,12 @@ public class RedisController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     private AtomicInteger atomicInteger = new AtomicInteger();
+
+    @GetMapping("/test")
+    @Cacheable({"hot"})
+    public String test(){
+        return "123";
+    }
 
     @SneakyThrows
 //    @PostConstruct

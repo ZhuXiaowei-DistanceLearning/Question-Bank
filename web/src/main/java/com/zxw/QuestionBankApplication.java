@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.ApplicationPidFileWriter;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.core.env.StandardEnvironment;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +18,7 @@ import java.util.Arrays;
  * @date 2020/6/28 10:19
  */
 @SpringBootApplication
+@EnableCaching
 //@MapperScan(basePackages = "com.zxw.web.mapper ")
 @Slf4j
 public class QuestionBankApplication {
