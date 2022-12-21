@@ -1,13 +1,18 @@
 package com.zxw.utils;
 
+import cn.hutool.core.date.DateUtil;
+
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 /**
  * @author zxw
@@ -15,6 +20,9 @@ import java.util.concurrent.Executors;
  */
 public class Date8Utils {
     public static void main(String[] args) {
+        List list = new ArrayList();
+        list.stream().map(e-> e).collect(Collectors.toList());
+        System.out.println(DateUtil.betweenDay(DateUtil.date(), DateUtil.parseDate("2022-12-01"), false));
         // 定义时区
         ZoneId zoneSH = ZoneId.of("Asia/Shanghai");
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
