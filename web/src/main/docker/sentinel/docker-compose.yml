@@ -1,0 +1,32 @@
+version: '3'
+services:
+  rocketmqnamesrv:
+    image: foxiswho/rocketmq:4.8.0
+    container_name: rocketmqnamesrv
+    ports:
+      - 9876:9876
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_OPT: -server -Xms256m -Xmx256m
+    command: sh mqnamesrv
+  rocketmqbroker:
+    image: foxiswho/rocketmq:4.8.0
+    container_name: rocketmqbroker
+    ports:
+      - 10911:10911
+    volumes:
+      - ./broker/logs:/home/rocketmq/logs
+      - ./broker/broker.conf:/usr/local/dockerCompose/rocketmq/conf/broker.conf
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_OPT_EXT: -server -Xms256m -Xmx256m -Xmn128m
+      NAMESRV_ADDR: rocketmqnamesrv:9876
+    command: sh mqbroker -n rocketmqnamesrv:9876 -c /usr/local/dockerCompose/rocketmq/conf/broker.conf
+  rocketmqconsole:
+    image: styletang/rocketmq-console-ng
+    container_name: rocketmqconsole
+    ports:
+      - 8180:8080
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_OPTS: -Drocketmq.namesrv.addr=rocketmqnamesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false
