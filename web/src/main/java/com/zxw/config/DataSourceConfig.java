@@ -35,7 +35,7 @@ public class DataSourceConfig {
     }
 
     @Primary
-    @Bean(name = "primaryDataSource")
+    @Bean(name = "masterDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.hikari.master")
     public DataSource primaryDataSource() {
         return DataSourceBuilder.create().build();

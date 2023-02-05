@@ -75,6 +75,11 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>2.5.4</version>
+        </dependency>
+        <dependency>
             <groupId>com.zxw</groupId>
             <artifactId>design-pattern</artifactId>
             <version>0.0.1-SNAPSHOT</version>
