@@ -7,14 +7,25 @@ spring:
   cache:
     type: REDIS
   datasource:
-    primary:
-      url: jdbc:mysql://zxw.middleware.com:3306/dd_text?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
-      username: root
-      password: Admin!@123
-      driver-class-name: com.mysql.jdbc.Driver
     hikari:
-      maximum-pool-size: 10
-      register-mbeans: true
+      master:
+        jdbcUrl: jdbc:mysql://zxw.middleware.com:3306/dd_text?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: root
+        password: Admin!@123
+        driverClassName: com.mysql.jdbc.Driver
+      slave01:
+        jdbcUrl: jdbc:mysql://192.168.200.108:3306/e_seal?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: root
+        password: 123456
+        driverClassName: com.mysql.jdbc.Driver
+      slave02:
+        jdbcUrl: jdbc:mysql://192.168.200.107:3306/e_seal?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: root
+        password: 123456
+        driverClassName: com.mysql.jdbc.Driver
+#    hikari:
+#      maximum-pool-size: 10
+#      register-mbeans: true
       #    primary:
   data:
     mongodb:

@@ -1,8 +1,8 @@
 package com.zxw.config;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -16,19 +16,40 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
-    @Primary
-    @Bean(name = "primaryDataSourceProperties")
-    @ConditionalOnClass(DataSource.class)
-    @ConfigurationProperties(prefix = "spring.datasource.primary")
-    public DataSourceProperties primaryDataSourceProperties() {
+
+    @Bean
+    public DataSourceProperties masterDataSourceProperties(){
+        return new DataSourceProperties();
+    }
+
+
+    @Bean
+    public DataSourceProperties salve01DataSourceProperties(){
+        return new DataSourceProperties();
+    }
+
+
+    @Bean
+    public DataSourceProperties salve02DataSourceProperties(){
         return new DataSourceProperties();
     }
 
     @Primary
     @Bean(name = "primaryDataSource")
-    @ConditionalOnClass(DataSource.class)
-    @ConfigurationProperties(prefix = "spring.datasource.primary")
+    @ConfigurationProperties(prefix = "spring.datasource.hikari.master")
     public DataSource primaryDataSource() {
-        return primaryDataSourceProperties().initializeDataSourceBuilder().build();
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean(name = "slave01DataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.hikari.slave01")
+    public DataSource slave01DataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean(name = "slave02DataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.hikari.slave02")
+    public DataSource slave02DataSource() {
+        return DataSourceBuilder.create().build();
     }
 }
