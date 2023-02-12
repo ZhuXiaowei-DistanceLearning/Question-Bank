@@ -15,22 +15,23 @@ public class CyclicBarrierTest {
     public static void main(String[] args) {
         ExecutorService executorService = Executors.newCachedThreadPool();
         CyclicBarrier countDownLatch = new CyclicBarrier(2, () -> {
-            executorService.execute(()->{
+//            executorService.execute(()->{
+//                try {
+//                    Thread.sleep(5000);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+                System.out.println("执行完毕");
+//            });
+        });
+        new Thread(() -> {
+            while (true) {
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                System.out.println("执行完毕");
-            });
-        });
-        new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                System.out.println("t1-before");
                 try {
                     countDownLatch.await();
                 } catch (InterruptedException e) {
@@ -43,8 +44,9 @@ public class CyclicBarrierTest {
         }, "t1").start();
         new Thread(() -> {
             while (true) {
+                System.out.println("t2-before");
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

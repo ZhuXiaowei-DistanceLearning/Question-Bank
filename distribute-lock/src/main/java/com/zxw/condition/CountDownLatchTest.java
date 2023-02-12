@@ -16,13 +16,14 @@ public class CountDownLatchTest {
      * @throws InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        CountDownLatch countDownLatch = new CountDownLatch(2);
+            CountDownLatch countDownLatch = new CountDownLatch(2);
         new Thread(() -> {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            System.out.println("t1 before");
             countDownLatch.countDown();
             System.out.println("t1");
         }, "t1").start();
@@ -32,6 +33,7 @@ public class CountDownLatchTest {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            System.out.println("t2 before");
             countDownLatch.countDown();
             System.out.println("t2");
         }, "t2").start();
