@@ -20,8 +20,8 @@
 <!--    <conversionRule conversionWord="wEx"-->
 <!--                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>-->
     <!-- 彩色日志格式 -->
-    <property name="CONSOLE_LOG_PATTERN"
-              value="%d{yyyy-MM-dd HH:mm:ss,SSS} %t %5p %c{1}:%L %X{faceTraceId} %X{userId} - %m%n"/>
+     <property name="CONSOLE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss,Asia/Shanghai} %t %5p %c{1}:%L %X{faceTraceId} %X{userId} - %m%n"/>
     <!-- 彩色日志格式 -->
 <!--    <property name="CONSOLE_LOG_PATTERN"-->
 <!--              value="${CONSOLE_LOG_PATTERN:-%(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %(${LOG_LEVEL_PATTERN:-%5p}) %(${PID:- }){magenta} %(-&#45;&#45;){faint} %([%15.15t]){faint} %(%-40.40logger{39}){cyan} %(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>-->
@@ -52,13 +52,13 @@
         <file>${fileName}/${serverName}-info.log</file>
         <!--日志文件输出格式-->
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} %t %5p %c{1}:%L %X{faceTraceId} %X{userId} - %m%n</pattern>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 每天日志归档路径以及格式 -->
-            <fileNamePattern>${fileName}/%d{yyyy-MM-dd}.%i.${serverName}-info.log</fileNamePattern>
+            <fileNamePattern>${CONSOLE_LOG_PATTERN}</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -79,7 +79,7 @@
         <file>${fileName}/${serverName}-error.log</file>
         <!--日志文件输出格式-->
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} %t %5p %c{1}:%L %X{faceTraceId} %X{userId} - %m%n</pattern>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <charset>UTF-8</charset> <!-- 此处设置字符集 -->
         </encoder>
         <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
