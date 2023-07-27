@@ -17,7 +17,7 @@ import java.util.Map;
  * @author zxw
  * @date 2022/7/9 15:00
  */
-@Configuration
+//@Configuration
 @Slf4j
 public class RabbitMqConfig {
 

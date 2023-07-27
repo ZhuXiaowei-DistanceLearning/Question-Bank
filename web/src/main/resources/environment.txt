@@ -1,0 +1,6 @@
+127.0.0.1       zxw.mysql.com
+127.0.0.1       zxw.redis.com
+127.0.0.1       zxw.mongo.com
+127.0.0.1       zxw.kafka.com
+127.0.0.1       zxw.rabbit.com
+127.0.0.1       zxw.rocketmq.com

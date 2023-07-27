@@ -134,9 +134,9 @@ class WebDriverPool {
 			sCaps.setBrowserName("phantomjs");
 			mDriver = new RemoteWebDriver(new URL(driver), sCaps);
 		} else if (driver.equals(DRIVER_FIREFOX)) {
-			mDriver = new FirefoxDriver(sCaps);
+			mDriver = new FirefoxDriver();
 		} else if (driver.equals(DRIVER_CHROME)) {
-			mDriver = new ChromeDriver(sCaps);
+			mDriver = new ChromeDriver();
 		} else if (driver.equals(DRIVER_PHANTOMJS)) {
 			mDriver = new PhantomJSDriver(sCaps);
 		}

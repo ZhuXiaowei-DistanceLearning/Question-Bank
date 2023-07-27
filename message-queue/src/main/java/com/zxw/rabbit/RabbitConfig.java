@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
  * @author zxw
  * @date 2021/10/25 13:52
  */
-@Component
-@EnableRabbit
+//@Component
+//@EnableRabbit
 public class RabbitConfig {
 //    @Bean
     public ConnectionFactory connectionFactory(RabbitProperties rabbitProperties) {

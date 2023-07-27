@@ -51,7 +51,7 @@ public class RedisConfiguration {
         config
                 .setLockWatchdogTimeout(10000)
                 .useClusterServers()
-//                .setPassword("foobared")
+                .setPassword(redisProperties.getPassword())
                 .setNodeAddresses(cluster);
 //        String redisUrl = String.format("redis://%s:%s",redisProperties.getHost()+"",redisProperties.getPort()+"");
 //        config.useSingleServer().setAddress(redisUrl).setPassword(redisProperties.getPassword());

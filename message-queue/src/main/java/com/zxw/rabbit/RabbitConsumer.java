@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author zxw
  * @date 2021-10-28 21:39
  */
-@Component
+//@Component
 @Slf4j
 public class RabbitConsumer {
 

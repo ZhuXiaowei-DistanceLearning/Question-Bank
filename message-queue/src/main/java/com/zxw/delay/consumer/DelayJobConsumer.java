@@ -15,7 +15,7 @@ import java.util.concurrent.*;
  * @author zxw
  * @date 2022/4/3 16:17
  */
-@Component
+//@Component
 @Slf4j
 public class DelayJobConsumer {
     @Autowired

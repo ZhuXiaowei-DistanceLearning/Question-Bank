@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * @author zxw
  * @date 2022/7/5 22:53
  */
-@Component
+//@Component
 @Slf4j
 public class RabbitStreamConsumer {
     @Bean

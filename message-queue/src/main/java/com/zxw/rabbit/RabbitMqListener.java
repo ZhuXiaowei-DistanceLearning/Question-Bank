@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @author zxw
  * @date 2022/7/9 17:22
  */
-@Configuration
+//@Configuration
 @Slf4j
 public class RabbitMqListener implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnsCallback {
 

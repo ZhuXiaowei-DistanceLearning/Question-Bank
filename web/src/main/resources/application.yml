@@ -9,115 +9,113 @@ spring:
   datasource:
     hikari:
       master:
-        jdbcUrl: jdbc:mysql://zxw.middleware.com:3306/dd_text?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: root
-        password: Admin!@123
+        jdbcUrl: jdbc:mysql://zxw.mysql.com:3306/zero_biz?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: sunline
+        password: Sunline!@#123
         driverClassName: com.mysql.jdbc.Driver
       slave01:
-        jdbcUrl: jdbc:mysql://192.168.200.108:3306/e_seal?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: root
-        password: 123456
+        jdbcUrl: jdbc:mysql://zxw.mysql.com:3306/zero_biz?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: sunline
+        password: Sunline!@#123
         driverClassName: com.mysql.jdbc.Driver
       slave02:
-        jdbcUrl: jdbc:mysql://192.168.200.107:3306/e_seal?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: root
-        password: 123456
+        jdbcUrl: jdbc:mysql://zxw.mysql.com:3306/zero_biz?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: sunline
+        password: Sunline!@#123
         driverClassName: com.mysql.jdbc.Driver
 #    hikari:
 #      maximum-pool-size: 10
 #      register-mbeans: true
       #    primary:
   data:
-    mongodb:
-      uri: mongodb://zxw.middleware.com:27017/magpie_test?maxIdleTimeMS=3000
+#    mongodb:
+#      uri: mongodb://zxw.middleware.com:27017/magpie_test?maxIdleTimeMS=3000
     redis:
 #      host: zxw.middleware.com
 #      port: 16379
-#      password: znw@123
+      password: ZxcvyG789GF
 #      database: 7
       cluster:
         nodes:
-          - zxw.middleware.com:7001
-          - zxw.middleware.com:7002
-          - zxw.middleware.com:7003
-      lettuce:
-        pool:
-          max-active: 8
+          - zxw.redis.com:7001
+#      lettuce:
+#        pool:
+#          max-active: 8
       #    cluster:
       #      nodes: redis.dev.magpie.com:7001,redis.dev.magpie.com:7002,redis.dev.magpie.com:7003
-  kafka:
-    bootstrap-servers: zxw.middleware.com:9092
-    producer:
-      acks: 1
-      client-id: kafka-producer
-      batch-size: 16384
-      buffer-memory: 33554432
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      retries: 0
-    consumer:
-      group-id: hello-group
-      enable-auto-commit: false
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-  rabbitmq:
-    host: zxw.middleware.com
-    port: 5672
-    username: zhuxw
-    password: 123456
-    virtual-host: /apec
-    listener:
-      simple:
-        acknowledge-mode: AUTO
-        prefetch: 250
-    #        default-requeue-rejected: true
-    publisher-confirm-type: correlated
-    publisher-returns: true
-  cloud:
-    stream:
-      function:
-        definition: demoChannel
-      binders: # 在此处配置要绑定的rabbitmq的服务信息；
-        my-rabbit: # 表示定义的名称，用于于binding整合
-          type: rabbit # 消息组件类型
-          environment: # 设置rabbitmq的相关的环境配置
-            spring:
-              rabbitmq:
-                host: zxw.middleware.com
-                port: 5672
-                username: zhuxw
-                password: 123456
-      bindings: # 服务的整合处理
-        ##新版本固定格式  channel名字-{out/in}-{index}
-        demoChannel-out-0:
-          # 信道和消息队列的关系是通过destination属性指定
-          destination: studyExchange
-          contentType: application/json
-          binder: my-rabbit
-        demoChannel-in-0:
-          destination: studyExchange
-          contentType: application/json
-          group: demo
-          binder: my-rabbit
+#  kafka:
+#    bootstrap-servers: zxw.kafka.com:9092
+#    producer:
+#      acks: 1
+#      client-id: kafka-producer
+#      batch-size: 16384
+#      buffer-memory: 33554432
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      retries: 0
+#    consumer:
+#      group-id: hello-group
+#      enable-auto-commit: false
+#      auto-offset-reset: earliest
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#  rabbitmq:
+#    host: zxw.middleware.com
+#    port: 5672
+#    username: zhuxw
+#    password: 123456
+#    virtual-host: /apec
+#    listener:
+#      simple:
+#        acknowledge-mode: AUTO
+#        prefetch: 250
+#    #        default-requeue-rejected: true
+#    publisher-confirm-type: correlated
+#    publisher-returns: true
+#  cloud:
+#    stream:
+#      function:
+#        definition: demoChannel
+#      binders: # 在此处配置要绑定的rabbitmq的服务信息；
+#        my-rabbit: # 表示定义的名称，用于于binding整合
+#          type: rabbit # 消息组件类型
+#          environment: # 设置rabbitmq的相关的环境配置
+#            spring:
+#              rabbitmq:
+#                host: zxw.rabbit.com
+#                port: 5672
+#                username: zhuxw
+#                password: 123456
+#      bindings: # 服务的整合处理
+#        ##新版本固定格式  channel名字-{out/in}-{index}
+#        demoChannel-out-0:
+#          # 信道和消息队列的关系是通过destination属性指定
+#          destination: studyExchange
+#          contentType: application/json
+#          binder: my-rabbit
+#        demoChannel-in-0:
+#          destination: studyExchange
+#          contentType: application/json
+#          group: demo
+#          binder: my-rabbit
   messages:
     basename: i18n/app
-  zipkin:
-    sender:
-      type: rabbit
-    rabbitmq:
-      addresses: zxw.middleware.com
-      queue: zipkin
+#  zipkin:
+#    sender:
+#      type: rabbit
+#    rabbitmq:
+#      addresses: zxw.rabbit.com
+#      queue: zipkin
   sleuth:
     sampler:
       # 采样率
       probability: 1.0
       # 每秒采样数字最高为100
       rate: 100
-rocketmq:
-  name-server: zxw.middleware.com:9876
-  producer:
-    group: my-producer-group
+#rocketmq:
+#  name-server: zxw.rocketmq.com:9876
+#  producer:
+#    group: my-producer-group
 # 监控配置
 management:
   endpoint:

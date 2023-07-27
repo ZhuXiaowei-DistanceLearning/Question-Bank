@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @author zxw
  * @date 2022/7/5 22:25
  */
-@Component
+//@Component
 @EnableBinding(Sink.class)
 @Slf4j
 public class RabbitStreamRecv {
