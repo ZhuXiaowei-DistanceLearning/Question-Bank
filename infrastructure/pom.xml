@@ -62,12 +62,17 @@
         <!--            <groupId>org.springframework.cloud</groupId>-->
         <!--            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>-->
         <!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.micrometer</groupId>-->
-<!--            <artifactId>micrometer-registry-influx</artifactId>-->
-<!--            <version>LATEST</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.micrometer</groupId>-->
+        <!--            <artifactId>micrometer-registry-influx</artifactId>-->
+        <!--            <version>LATEST</version>-->
+        <!--        </dependency>-->
         <!--https://immutables.github.io/getstarted.html-->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+            <version>3.21.5</version>
+        </dependency>
         <dependency>
             <groupId>org.immutables</groupId>
             <artifactId>value</artifactId>
@@ -324,11 +329,11 @@
             <artifactId>asciidoctorj</artifactId>
             <version>${asciidoctorj.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springdoc</groupId>-->
-<!--            <artifactId>springdoc-openapi-ui</artifactId>-->
-<!--            <version>${springdoc-openapi-ui.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springdoc</groupId>-->
+        <!--            <artifactId>springdoc-openapi-ui</artifactId>-->
+        <!--            <version>${springdoc-openapi-ui.version}</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
