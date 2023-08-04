@@ -69,6 +69,11 @@
         <!--        </dependency>-->
         <!--https://immutables.github.io/getstarted.html-->
         <dependency>
+            <groupId>de.vandermeer</groupId>
+            <artifactId>asciitable</artifactId>
+            <version>0.3.2</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
             <version>3.21.5</version>
