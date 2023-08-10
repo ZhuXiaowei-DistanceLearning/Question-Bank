@@ -17,7 +17,7 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <powermock.version>2.0.9</powermock.version>
         <fastjson.version>1.2.74</fastjson.version>
-        <springdoc-openapi-ui.version>1.6.10</springdoc-openapi-ui.version>
+        <springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
         <asciidoctorj.version>2.5.4</asciidoctorj.version>
         <smart-doc.version>2.4.7</smart-doc.version>
         <xxl-job-core.version>2.3.1</xxl-job-core.version>
@@ -33,28 +33,9 @@
         <mysql.version>5.1.49</mysql.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <micrometer.version>1.10.3</micrometer.version>
-        <caffeine.version>LATEST</caffeine.version>
+        <caffeine.version>3.1.8</caffeine.version>
+        <jmh-generator-annprocess.version>1.35</jmh-generator-annprocess.version>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-ui</artifactId>
-                <version>${springdoc-openapi-ui.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-webmvc-core</artifactId>
-                <version>${springdoc-openapi-ui.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-webflux-ui</artifactId>
-                <version>${springdoc-openapi-ui.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
@@ -384,6 +365,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-properties-migrator</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>${jmh-generator-annprocess.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>${jmh-generator-annprocess.version}</version>
         </dependency>
     </dependencies>
 

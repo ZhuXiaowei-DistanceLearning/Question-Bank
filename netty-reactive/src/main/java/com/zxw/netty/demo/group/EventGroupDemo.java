@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class EventGroupDemo {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        EventLoopGroup group = new DefaultEventLoopGroup(2);
+        EventLoopGroup group = new DefaultEventLoopGroup();
         System.out.println((16 & -16) == 16);
         System.out.println((14 & -14));
         for (int i = 0; i < 10; i++) {

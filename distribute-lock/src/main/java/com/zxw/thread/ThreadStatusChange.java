@@ -7,6 +7,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author zxw
@@ -16,15 +17,18 @@ public class ThreadStatusChange {
     public static void main(String[] args) throws InterruptedException {
         BlockingQueue<String> queue = new LinkedBlockingQueue<>();
         Lock lock = new ReentrantLock();
+        ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
         Object o = new Object();
         Thread t1 = new Thread(() -> {
             System.out.println("t1线程进入sleep方法，状态变更为TIMED_WAITING");
             try {
                 Thread.sleep(2000);
                 System.out.println("t1线程进入ReentrantLock锁方法，状态变更为WAITING");
-                lock.lock();
+//                lock.lock();
+                readWriteLock.readLock().lock();
                 Thread.sleep(2000);
-                lock.unlock();
+                readWriteLock.readLock().unlock();
+//                lock.unlock();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -41,13 +45,15 @@ public class ThreadStatusChange {
 
         }, "t1");
         Thread t2 = new Thread(() -> {
-            lock.lock();
+//            lock.lock();
+            readWriteLock.writeLock().lock();
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } finally {
-                lock.unlock();
+//                lock.unlock();
+                readWriteLock.writeLock().unlock();
             }
             synchronized (o) {
                 System.out.println("获取到锁");
@@ -68,6 +74,7 @@ public class ThreadStatusChange {
         t3.start();
         printThread(t3);
         printThread(t1);
+        printThread(t1);
         new Thread(() -> {
             while (true) {
                 try {
@@ -77,6 +84,7 @@ public class ThreadStatusChange {
                 }
                 printThread(t1);
                 printThread(t3);
+                printThread(t2);
             }
         }, "monitor").start();
         Thread.currentThread().join();
