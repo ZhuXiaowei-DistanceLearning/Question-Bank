@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        generate("192.168.200.108", "crm");
+        generate("10.9.68.170", "mkt_info");
     }
 
     /**
@@ -154,8 +154,8 @@ public class CodeGenerator {
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
 //        dsc.setUsername("dba");
-        dsc.setUsername("root");
-        dsc.setPassword("123456");
+        dsc.setUsername("sunline");
+        dsc.setPassword("Sunline!@#123");
         return dsc;
     }
 
