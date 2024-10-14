@@ -1,4 +1,4 @@
-package com.zxw.netty.config;
+package com.zxw.quotes.config;
 
 import lombok.AccessLevel;
 import lombok.Data;

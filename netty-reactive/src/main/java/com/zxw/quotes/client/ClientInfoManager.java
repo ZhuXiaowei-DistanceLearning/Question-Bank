@@ -1,4 +1,4 @@
-package com.zxw.netty.client;
+package com.zxw.quotes.client;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

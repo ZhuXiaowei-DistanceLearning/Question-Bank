@@ -1,4 +1,4 @@
-package com.zxw.netty.client;
+package com.zxw.quotes.client;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;

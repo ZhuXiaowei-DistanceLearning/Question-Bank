@@ -1,8 +1,7 @@
-package com.zxw.netty.handler.client;
+package com.zxw.quotes;
 
-import com.yfyy.netty.QuotesServer;
-import com.yfyy.netty.client.ClientInfo;
-import com.yfyy.netty.client.ClientInfoManager;
+import com.zxw.quotes.client.ClientInfo;
+import com.zxw.quotes.client.ClientInfoManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.AllArgsConstructor;
