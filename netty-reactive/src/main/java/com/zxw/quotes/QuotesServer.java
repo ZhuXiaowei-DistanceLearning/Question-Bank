@@ -3,11 +3,13 @@ package com.zxw.quotes;
 import com.zxw.quotes.client.ClientInfo;
 import com.zxw.quotes.client.ClientInfoManager;
 import com.zxw.quotes.config.ServerConfig;
+import com.zxw.quotes.config.ServerProperties;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.WriteBufferWaterMark;
+import io.netty.util.ReferenceCountUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,9 +27,11 @@ public class QuotesServer extends AbstractNettyServerConnector {
 
     ClientInfoManager clientInfoManager = new ClientInfoManager();
 
+    long writeBufferSize;
+
     @Override
     public void registerChildOption(ServerBootstrap bootstrap) {
-        bootstrap.childOption(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(32 * 1024 * 1024, 64 * 1024 * 1024));
+        bootstrap.childOption(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(4 * 1024 * 1024, 8 * 1024 * 1024));
     }
 
     @Override
@@ -38,8 +42,8 @@ public class QuotesServer extends AbstractNettyServerConnector {
     @Override
     public void addPipeline(ChannelPipeline pipeline) {
 //        pipeline.addLast(new LoggingHandler(LogLevel.INFO));
-        pipeline.addLast(new MonitorTrafficShapingHandler(getName(), 0, 0, 300000));
-        pipeline.addLast(new ClientSendHandler());
+        pipeline.addLast(new MonitorTrafficShapingHandler(this, getName(), 0, 0, 60000));
+//        pipeline.addLast(new ClientSendHandler());
         pipeline.addLast(new ClientConnectHandler(clientInfoManager, this));
     }
 
@@ -52,12 +56,19 @@ public class QuotesServer extends AbstractNettyServerConnector {
         // 获取订阅的客户端列表
         clientInfoMap.forEach((k, v) -> {
             try {
-                msg.retain();
-                v.sendMessage(msg);
+                v.sendMessage(msg.retain());
             } catch (Exception exp) {
                 log.error("推送消息至客户端异常,", exp);
             }
         });
-        msg.release();
+        ReferenceCountUtil.release(msg);
+    }
+
+    public void updateWriteBuffer(long writeBufferSize) {
+        this.writeBufferSize = writeBufferSize;
+    }
+
+    public boolean canWrite(){
+        return this.writeBufferSize < ServerProperties.WRITE_BYTES_LIMIT;
     }
 }
