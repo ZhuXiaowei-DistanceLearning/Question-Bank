@@ -4,8 +4,10 @@ import com.zxw.quotes.client.ClientInfo;
 import com.zxw.quotes.client.ClientInfoManager;
 import com.zxw.quotes.config.ServerConfig;
 import com.zxw.quotes.config.ServerProperties;
+import com.zxw.quotes.handler.ClientConnectHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.WriteBufferWaterMark;
@@ -31,7 +33,8 @@ public class QuotesServer extends AbstractNettyServerConnector {
 
     @Override
     public void registerChildOption(ServerBootstrap bootstrap) {
-        bootstrap.childOption(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(4 * 1024 * 1024, 8 * 1024 * 1024));
+        bootstrap.childOption(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(64 * 1024 * 1024, 102 * 1024 * 1024));
+        bootstrap.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
     }
 
     @Override

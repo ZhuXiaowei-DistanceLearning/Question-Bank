@@ -1,4 +1,4 @@
-package com.zxw.quotes;
+package com.zxw.quotes.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
