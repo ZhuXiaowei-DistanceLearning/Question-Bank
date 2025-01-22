@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class CodeGenerator {
 
     public static void main(String[] args) {
-        generate("10.9.68.170", "mkt_info");
+        generate("10.9.68.170", "mkt_info_fiu");
     }
 
     /**

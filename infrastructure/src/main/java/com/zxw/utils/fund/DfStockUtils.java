@@ -1,4 +1,4 @@
-package com.zxw.utils;
+package com.zxw.utils.fund;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -34,10 +34,11 @@ public class DfStockUtils {
         List<String> date = new ArrayList<>();
         List<String> value = new ArrayList();
         int page = 1;
+        String symbol = "016453";
         while (true) {
             // 设置请求头
             Request request = new Request.Builder()
-                    .url("https://api.fund.eastmoney.com/f10/lsjz?callback=jQuery183043887964289923964_1728715012516&fundCode=018065&pageIndex=" + page + "&pageSize=100&startDate=&endDate=&_=1728715012561")
+                    .url("https://api.fund.eastmoney.com/f10/lsjz?callback=jQuery183043887964289923964_1728715012516&fundCode="+symbol+"&pageIndex=" + page + "&pageSize=100&startDate=&endDate=&_=1728715012561")
                     .addHeader("cookie", cookie)
                     .addHeader("host", host)
                     .addHeader("referer", referer)
